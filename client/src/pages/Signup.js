@@ -1,6 +1,9 @@
-import React, {Fragment} from "react";
-import {Link} from "react-router-dom";
+import React, {Fragment, useState} from "react";
+import {Link, useHistory} from "react-router-dom";
 import { useForm } from 'react-hook-form';
+// import {useAuth} from "../providers/auth/auth.provider";
+import axios from 'axios';
+// import {fetchUserFailure, fetchUserRequest, fetchUserSuccess, setIsAuthenticated} from '../providers/auth/auth.action';
 
 
 const AuthForm = (props) => {
@@ -26,7 +29,9 @@ const AuthForm = (props) => {
         <form className={'form-group'} onSubmit={handleSubmit(props.onSubmit)}>
             <div>{props.title}</div>
 
-            <input name="email" className={'form-input'} type="text" placeholder={props.input1} ref={register(emailValidator)}/><br/>
+            <label>{props.serverResponse}</label><br />
+
+            <input name="email" className={'form-input'} type="email" placeholder={props.input1} ref={register(emailValidator)}/><br/>
             <label>{errors.email && errors.email.message}</label><br />
 
             <input name="password" className={'form-input'} type="password" placeholder={props.input2} ref={register(passwordValidator)}/><br/>
@@ -45,37 +50,43 @@ const RedirectDiv = (props) => (
 )
 
 const Signup = () => {
+    // const auth = useAuth();
+    // const {dispatchIsAuthenticated, dispatchUser} = auth;
+    const history = useHistory();
+
+    const [serverResponse, setServerResponse] = useState('');
+
     //Callback for the form submission after validation
     const onSubmit = values => {
         const {email, password} = values;
         console.log(email, password);
 
-        //There is no user api to call at the moment. So I assumed that the user received a successful response
-        //for creating the new user on server.
-        //Therefore, it will redirect to login page
-        // const url = window.location.hostname +'/login';
-        // console.log('url', url);
-        window.location.replace('/login');
+        // dispatchIsAuthenticated(setIsAuthenticated(true));
 
+        //Make a request to backend
+        const url = '/api/v1/auth/register'
+        axios.post(url, {email, password})
+            .then(res => {
+                //If success to create a new account, redirect to login page
+                if (res.data.success){
+                    history.push('/login')
+                } else {
+                    setServerResponse(res.data.error);
+                }
 
+            })
+            .catch(error => {
+                setServerResponse(error.response.data.error);
+                console.log('rrrrrrrrrrrrrrrrr',error.response.data.error);
+            });
 
-        //Call api
-        // const domain = 'http://localhost/'
-        // const url = domain + '/users/';
-        // const data = {email, password};
-        // axios.post(url, data)
-        //     .then(res => {
-        //         If success to create a new account, redirect to login page
-
-        // If failed to create a new account
-        // })
-        // .catch(errors => console.log(errors.message));
     };
 
     return (
         <Fragment>
-            <div>Welcome to sign up page</div>
-            <AuthForm title="Sign up to Kanban" input1="Enter email" input2="Create Password" submit="Sign up" onSubmit={onSubmit}/>
+            <AuthForm title="Sign up to Kanban" input1="Enter email" input2="Create Password" submit="Sign up"
+                      onSubmit={onSubmit}
+                      serverResponse={serverResponse}/>
             <RedirectDiv title={'Already have an account?'} link={'/login'} desc={'Login'}/>
         </Fragment>
     )

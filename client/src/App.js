@@ -2,7 +2,7 @@ import React from "react";
 import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route } from "react-router-dom";
 
-import {AuthProvider} from './helpers/auth'
+import {AuthProvider} from './providers/auth/auth.provider'
 
 import { theme } from "./themes/theme";
 import LandingPage from "./pages/Landing";
@@ -14,13 +14,13 @@ import "./App.css";
 function App() {
   return (
     <MuiThemeProvider theme={theme}>
-      <BrowserRouter>
-          <AuthProvider>
+      <AuthProvider>
+          <BrowserRouter>
               <Route exact path="/" component={LandingPage} />
               <Route exact path="/signup" component={Signup}/>
               <Route exact path="/login" component={Login}/>
-          </AuthProvider>
-      </BrowserRouter>
+          </BrowserRouter>
+      </AuthProvider>
     </MuiThemeProvider>
   );
 }
