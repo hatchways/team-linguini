@@ -31,6 +31,24 @@ const useStyles = makeStyles((theme) => ({
     },
     grid: {
         marginTop: '40px',
+    },
+    column: {
+        marginLeft: '25px',
+        paddingTop: '20px',
+    },
+    holder: {
+        fontSize: '24px',
+        color: '#D7DDF8'
+    },
+    columnTitle: {
+        display: 'flex',
+        alignItems: 'center',
+    },
+    icon: {
+        marginLeft: '150px',
+        marginTop: '20px',
+        padding: '20px',
+        cursor: 'pointer',
     }
   }));
 
@@ -58,7 +76,16 @@ const Board = () => {
         <Grid container justify="center" spacing={2} xs={true} className={classes.grid}>
           {[0, 1, 2, 3].map((value) => (
             <Grid key={value} item>
-              <Paper className={classes.paper} />
+              <Paper className={classes.paper}>
+                <div className={classes.columnTitle}>
+                    <Typography variant="h6" className={classes.column}>
+                    In Progress
+                    </Typography>
+                    <div className={classes.icon}>
+                    <i className="fas fa-ellipsis-h" style={{color: '#D7DDF8'}}></i>
+                    </div>
+                </div>
+              </Paper>
             </Grid>
           ))}
         </Grid>
