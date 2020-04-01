@@ -12,11 +12,9 @@ const registerController = async (req, res) => {
     console.log(email)
     console.log(password)
     try {
-      const user = await User.create({
-        name,
-        email,
-        password,
-      })
+      const user = await User.find()
+        res.status(200).json(user)
+
       console.log(user)
     } catch (err) {
       error: '${err.message}'
