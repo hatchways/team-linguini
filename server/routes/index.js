@@ -1,20 +1,15 @@
 const express = require("express");
-const router = express.Router();
-const { hash, compare } = require('bcrypt');
+const { hash, compare } = require('bcryptjs');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const { registerController } = require('../controllers/auth.js')
 
-router.use(express.json());
-router.use(express.urlencoded({ extended: true}));
+const router = express.Router();
+
 router.get("/welcome", function(req, res, next) {
   res.status(200).send({ welcomeMessage: "Step 1 (completed)" });
 });
 
-router.post("/register", async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const hashedPassowrd = await hash(password, 10);
-    console.log(hashedPassowrd)
-  } catch (err) {
-    console.log(err)
-  }
-})
+router.post("/register", registerController);
 module.exports = router;
