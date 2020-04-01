@@ -1,4 +1,5 @@
 import React, {Fragment, useState} from "react";
+import {TextField, Button, OutlinedInput, FormHelperText, Typography} from "@material-ui/core";
 import {Link, useHistory} from "react-router-dom";
 import { useForm } from 'react-hook-form';
 // import {useAuth} from "../providers/auth/auth.provider";
@@ -27,17 +28,23 @@ const AuthForm = (props) => {
 
     return (
         <form className={'form-group'} onSubmit={handleSubmit(props.onSubmit)}>
-            <div>{props.title}</div>
+            <Typography variant='h6'>{props.title}</Typography>
 
-            <label>{props.serverResponse}</label><br />
+            <FormHelperText error>{props.serverResponse}</FormHelperText><br />
 
-            <input name="email" className={'form-input'} type="email" placeholder={props.input1} ref={register(emailValidator)}/><br/>
-            <label>{errors.email && errors.email.message}</label><br />
+            <TextField name="email" variant={'outlined'} type="text" label={props.input1}
+                           inputRef={register(emailValidator)}
+                           error={errors.email}
+                           helperText={errors.email && errors.email.message}
+            /><br/><br/>
 
-            <input name="password" className={'form-input'} type="password" placeholder={props.input2} ref={register(passwordValidator)}/><br/>
-            <label>{errors.password && errors.password.message}</label><br />
+            <TextField name="password" variant={'outlined'} type="password" placeholder={props.input2}
+                       inputRef={register(passwordValidator)}
+                       error={errors.password}
+                       helperText={errors.password && errors.password.message}
+            /><br/><br/>
 
-            <input className={'form-submit'} type={'submit'} value={props.submit}/>
+            <Button color={'primary'} variant={'contained'} type={'submit'}> {props.submit}</Button>
         </form>
     )
 };
