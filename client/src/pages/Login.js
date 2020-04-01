@@ -18,6 +18,8 @@ const Login = () => {
 
         const {email, password} = data;
 
+        setServerResponse('');
+
         //Make request to check whether the email and password are valid
         const url = '/api/v1/auth/login'; //It is mock data, it will change when sever can provide auth api
 
@@ -27,6 +29,10 @@ const Login = () => {
             .then(res => {
                 //If success to create a new account, redirect to login page
                 if (res.data.success){
+                    //Save data on local storage
+                    localStorage.setItem('isAuthenticated', true);
+                    localStorage.setItem('user', JSON.stringify(res.data.user));
+
                     //Update the state of Auth providers
                     dispatchIsAuthenticated(setIsAuthenticated(true));
                     dispatchUser(fetchUserSuccess(res.data.user))
