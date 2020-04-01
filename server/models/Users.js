@@ -34,10 +34,12 @@ User.pre('save', async function(next) {
 
     const salt = await bcryptjs.genSalt(10);
     this.password = await bcryptjs.hash(this.password, salt);
+    console.log(this.password)
+    next();
 })
 
 User.methods.matchPassword = async function(enteredPassword){
     return await bcryptjs.compare(enteredPassword), this.password;
 }
 
-module.exports = mongoose.model('User', UserSchema); 
+module.exports = mongoose.model('User', User); 

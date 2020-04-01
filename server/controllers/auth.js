@@ -1,22 +1,24 @@
-const { fakeDB } = require('../middlewares/fakeDB.js');
-
+const User = require('../models/Users')
 
 const registerController = async (req, res) => {
-    const { email, password } = req.body; 
+    console.log("abc")
+
+    const { name, email, password } = req.body; 
+    //const name = 'placeholder'
+    //console.log(name)
+    console.log("abc")
+    console.log(req.body)
+    console.log(name)
+    console.log(email)
+    console.log(password)
     try {
-      const user = fakeDB.find( user => user.email === email)
-      if (user) throw new Error("User already exists");
-  
-      const hashedPassowrd = await hash(password, 10);
-      fakeDB.push({
-        id: fakeDB.length,
+      const user = await User.create({
+        name,
         email,
-        password: hashedPassword 
-      });
-      res.send({ message: 'User Created'});
-      console.log(fakeDB);
+        password,
+      })
+      console.log(user)
     } catch (err) {
-      //console.log(err)
       error: '${err.message}'
     }
 }
