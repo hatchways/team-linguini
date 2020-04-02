@@ -6,6 +6,9 @@ const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
+const boardRouter = require('./routes/boards');
+const columnRouter = require('./routes/columns');
+const cardRouter = require('./routes/cards');
 const connectToDB = require('./middlewares/database');
 
 const { json, urlencoded } = express;
@@ -23,6 +26,9 @@ app.use(express.static(join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/ping", pingRouter);
+// app.use("/api/v1/boards", boardRouter);
+app.use("/api/v1/columns", columnRouter);
+// app.use("/api/v1/boards", boardRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
