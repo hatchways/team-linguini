@@ -8,9 +8,9 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,9 +32,23 @@ const useStyles = makeStyles(theme => ({
     background: "#F4F6FF",
     boxShadow: "none",
     position: "relative",
+    marginRight: "20px",
   },
   grid: {
-    marginTop: "40px"
+    marginTop: "40px",
+    marginLeft: "20px",
+    display: 'flex',
+  },
+  container: {
+    width: '100%',
+    maxWidth: '1370px',
+    overflowX: 'scroll',
+    overflow: 'hidden',
+    margin: '0 auto',
+    paddingBottom: '17px',
+    "&::-webkit-scrollbar": {
+        display: 'none'
+      },
   },
   column: {
     marginLeft: "25px",
@@ -42,7 +56,7 @@ const useStyles = makeStyles(theme => ({
   },
   holder: {
     fontSize: "24px",
-    color: "#D7DDF8",
+    color: "#D7DDF8"
   },
   columnTitle: {
     display: "flex",
@@ -55,32 +69,35 @@ const useStyles = makeStyles(theme => ({
     cursor: "pointer"
   },
   card: {
-    margin: 'auto',
-    width: '280px',
-    marginBottom: '10px',
+    margin: "auto",
+    width: "280px",
+    marginBottom: "10px"
   },
   cardTitle: {
     fontSize: 14,
     fontWeight: 700
   },
   tag: {
-    height: '7px',
-    width: '45px',
-    background: '#5ACD76',
-    borderRadius: '5px',
-    marginBottom: '10px',
+    height: "7px",
+    width: "45px",
+    background: "#5ACD76",
+    borderRadius: "5px",
+    marginBottom: "10px"
+  },
+  cardSection: {
+    
   },
   addCard: {
-      background: "#759CFC",
-      color: "white",
-      boxShadow: "none",
-      position: "absolute",
-      bottom: 20,
-      left: 20,
-      "&:hover": {
-        background: "#759CFC",
-      }
-  },
+    background: "#759CFC",
+    color: "white",
+    boxShadow: "none",
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    "&:hover": {
+      background: "#759CFC"
+    }
+  }
 }));
 
 const Board = () => {
@@ -104,14 +121,11 @@ const Board = () => {
         </Toolbar>
       </AppBar>
 
-      <Grid
-        container
-        justify="center"
-        spacing={2}
-        xs={true}
+      <div className={classes.container}>
+      <div
         className={classes.grid}
       >
-        {[0, 1, 2, 3].map(value => (
+        {[0, 1, 2, 3, 4, 5].map(value => (
           <Grid key={value} item>
             <Paper className={classes.paper}>
               <div className={classes.columnTitle}>
@@ -125,56 +139,43 @@ const Board = () => {
                   ></i>
                 </div>
               </div>
-        
+            <div className={classes.cardSection}>
               <Card className={classes.card}>
                 <CardContent>
-                    <div className={classes.tag} />
-                  <Typography
-                    className={classes.cardTitle}
-                    gutterBottom
-                  >
+                  <div className={classes.tag} />
+                  <Typography className={classes.cardTitle} gutterBottom>
                     Word of the Day
                   </Typography>
-                  <Typography color="textSecondary">
-                    April 10
-                  </Typography>
+                  <Typography color="textSecondary">April 10</Typography>
                 </CardContent>
               </Card>
               <Card className={classes.card}>
                 <CardContent>
-                    <div className={classes.tag} />
-                  <Typography
-                    className={classes.cardTitle}
-                    gutterBottom
-                  >
+                  <div className={classes.tag} />
+                  <Typography className={classes.cardTitle} gutterBottom>
                     Word of the Day
                   </Typography>
-                  <Typography color="textSecondary">
-                    April 10
-                  </Typography>
+                  <Typography color="textSecondary">April 10</Typography>
                 </CardContent>
               </Card>
               <Card className={classes.card}>
                 <CardContent>
-                    <div className={classes.tag} />
-                  <Typography
-                    className={classes.cardTitle}
-                    gutterBottom
-                  >
+                  <div className={classes.tag} />
+                  <Typography className={classes.cardTitle} gutterBottom>
                     Word of the Day
                   </Typography>
-                  <Typography color="textSecondary">
-                    April 10
-                  </Typography>
+                  <Typography color="textSecondary">April 10</Typography>
                 </CardContent>
               </Card>
+              </div>
               <Button variant="contained" className={classes.addCard}>
                 Add Card
-                </Button>
+              </Button>
             </Paper>
           </Grid>
         ))}
-      </Grid>
+        </div>
+      </div>
     </div>
   );
 };
