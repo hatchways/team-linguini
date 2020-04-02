@@ -4,6 +4,10 @@ const bcryptjs = require('bcryptjs');
 /*const jwt = require('jsonwebtoken');
 const crypto = require('crypto');*/
 
+function setPassword(value) {
+    return bcryptjs.hashSync(value, 10)
+}
+
 const User = new mongoose.Schema({
     name: {
        type: String,
@@ -17,7 +21,8 @@ const User = new mongoose.Schema({
         required: [true, 'is required'],
         maxlength: [50, 'can not be more than 50 characters'],
         minlength: [6, 'can not be less than 8 characters'],
-        select: false
+        select: false,
+        set: setPassword
     },
     email: {
         type: String,
@@ -27,7 +32,7 @@ const User = new mongoose.Schema({
     }
 });
 
-User.pre('save', async function(next) {
+/*User.pre('save', async function(next) {
     if(!this.isModified('password')){
         next();
     }
@@ -40,6 +45,6 @@ User.pre('save', async function(next) {
 
 User.methods.matchPassword = async function(enteredPassword){
     return await bcryptjs.compare(enteredPassword), this.password;
-}
+}*/
 
 module.exports = mongoose.model('User', User); 

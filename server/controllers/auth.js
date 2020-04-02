@@ -1,24 +1,102 @@
-const User = require('../models/Users')
+const User = require('../models/Users');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const { check, validationResult } = require("express-validator")
 
 const registerController = async (req, res) => {
-    console.log("abc")
 
     const { name, email, password } = req.body; 
-    //const name = 'placeholder'
-    //console.log(name)
-    console.log("abc")
-    console.log(req.body)
-    console.log(name)
-    console.log(email)
-    console.log(password)
+    check("email", "Enter a valid email").isEmail(),
+    check("password", "Please enter a valid password").isLength({
+        min: 6
+    })
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            errors: errors.array()
+        })
+    }
     try {
-      const user = await User.find()
-        res.status(200).json(user)
+        User.findOne({
+            //'email': req.body.email
+            email
+        }, function(err, userExistance) {
+            if (err){
+                console.log(err)
+            }
+            console.log(userExistance)
+            if (userExistance){
+                return res.status(400).json({
+                message: "User Already Exists."
+                });
+            }        });
+ 
+      const user = new User({
+          email,
+          password,
+          name
+      })
 
-      console.log(user)
+      const payload = {
+          user: {
+              id: user.id
+          }
+      }
+
+      jwt.sign(payload, "randomString", {
+          expiresIn: "24h"
+      },
+      (err, token) => {
+          if (err) throw err;
+          res.status(200).json({
+              token
+          });
+      })
+    
+      res.status(200).json({
+        user,
+        message: "Created User Successfuly!"
+        });
     } catch (err) {
-      error: '${err.message}'
+        console.log(err.message)
+        res.status(500).send("Error in Saving")
     }
 }
 
+const logInController = async (req, res) => {
+    const { email, password } = req.body;
+    //Question @Aecio is this the best find? Cases like duplicates should we worry about?
+    try {
+        console.log('abc')
+        const user = await User.findOne({
+            email
+        })
+        console.log('abc')
+
+        if (!user) {
+            throw Error("User not found.");
+        }
+        console.log('abc')
+
+        if (bcrypt.compareSync(password,user.password)) {
+            const token = jwt.sign( { user }, "yourSecretKey", { 
+                //Question @Team-Linguinig: For how long do we want the token to last?
+                expiresIn: "24h"
+            });
+            res.json({
+                user,
+                token,
+                message: "User Found Successfully!"
+            })
+        }
+    } catch (err) {
+        console.log('abc2')
+
+        error: '${err.message}'
+        res.status(500).send("Error in ")
+    }
+
+}
+
 module.exports.registerController = registerController 
+module.exports.logInController = logInController
