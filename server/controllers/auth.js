@@ -17,7 +17,7 @@ const registerController = async (req, res) => {
         })
     }
     try {
-        User.findOne({
+        /*User.findOne({
             //'email': req.body.email
             email
         }, function(err, userExistance) {
@@ -29,7 +29,8 @@ const registerController = async (req, res) => {
                 return res.status(400).json({
                 message: "User Already Exists."
                 });
-            }        });
+            }        
+        });*/
  
       const user = new User({
           email,
