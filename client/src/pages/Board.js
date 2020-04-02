@@ -85,7 +85,12 @@ const useStyles = makeStyles(theme => ({
     marginBottom: "10px"
   },
   cardSection: {
-    
+    height: 410,
+    overflow: 'hidden',
+    overflowY: 'scroll',
+    "&::-webkit-scrollbar": {
+        display: 'none'
+      },
   },
   addCard: {
     background: "#759CFC",
@@ -139,7 +144,17 @@ const Board = () => {
                   ></i>
                 </div>
               </div>
+
             <div className={classes.cardSection}>
+              <Card className={classes.card}>
+                <CardContent>
+                  <div className={classes.tag} />
+                  <Typography className={classes.cardTitle} gutterBottom>
+                    Word of the Day
+                  </Typography>
+                  <Typography color="textSecondary">April 10</Typography>
+                </CardContent>
+              </Card>
               <Card className={classes.card}>
                 <CardContent>
                   <div className={classes.tag} />
