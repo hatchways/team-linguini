@@ -6,6 +6,9 @@ export const theme = createMuiTheme({
     fontSize: 12,
     h1: {
       // could customize the h1 variant as well
+    },
+    button: {
+      textTransform: 'none'
     }
   },
   palette: {

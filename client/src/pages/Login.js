@@ -5,6 +5,7 @@ import {setIsAuthenticated, fetchUserSuccess, fetchUserRequest, fetchUserFailure
 
 import {AuthForm, RedirectDiv} from './Signup'
 import axios from "axios";
+import {Grid} from "@material-ui/core";
 
 const Login = () => {
     const auth = useAuth();
@@ -55,12 +56,17 @@ const Login = () => {
     }
 
     return (
-        <Fragment>
-            <AuthForm title="Welcome back" input1="Enter email" input2="Password" submit="Login"
-                      onSubmit={onSubmit}
-                      serverResponse={serverResponse}/>
-            <RedirectDiv title={'Don\'t have an account?'} link={'/signup'} desc={'Create'}/>
-        </Fragment>
+        <Grid container spacing={0}>
+            <Grid item xs={6} >
+                <img src={"/images/image1.png"} width={'100%'} height={'100%'}/>
+            </Grid>
+            <Grid item xs={6} alignItems={'center'}>
+                <AuthForm title="Welcome back!" input1="Enter email" input2="Password" submit="Login"
+                          onSubmit={onSubmit}
+                          serverResponse={serverResponse}/>
+                <RedirectDiv title={'Don\'t have an account?'} link={'/signup'} desc={'Create'}/>
+            </Grid>
+        </Grid>
     )
 }
 
