@@ -11,7 +11,6 @@ exports.initializeFirstBoard = async function (userObjectId) {
     return true;
 }
 
-/*
 //Return User Id from the req object
 const getUserId = req => '';
 
@@ -27,4 +26,3 @@ exports.createBoard = async (req, res, next) => {
 
     res.status(200).json(board);
 };
-*/

@@ -8,6 +8,10 @@ const BoardSchema = new mongoose.Schema({
             ref: 'Column'
         }
     ],
+    owner: {
+        type: String,//it will be change to ObjectId of user later
+        default: ''
+    },
     /*owner: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',

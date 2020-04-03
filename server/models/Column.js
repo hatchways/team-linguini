@@ -17,10 +17,14 @@ const ColumnSchema = new mongoose.Schema({
 
     orderOnBoard: Number, //order of the column in the belonged board.
 
+    owner: {
+        type: String,
+        default: ''
+    },
     /*owner: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
-        require: true
+        default: ''
     },*/ //I will uncomment this field after the User module finishes
 
     createAt: {
