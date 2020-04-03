@@ -1,0 +1,36 @@
+const mongoose = require('mongoose');
+
+const CardSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        require: true
+    },
+    deadline: Date,
+    tags: [String],
+    comments: [String],
+    description: String,
+    attachment: String,
+
+    columnId : {
+        type: mongoose.Schema.ObjectId,
+        require: true
+    },
+
+    orderOnColumn: Number,
+
+    owner: {
+        type: String,
+        default: ''
+    },
+    /*owner: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        require: true
+    },*/ //I will uncomment this field after the Use module finishes
+    createAt: {
+        type: Date,
+        default: Date.now()
+    }
+});
+
+module.exports = mongoose.model('Card', CardSchema);
