@@ -44,6 +44,7 @@ exports.getSingleCard= asyncHandler(async (req, res, next) => {
 exports.getCards= asyncHandler(async (req, res, next) => {
     const filter = {...req.query};
     filter.owner = getUserId();
+    console.log(filter);
 
     const cards = await Card.find(filter);
 
