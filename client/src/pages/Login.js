@@ -1,10 +1,10 @@
-import React, {Fragment, useState} from "react";
+import React, {useState} from "react";
 import {useHistory} from 'react-router-dom';
 import {useAuth} from "../providers/auth/auth.provider";
 import {authStyle} from '../themes/signup.style';
 import {setIsAuthenticated, fetchUserSuccess, fetchUserRequest, fetchUserFailure} from "../providers/auth/auth.action";
 
-import {AuthForm, RedirectDiv} from './Signup'
+import {AuthForm, RedirectDiv} from '../Components/auth'
 import axios from "axios";
 import {Grid, makeStyles} from "@material-ui/core";
 
@@ -62,9 +62,9 @@ const Login = () => {
     return (
         <Grid container className={classes.vh100}>
             <Grid item xs={6} >
-                <img src={"/images/image1.png"} width={'100%'} height={'100%'}/>
+                <img alt='' src={"/images/image1.png"} width={'100%'} height={'100%'}/>
             </Grid>
-            <Grid item xs={6} alignItems={'center'}>
+            <Grid item xs={6}>
                 <AuthForm title="Welcome back!" input1="Enter email" input2="Password" submit="Log in"
                           onSubmit={onSubmit}
                           serverResponse={serverResponse}/>
