@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -105,8 +106,41 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+//Cards Data Structure
+const cardsData = [
+    {id: '1', title: 'sample Title', deadline: '07/04/2020', tag: 'green', description: 'lorem ipsum'},
+    {id: '2', title: 'sample Title', deadline: '07/04/2020', tag: 'green', description: 'lorem ipsum'},
+    {id: '3', title: 'sample Title', deadline: '07/04/2020', tag: 'green', description: 'lorem ipsum'},
+    {id: '4', title: 'sample Title', deadline: '07/04/2020', tag: 'green', description: 'lorem ipsum'}
+]
+
+//Column Data Structure
+const columnsData = {
+    1: {
+        title: 'Backlog',
+        cards: cardsData,
+        columnOrder: 1
+    },
+    2: {
+        title: 'In Progress',
+        cards: cardsData,
+        columnOrder: 1
+    },
+    3: {
+        title: 'Review',
+        cards: cardsData,
+        columnOrder: 1
+    },
+    4: {
+        title: 'Completed',
+        cards: cardsData,
+        columnOrder: 1
+    },
+}
+
 const Board = () => {
   const classes = useStyles();
+  const [columns, setColumns] = useState(columnsData)
 
   return (
     <div>
@@ -131,6 +165,7 @@ const Board = () => {
         className={classes.grid}
       >
         {[0, 1, 2, 3, 4, 5].map(value => (
+        <DragDropContext>
           <Grid key={value} item>
             <Paper className={classes.paper}>
               <div className={classes.columnTitle}>
@@ -182,12 +217,22 @@ const Board = () => {
                   <Typography color="textSecondary">April 10</Typography>
                 </CardContent>
               </Card>
+              <Card className={classes.card}>
+                <CardContent>
+                  <div className={classes.tag} />
+                  <Typography className={classes.cardTitle} gutterBottom>
+                    Word of the Day
+                  </Typography>
+                  <Typography color="textSecondary">April 10</Typography>
+                </CardContent>
+              </Card>
               </div>
               <Button variant="contained" className={classes.addCard}>
                 Add Card
               </Button>
             </Paper>
           </Grid>
+          </DragDropContext>
         ))}
         </div>
       </div>
