@@ -11,11 +11,6 @@ const AuthProvider = (props) => {
     const [isAuthenticated, dispatchIsAuthenticated] = useReducer(isAuthenticatedReducer, preAuthenticated);
     const [user, dispatchUser] = useReducer(userReducer, preUserInfo);
 
-    //Make callbacks as the state which will be called when user triggers actions (login, sign up or logout)
-    // const login = (data) => {};
-    // const signup = (data) => {};
-
-    // const data = {isAuthenticated, user};
 
     const defaultContext = {
         isAuthenticated,
