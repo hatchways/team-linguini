@@ -1,50 +1,59 @@
-
 const mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs');
-/*const jwt = require('jsonwebtoken');
-const crypto = require('crypto');*/
 
 function setPassword(value) {
-    return bcryptjs.hashSync(value, 10)
+    const hashPassowrd = bcryptjs.hashSync(value, 10)
+    //console.log(hashPassowrd)
+    return hashPassowrd
 }
 
 const User = new mongoose.Schema({
-    name: {
+    /*name: {
        type: String,
        required: [true, 'is required'],
-       unique: true,
        maxlength: [50, 'can not be more than 50 characters'],
        minlength: [8, 'can not be less than 8 characters']
-    },
+    },*/
     password: {
         type: String,
         required: [true, 'is required'],
-        maxlength: [50, 'can not be more than 50 characters'],
+        maxlength: [60, 'can not be more than 50 characters'],
         minlength: [6, 'can not be less than 8 characters'],
-        select: false,
+        //select: false,
         set: setPassword
     },
     email: {
         type: String,
         required: [true, 'is required'],
-        unique: true,
-        match: [/^\S+@\S+\.\S+/, 'Please add a valid email']
+        index: { unique: true },
     }
+
 });
 
-/*User.pre('save', async function(next) {
+User.pre('save', async function(next) {
     if(!this.isModified('password')){
         next();
     }
 
     const salt = await bcryptjs.genSalt(10);
     this.password = await bcryptjs.hash(this.password, salt);
-    console.log(this.password)
+    //console.log("inpre save")
+    //console.log(this.password)
     next();
 })
 
 User.methods.matchPassword = async function(enteredPassword){
-    return await bcryptjs.compare(enteredPassword), this.password;
-}*/
+    console.log("waiting for saved password")
+    console.log(enteredPassword)
+    console.log(this.password)
+    return await bcryptjs.compare(enteredPassword, this.password);
+    /*const userPassword = this.password
+    try {
+        const result = await bcryptjs.compare(enteredPassword), userPassword;
+        return result
+    } catch {
+
+    } */
+}
 
 module.exports = mongoose.model('User', User); 

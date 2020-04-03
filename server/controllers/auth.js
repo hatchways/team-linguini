@@ -12,52 +12,47 @@ const registerController = async (req, res) => {
     })
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+        console.log("we have errrors")
         return res.status(400).json({
             errors: errors.array()
         })
-    }
+    } 
     try {
-        /*User.findOne({
-            //'email': req.body.email
-            email
+        await User.findOne({
+            email: email
         }, function(err, userExistance) {
-            if (err){
-                console.log(err)
-            }
-            console.log(userExistance)
             if (userExistance){
+                console.log("user already exists")
                 return res.status(400).json({
-                message: "User Already Exists."
+                    message: "User Already Exists."
                 });
+            } else {
+                console.log('no user exists')
+                const user = new User({
+                      email,
+                      password,
+                      name,
+                  })
+                  
+                user.save((err, data) => {
+                    console.log('Analyzing Data...');
+                    if(data) {
+                        console.log('Your data has been successfully saved.');
+                    }
+                    else {
+                        console.log('Something went wrong while saving data.');
+                        console.log(err);
+                        if (err) throw err;
+                    }
+                
+                })
+            
+                return res.json({ 
+                    user: user,
+                    token: jwt.sign(user.id, "randomString") 
+                })
             }        
-        });*/
- 
-      const user = new User({
-          email,
-          password,
-          name
-      })
-
-      const payload = {
-          user: {
-              id: user.id
-          }
-      }
-
-      jwt.sign(payload, "randomString", {
-          expiresIn: "24h"
-      },
-      (err, token) => {
-          if (err) throw err;
-          res.status(200).json({
-              token
-          });
-      })
-    
-      res.status(200).json({
-        user,
-        message: "Created User Successfuly!"
-        });
+        }).exec();
     } catch (err) {
         console.log(err.message)
         res.status(500).send("Error in Saving")
@@ -66,34 +61,33 @@ const registerController = async (req, res) => {
 
 const logInController = async (req, res) => {
     const { email, password } = req.body;
-    //Question @Aecio is this the best find? Cases like duplicates should we worry about?
     try {
         console.log('abc')
         const user = await User.findOne({
             email
         })
-        console.log('abc')
+        console.log(user)
 
         if (!user) {
             throw Error("User not found.");
         }
         console.log('abc')
-
-        if (bcrypt.compareSync(password,user.password)) {
-            const token = jwt.sign( { user }, "yourSecretKey", { 
-                //Question @Team-Linguinig: For how long do we want the token to last?
-                expiresIn: "24h"
-            });
+        console.log(user.password)
+        const result = await user.matchPassword(password)
+        if (result) {
+            const token = jwt.sign( { user }, "yourSecretKey");
             res.json({
                 user,
                 token,
                 message: "User Found Successfully!"
             })
-        }
+        } 
     } catch (err) {
         console.log('abc2')
 
-        error: '${err.message}'
+        //error: '${err.message}'
+        console.log(err.message)
+
         res.status(500).send("Error in ")
     }
 

@@ -10,6 +10,8 @@ const MONGODB_URI ='mongodb://'+ DB_HOST +':' + DB_PORT +'/' + DB_NAME;
 const connectToDatabase = async () => {
     try {
         const conn = await mongoose.connect(MONGODB_URI, {
+            useCreateIndex: true,
+            //autoIndex: true,
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })
