@@ -1,11 +1,12 @@
 import React, {Fragment, useState} from "react";
 import {useHistory} from 'react-router-dom';
 import {useAuth} from "../providers/auth/auth.provider";
+import {authStyle} from '../themes/signup.style';
 import {setIsAuthenticated, fetchUserSuccess, fetchUserRequest, fetchUserFailure} from "../providers/auth/auth.action";
 
 import {AuthForm, RedirectDiv} from './Signup'
 import axios from "axios";
-import {Grid} from "@material-ui/core";
+import {Grid, makeStyles} from "@material-ui/core";
 
 const Login = () => {
     const auth = useAuth();
@@ -13,6 +14,9 @@ const Login = () => {
     const [serverResponse, setServerResponse] = useState('');
 
     const history = useHistory();
+
+    //Classes of CSS style
+    const classes = makeStyles(authStyle)();
 
     //Callback for the form submission after validating successfully
     const onSubmit = (data) => {
@@ -56,12 +60,12 @@ const Login = () => {
     }
 
     return (
-        <Grid container spacing={0}>
+        <Grid container className={classes.vh100}>
             <Grid item xs={6} >
                 <img src={"/images/image1.png"} width={'100%'} height={'100%'}/>
             </Grid>
             <Grid item xs={6} alignItems={'center'}>
-                <AuthForm title="Welcome back!" input1="Enter email" input2="Password" submit="Login"
+                <AuthForm title="Welcome back!" input1="Enter email" input2="Password" submit="Log in"
                           onSubmit={onSubmit}
                           serverResponse={serverResponse}/>
                 <RedirectDiv title={'Don\'t have an account?'} link={'/signup'} desc={'Create'}/>

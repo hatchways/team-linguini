@@ -3,10 +3,8 @@ import {TextField, Button, OutlinedInput, FormHelperText, Typography, Box, Grid}
 import { makeStyles } from '@material-ui/core/styles';
 import {Link, useHistory} from "react-router-dom";
 import { useForm } from 'react-hook-form';
-// import {useAuth} from "../providers/auth/auth.provider";
+import {authStyle} from '../themes/signup.style';
 import axios from 'axios';
-// import {fetchUserFailure, fetchUserRequest, fetchUserSuccess, setIsAuthenticated} from '../providers/auth/auth.action';
-
 
 const AuthForm = (props) => {
     const { handleSubmit, register, errors } = useForm();
@@ -27,65 +25,35 @@ const AuthForm = (props) => {
         }
     }
 
-    const formStyle = makeStyles({
-        root: {
-            height: 400,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-        },
-        title: {
-            fontSize: 26,
-            marginTop: 50
-        },
-        input: {
-            width: 250,
-            marginBottom: 10
-        },
-        button: {
-            margin: 25,
-            width: 150,
-            color: '#ffffff'
-        }
-    })();
+    const classes = makeStyles(authStyle.form)();
 
     return (
-        <Box component={'form'} className={formStyle.root} onSubmit={handleSubmit(props.onSubmit)}>
-            <Typography align={'center'} className={formStyle.title}>{props.title}</Typography>
+        <Box component={'form'} className={classes.root} onSubmit={handleSubmit(props.onSubmit)}>
+            <Typography align={'center'} className={classes.title}>{props.title}</Typography>
 
-            <FormHelperText error>{props.serverResponse}</FormHelperText><br />
+            <FormHelperText error>{props.serverResponse}</FormHelperText>
 
             <TextField name="email" variant={'outlined'} type="text" label={props.input1}
-                       className={formStyle.input}
+                       className={classes.input}
                        inputRef={register(emailValidator)}
                        error={errors.email}
                        helperText={errors.email && errors.email.message}
             />
 
             <TextField name="password" variant={'outlined'} type="password" label={props.input2}
-                       className={formStyle.input}
+                       className={classes.input}
                        inputRef={register(passwordValidator)}
                        error={errors.password}
                        helperText={errors.password && errors.password.message}
             />
 
-            <Button color={'primary'} className={formStyle.button} variant={'contained'} type={'submit'}> {props.submit}</Button>
+            <Button color={'primary'} className={classes.button} variant={'contained'} type={'submit'}> {props.submit}</Button>
         </Box>
     )
 };
 
 const RedirectDiv = (props) => {
-    const AuthDivStyle = makeStyles({
-        root: {
-            marginTop: 20,
-            textAlign: 'center',
-            borderTop: 'solid 1px',
-            borderColor: '#D3D3D3'
-        },
-        margin: {
-            marginTop: 25
-        }
-    })();
+    const AuthDivStyle = makeStyles(authStyle.div)();
 
     return (
         <Box component={'div'} className={AuthDivStyle.root}>
@@ -96,18 +64,17 @@ const RedirectDiv = (props) => {
 }
 
 const Signup = () => {
-    // const auth = useAuth();
-    // const {dispatchIsAuthenticated, dispatchUser} = auth;
     const history = useHistory();
 
     const [serverResponse, setServerResponse] = useState('');
+
+    //Classes of CSS style
+    const classes = makeStyles(authStyle)();
 
     //Callback for the form submission after validation
     const onSubmit = values => {
         const {email, password} = values;
         console.log(email, password);
-
-        // dispatchIsAuthenticated(setIsAuthenticated(true));
 
         //Make a request to backend
         const url = '/api/v1/auth/register'
@@ -128,7 +95,7 @@ const Signup = () => {
     };
 
     return (
-        <Grid container spacing={0}>
+        <Grid container className={classes.vh100}>
             <Grid item xs={6} >
                 <img src={"/images/image1.png"} width={'100%'} height={'100%'}/>
             </Grid>
