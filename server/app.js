@@ -28,7 +28,7 @@ app.use("/", indexRouter);
 app.use("/ping", pingRouter);
 app.use("/api/v1/boards", boardRouter);
 app.use("/api/v1/columns", columnRouter);
-// app.use("/api/v1/boards", boardRouter);
+app.use("/api/v1/cards", cardRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -42,6 +42,10 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
   console.log(err);
+
+  if (err.name === 'CastError'){
+    res.status(404).json({error: "Invalid Object Id."})
+  };
 
   // render the error page
   res.status(err.status || 500);

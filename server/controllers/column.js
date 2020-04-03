@@ -30,6 +30,10 @@ exports.createColumn= asyncHandler(async (req, res, next) => {
 exports.getSingleColumn= asyncHandler(async (req, res, next) => {
     const column = await Column.findOne({_id: req.params.id});
 
+    if (!column) {
+        return next(new ErrorResponse('Invalid object id', 404));
+    }
+
     res.status(200).json(column);
 });
 
@@ -60,7 +64,7 @@ exports.updateColumn= asyncHandler(async (req, res, next) => {
     }
 
     if (column.owner.toString() !== getUserId(req)) {
-        return next(new ErrorResponse('Not authorized to update course.', 401));
+        return next(new ErrorResponse('Not authorized to update the column.', 401));
     }
 
     const newData = {};
