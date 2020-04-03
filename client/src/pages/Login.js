@@ -61,10 +61,10 @@ const Login = () => {
 
     return (
         <Grid container className={classes.vh100}>
-            <Grid item xs={6} >
+            <Grid item md={6} xs={0} >
                 <img alt='' src={"/images/image1.png"} width={'100%'} height={'100%'}/>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item md={6} xs={12}>
                 <AuthForm title="Welcome back!" input1="Enter email" input2="Password" submit="Log in"
                           onSubmit={onSubmit}
                           serverResponse={serverResponse}/>
