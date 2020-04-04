@@ -70,7 +70,7 @@ exports.updateColumn= asyncHandler(async (req, res, next) => {
     const newData = {};
     //Limit for the fields could be update
     ['title', 'cards', 'boardId', 'orderOnBoard'].forEach(field => {
-        const value = req.params[field];
+        const value = req.body[field];
         if (value) newData[field] = value;
     })
 

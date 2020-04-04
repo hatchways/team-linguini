@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const {createBoard} = require('../controllers/boards');
+const {createColumn} = require('../controllers/column');
 
 router
     .route('/')
@@ -11,7 +12,7 @@ router.get('/:id/columns', (req, res, next) => {
 
 router.post('/:id/columns', (req, res, next) => {
     req.body.boardId = req.params.id;
-    res.redirect(307, '/api/v1/columns');
+    createColumn(req, res, next);
 })
 
 

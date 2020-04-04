@@ -72,10 +72,9 @@ exports.updateCard= asyncHandler(async (req, res, next) => {
     const newData = {};
     //Limit for the fields could be update
     ['title', 'columnId', 'orderOnColumn', 'deadline', 'tags', 'comments', 'description', 'attachment'].forEach(field => {
-        const value = req.params[field];
+        const value = req.body[field];
         if (value) newData[field] = value;
     })
-
     card = await Card.findByIdAndUpdate(req.params.id, newData, {new: true});
 
     res.status(200).json(card);
