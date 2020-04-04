@@ -9,4 +9,12 @@ class ErrorResponse extends Error {
     }
 }
 
-module.exports = ErrorResponse;
+/* @desc: A helper function that displays all messages as an array.
+*/
+const errorFormatter = ({ location, msg, param, value, nestedErrors }) => {
+    // Build your resulting errors however you want! String, object, whatever - it works!
+    return [`${msg}`];
+  };
+
+module.exports.ErrorResponse = ErrorResponse;
+module.exports.errorFormater = errorFormatter

@@ -9,12 +9,12 @@ router.get("/welcome", function(req, res, next) {
 
 router.post("/api/v1/auth/register", [   
   check('email', "Enter a valid email.").isEmail(),
-  check('password', "Password should be at least 8 characters long.").isLength({ min: 8 })
+  check('password', " Password should be at least 8 characters long.").isLength({ min: 8 })
   ], registerController);
 
 router.post("/api/v1/auth/login", [   
   check('email', "Enter a valid email.").isEmail(),
-  check('password', "Password should be at least 8 characters long.").isLength({ min: 8 })
+  check('password', " Password should be at least 8 characters long.").isLength({ min: 8 })
   ], logInController);
 
 module.exports = router;

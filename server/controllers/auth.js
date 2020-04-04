@@ -1,5 +1,5 @@
 const User = require('../models/Users');
-const ErrorResponse = require('../utils/errorResponse');
+const { ErrorResponse, errorFormater } = require('../utils/errorResponse');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require("express-validator")
 
@@ -11,9 +11,9 @@ const { validationResult } = require("express-validator")
  * @returns: none
 */
 const registerController = async (req, res, next) => {
-    const err = validationResult(req);
+    const err = validationResult(req).formatWith(errorFormater);
     if (!err.isEmpty()) {
-        const error = new ErrorResponse("Invalid Email or Password Format.", 401);
+        const error = new ErrorResponse(err.array(), 401);
         return next(error);
     } 
 
@@ -26,7 +26,7 @@ const registerController = async (req, res, next) => {
                 const error = new ErrorResponse("Error in database finding user.", 500);
                 return next(error);            
             } else if (userExistance){
-                const error = new ErrorResponse("User Already Exists.", 401);
+                const error = new ErrorResponse("User Already Exists.", 403);
                 return next(error);
             } else {
                 const user = new User({
@@ -62,9 +62,9 @@ const registerController = async (req, res, next) => {
  * @returns: none
 */
 const logInController = async (req, res, next) => {
-    const err = validationResult(req);
+    const err = validationResult(req).formatWith(errorFormater);
     if (!err.isEmpty()) {
-        const error = new ErrorResponse("Invalid Email or Password Format.", 401);
+        const error = new ErrorResponse(err.array(), 401);
         return next(error);
     } 
 
