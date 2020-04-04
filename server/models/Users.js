@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs');
 
+
+/* @desc: The User schema. It currently only contains/requires a password and email field.
+ * @indexes: Only one index exists for the model, email (denoted by <index: { unique: true }>)
+ * this index must stay in place in order to query for users in mongodb. 
+*/ 
 const User = new mongoose.Schema({
-    /*name: {
-       type: String,
-       required: [true, 'is required'],
-       maxlength: [50, 'can not be more than 50 characters'],
-       minlength: [8, 'can not be less than 8 characters']
-    },*/
     password: {
         type: String,
         required: [true, 'is required'],
@@ -20,9 +19,12 @@ const User = new mongoose.Schema({
         required: [true, 'is required'],
         index: { unique: true },
     }
-
 });
 
+/* @desc: Before saving the user instance/document the password is hashed. 
+ * @param: next
+ * @returns: none
+*/
 User.pre('save', async function(next) {
     if(!this.isModified('password')){
         next();
@@ -35,7 +37,7 @@ User.pre('save', async function(next) {
 
 
 /* @desc: Determines if the document's current password matches the passed password
- * utilized in functions verify user's identity i.e. log-in. 
+ * utilized in functions to verify user's identity i.e. log-in. 
  * @param: string
  * @returns: object
 */
@@ -50,7 +52,5 @@ User.methods.comparePassword = function(enteredPassword, result){
         result(null, isMatch);
     });
 }
-
-
 
 module.exports = mongoose.model('User', User); 
