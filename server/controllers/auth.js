@@ -2,37 +2,29 @@ const User = require('../models/Users');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require("express-validator")
 
-const registerController = async (req, res) => {
-     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({
-            errors: errors.array()
-        })
+const registerController = async (req, res, next) => {
+    const err = validationResult(req);
+    if (!err.isEmpty()) {
+        return next(err)
     } 
 
     const { name, email, password } = req.body; 
-
     try {
         await User.findOne({
             email: email
         }, function(err, userExistance) {
-            if (userExistance){
-                console.log("user already exists")
-                return res.status(401).json({
-                    message: "User Already Exists."
-                });
+            if (err){
+                return next(err)
+            } else if (userExistance){
+                return next('User Already Exists.')
             } else {
-                console.log('no user exists')
                 const user = new User({
                       email,
                       password,
                       name,
                   })
-                  
                 user.save((err, data) => {
-                    console.log('Analyzing Data...');
                     if(data) {
-                        console.log('Your data has been successfully saved.');
                         data.password = undefined
                         return res.json({ 
                             user: data,
@@ -40,46 +32,35 @@ const registerController = async (req, res) => {
                         })
                     }
                     else {
-                        console.log('Something went wrong while saving data.');
-                        console.log(err);
-                        if (err) throw err;
+                        if (err) return next(err);
                     }
                 
                 })
-                
-
             }        
         }).exec();
     } catch (err) {
-        console.log(err.message)
-        res.status(500).send("Error in Saving")
+        return next(err)
     }
 }
 
-const logInController = async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({
-            errors: errors.array()
-        })
+const logInController = async (req, res, next) => {
+    const err = validationResult(req);
+    if (!err.isEmpty()) {
+        return next(err)
     } 
 
     const { email, password } = req.body;
-
     try {
-
         const user = await User.findOne({
             email
         })
-
         if (!user) {
-            return res.status(401).json({
-                message: "User Not Found."
-            });
+            return next('User Does Not Exists.')
         }
-
         user.comparePassword(password, function(err, isMatch){
-            if (isMatch){
+            if (err){
+                return next(err)
+            } else if (isMatch){
                 const token = jwt.sign( { user }, "yourSecretKey");
                 user.password = undefined
                 res.json({
@@ -87,17 +68,12 @@ const logInController = async (req, res) => {
                     token,
                 })
             } else {
-                return res.status(401).json({
-                    message: "Password do not match."
-                });
+                return next('Incorrect Password.')
             }
         })
 
     } catch (err) {
-        console.log(err.message)
-        res.status(500).json({
-            message:"Server Side Error."
-        });
+        return next(err)
     }
 
 }
