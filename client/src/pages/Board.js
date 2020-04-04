@@ -166,41 +166,41 @@ const Board = () => {
   const classes = useStyles();
   const [columns, setColumns] = useState(columnsData);
 
-  const onDragEnd = ((result, columns, setColumns) => {
-      if(!result.destination) return;
-      const { source, destination } = result
-      if(source.droppableId !== destination.droppableId){
-        const sourceColumn = columns[source.droppableId]
-        const destinationColumn = columns[destination.droppableId]
-        const sourceCards = [...sourceColumn.cards]
-        const destinationCards = [...destinationColumn.cards]
-        const [removed] = sourceCards.splice(source.index, 1)
-        destinationCards.splice(destination.index, 0, removed)
-        setColumns({
-            ...columns,
-            [source.droppableId]: {
-                ...sourceColumn,
-                cards: sourceCards
-            },
-            [destination.droppableId]: {
-                ...destinationColumn,
-                cards: destinationCards
-            }
-        })
-      }else{
-      const column = columns[source.droppableId]
-      const copiedCards = [...column.cards]
-      const [removed] = copiedCards.splice(source.index, 1)
-      copiedCards.splice(destination.index, 0, removed)
+  const onDragEnd = (result, columns, setColumns) => {
+    if (!result.destination) return;
+    const { source, destination } = result;
+    if (source.droppableId !== destination.droppableId) {
+      const sourceColumn = columns[source.droppableId];
+      const destinationColumn = columns[destination.droppableId];
+      const sourceCards = [...sourceColumn.cards];
+      const destinationCards = [...destinationColumn.cards];
+      const [removed] = sourceCards.splice(source.index, 1);
+      destinationCards.splice(destination.index, 0, removed);
       setColumns({
-          ...columns,
-          [source.droppableId]: {
-              ...column,
-              cards: copiedCards
-          }
-      })
+        ...columns,
+        [source.droppableId]: {
+          ...sourceColumn,
+          cards: sourceCards
+        },
+        [destination.droppableId]: {
+          ...destinationColumn,
+          cards: destinationCards
+        }
+      });
+    } else {
+      const column = columns[source.droppableId];
+      const copiedCards = [...column.cards];
+      const [removed] = copiedCards.splice(source.index, 1);
+      copiedCards.splice(destination.index, 0, removed);
+      setColumns({
+        ...columns,
+        [source.droppableId]: {
+          ...column,
+          cards: copiedCards
+        }
+      });
     }
-  })
+  };
 
   return (
     <div>
@@ -222,7 +222,9 @@ const Board = () => {
 
       <div className={classes.container}>
         <div className={classes.grid}>
-          <DragDropContext onDragEnd={result => onDragEnd(result, columns, setColumns)}>
+          <DragDropContext
+            onDragEnd={result => onDragEnd(result, columns, setColumns)}
+          >
             {Object.entries(columns).map(([id, column]) => (
               <Droppable droppableId={id} key={id}>
                 {(provided, snapshot) => {
@@ -255,7 +257,7 @@ const Board = () => {
                                       <div
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
-                                        {...provided.dragHandleProps} 
+                                        {...provided.dragHandleProps}
                                         style={{
                                           userSelect: "none",
                                           ...provided.draggableProps.style
