@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs');
 
-function setPassword(value) {
-    const hashPassowrd = bcryptjs.hashSync(value, 10)
-    //console.log(hashPassowrd)
-    return hashPassowrd
-}
-
 const User = new mongoose.Schema({
     /*name: {
        type: String,
@@ -18,9 +12,8 @@ const User = new mongoose.Schema({
         type: String,
         required: [true, 'is required'],
         maxlength: [60, 'can not be more than 50 characters'],
-        minlength: [6, 'can not be less than 8 characters'],
-        //select: false,
-        set: setPassword
+        minlength: [8, 'can not be less than 8 characters'],
+        trim: true,
     },
     email: {
         type: String,
@@ -37,23 +30,27 @@ User.pre('save', async function(next) {
 
     const salt = await bcryptjs.genSalt(10);
     this.password = await bcryptjs.hash(this.password, salt);
-    //console.log("inpre save")
-    //console.log(this.password)
     next();
 })
 
-User.methods.matchPassword = async function(enteredPassword){
-    console.log("waiting for saved password")
-    console.log(enteredPassword)
-    console.log(this.password)
-    return await bcryptjs.compare(enteredPassword, this.password);
-    /*const userPassword = this.password
-    try {
-        const result = await bcryptjs.compare(enteredPassword), userPassword;
-        return result
-    } catch {
 
-    } */
+/* @desc: Determines if the document's current password matches the passed password
+ * utilized in functions verify user's identity i.e. log-in. 
+ * @param: string
+ * @returns: object
+*/
+User.methods.comparePassword = function(enteredPassword, result){
+
+    bcryptjs.compare(enteredPassword, this.password, function(err, isMatch) {
+        if (err) {
+         console.log(err)   
+            return result(err);
+        }
+        console.log(isMatch)
+        result(null, isMatch);
+    });
 }
+
+
 
 module.exports = mongoose.model('User', User); 
