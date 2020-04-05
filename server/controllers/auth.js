@@ -10,7 +10,8 @@ const { validationResult } = require("express-validator")
  * @param: req, res, next
  * @returns: none
 */
-const registerController = async (req, res, next) => {
+
+module.exports.registerController = async (req, res, next) => {
     const err = validationResult(req).formatWith(errorFormater);
     if (!err.isEmpty()) {
         const error = new ErrorResponse(err.array(), 401);
@@ -61,7 +62,7 @@ const registerController = async (req, res, next) => {
  * @param: req, res, next
  * @returns: none
 */
-const logInController = async (req, res, next) => {
+module.exports.logInController = async (req, res, next) => {
     const err = validationResult(req).formatWith(errorFormater);
     if (!err.isEmpty()) {
         const error = new ErrorResponse(err.array(), 401);
@@ -89,7 +90,7 @@ const logInController = async (req, res, next) => {
                     token,
                 })
             } else {
-                const error = new ErrorResponse("Incorrect password.", 401);
+                const error = new ErrorResponse("Incorrect password.", 403);
                 return next(error);            }
         })
 
@@ -99,5 +100,3 @@ const logInController = async (req, res, next) => {
 
 }
 
-module.exports.registerController = registerController 
-module.exports.logInController = logInController
