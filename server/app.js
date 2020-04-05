@@ -6,10 +6,14 @@ const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
+const connectToDB = require('./middlewares/database');
 
 const { json, urlencoded } = express;
 
 var app = express();
+
+//Connect to local database
+connectToDB();
 
 app.use(logger("dev"));
 app.use(json());
