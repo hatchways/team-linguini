@@ -21,9 +21,12 @@ exports.authStyle = {
             marginTop: '5rem',
             marginBottom: '5rem'
         },
+        error: {
+            marginBottom: 20
+        },
         title: {
             fontSize: 26,
-            marginBottom: 40
+            marginBottom: 10
         },
         input: {
             width: 340,

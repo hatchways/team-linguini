@@ -29,20 +29,20 @@ const AuthForm = (props) => {
         <Box component={'form'} className={classes.root} onSubmit={handleSubmit(props.onSubmit)}>
             <Typography align={'center'} className={classes.title}>{props.title}</Typography>
 
-            <FormHelperText error>{props.serverResponse}</FormHelperText>
+            <FormHelperText error className={classes.error}>{props.serverResponse}{errors.email && (errors.email.message + '. ')}{errors.password && errors.password.message}</FormHelperText>
 
             <TextField name="email" variant={'outlined'} type="text" label={props.input1}
                        className={classes.input}
                        inputRef={register(emailValidator)}
                        error={errors.email}
-                       helperText={errors.email && errors.email.message}
+                       // helperText={errors.email && errors.email.message}
             />
 
             <TextField name="password" variant={'outlined'} type="password" label={props.input2}
                        className={classes.input}
                        inputRef={register(passwordValidator)}
                        error={errors.password}
-                       helperText={errors.password && errors.password.message}
+                       // helperText={errors.password && errors.password.message}
             />
 
             <Button color={'primary'} className={classes.button} variant={'contained'} type={'submit'}> {props.submit}</Button>
