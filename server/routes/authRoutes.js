@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { registerController, logInController } = require('../controllers/auth.js');
+const { registerController, logInController, tokenVerifier } = require('../controllers/auth.js');
+const { isAuthorized } = require('../middlewares/authorization');
 const { check } = require("express-validator");
 
 
@@ -14,4 +15,6 @@ router.post("/api/v1/auth/login", [
     check('password', " Password should be at least 8 characters long.").isLength({ min: 8 })
     ], logInController);
 
-    module.exports = router;
+router.get("/api/v1/auth/tokenVerifier", isAuthorized, tokenVerifier);
+
+module.exports = router;

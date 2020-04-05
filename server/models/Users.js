@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs');
 
-
 /* @desc: The User schema. It currently only contains/requires a password and email field.
  * @indexes: Only one index exists for the model, email (denoted by <index: { unique: true }>)
  * this index must stay in place in order to query for users in mongodb. 

@@ -1,6 +1,6 @@
 const User = require('../models/Users');
 const { ErrorResponse, errorFormater } = require('../utils/errorResponse');
-const jwt = require('jsonwebtoken');
+const { accessToken } = require('../utils/tokens');
 const { validationResult } = require("express-validator")
 
 /* @desc: registerController takes a request and validates email and password.
@@ -41,9 +41,10 @@ module.exports.registerController = async (req, res, next) => {
                         return next(error);
                     } else if(data) {
                         data.password = undefined
+                        token = accessToken(data.id)
                         return res.json({ 
                             user: data,
-                            token: jwt.sign(user.id, "randomString") 
+                            token: token
                         })
                     }
                 })
@@ -83,7 +84,7 @@ module.exports.logInController = async (req, res, next) => {
                 const error = new ErrorResponse("Unable to compare password.", 500);
                 return next(error);
             } else if (isMatch){
-                const token = jwt.sign( { user }, "yourSecretKey");
+                token = accessToken(user.id)
                 user.password = undefined
                 res.json({
                     user,
@@ -98,5 +99,15 @@ module.exports.logInController = async (req, res, next) => {
         return next(err)
     }
 
+}
+
+/* @desc: A function to test isAuthorized function is verifying JWT correctly. 
+ * @param: req, res, next
+ * @returns: none
+*/
+module.exports.tokenVerifier = async (req, res, next) => {
+    res.json({
+        user: req.user
+    })
 }
 
