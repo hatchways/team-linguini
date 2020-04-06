@@ -33,7 +33,7 @@ const Login = () => {
         axios.post(url, {email, password})
             .then(res => {
                 //If success to create a new account, redirect to login page
-                if (res.data.success){
+                if (res.status === 200){
                     //Save data on local storage
                     localStorage.setItem('isAuthenticated', true);
                     localStorage.setItem('user', JSON.stringify(res.data.user));
@@ -47,6 +47,7 @@ const Login = () => {
                     history.push('/');
 
                 } else {
+                    console.log(res)
                     setServerResponse(res.data.error);
                 }
 
