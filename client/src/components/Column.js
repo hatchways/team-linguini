@@ -57,7 +57,12 @@ const Column = ({ column, cards, index }) => {
   return (
     <Draggable draggableId={column.id} index={index}>
       {provided => (
-        <Grid key={column.id} item {...provided.draggableProps} ref={provided.innerRef}>
+        <Grid
+          key={column.id}
+          item
+          {...provided.draggableProps}
+          ref={provided.innerRef}
+        >
           <Paper className={classes.paper}>
             <div className={classes.columnTitle} {...provided.dragHandleProps}>
               <Typography variant="h6" className={classes.column}>

@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Task = ({ card, index}) => {
+const Task = ({ card, index }) => {
   const classes = useStyles();
   return (
     <Draggable draggableId={card.id} index={index}>
