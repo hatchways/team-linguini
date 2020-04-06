@@ -13,7 +13,7 @@ exports.createColumn= asyncHandler(async (req, res, next) => {
     //Take the useId as the owner
     const owner = getUserId(req);
 
-    const {title, boardId, orderOnBoard} = req.body;
+    const {title, boardId} = req.body;
     const cards = []; //Column is empty
 
     if (!title || !boardId){
@@ -80,7 +80,7 @@ exports.updateColumn= asyncHandler(async (req, res, next) => {
 
     const newData = {};
     //Limit for the fields could be update
-    ['title', 'cards', 'boardId', 'orderOnBoard'].forEach(field => {
+    ['title', 'cards', 'boardId'].forEach(field => {
         const value = req.body[field];
         if (value) newData[field] = value;
     })

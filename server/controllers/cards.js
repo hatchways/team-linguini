@@ -13,7 +13,7 @@ exports.createCard= asyncHandler(async (req, res, next) => {
     //Take the useId as the owner
     const owner = getUserId(req);
 
-    const {title, columnId, orderOnColumn, deadline, tags, comments, description, attachment} = req.body;
+    const {title, columnId, deadline, tags, comments, description, attachment} = req.body;
 
     if (!title || !columnId){
         return next(new ErrorResponse('Title and columnId are required',403));
