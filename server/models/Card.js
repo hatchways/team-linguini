@@ -16,8 +16,6 @@ const CardSchema = new mongoose.Schema({
         require: true
     },
 
-    orderOnColumn: Number,
-
     owner: {
         type: String,
         default: ''

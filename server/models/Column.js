@@ -15,7 +15,6 @@ const ColumnSchema = new mongoose.Schema({
         require: true
     },
 
-    orderOnBoard: Number, //order of the column in the belonged board.
 
     owner: {
         type: String,
