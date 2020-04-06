@@ -1,6 +1,6 @@
 import React from "react";
 import Task from "./Task";
-import { Droppable } from "react-beautiful-dnd";
+import { Droppable, Draggable } from "react-beautiful-dnd";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -52,35 +52,46 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Column = ({ column, cards }) => {
+const Column = ({ column, cards, index }) => {
   const classes = useStyles();
   return (
-    <Grid key={column.id} item>
-      <Paper className={classes.paper}>
-        <div className={classes.columnTitle}>
-          <Typography variant="h6" className={classes.column}>
-            {column.title}
-          </Typography>
-          <div className={classes.icon}>
-            <i className="fas fa-ellipsis-h" style={{ color: "#D7DDF8" }}></i>
-          </div>
-        </div>
-        <Droppable droppableId={column.id}>
-          {provided => (
-            <div className={classes.cardSection} {...provided.droppableProps} ref={provided.innerRef}>
-              {cards.map((card, index) => (
-                <Task key={card.id} card={card} index={index} />
-              ))}
-              {provided.placeholder}
+    <Draggable draggableId={column.id} index={index}>
+      {provided => (
+        <Grid key={column.id} item {...provided.draggableProps} ref={provided.innerRef}>
+          <Paper className={classes.paper}>
+            <div className={classes.columnTitle} {...provided.dragHandleProps}>
+              <Typography variant="h6" className={classes.column}>
+                {column.title}
+              </Typography>
+              <div className={classes.icon}>
+                <i
+                  className="fas fa-ellipsis-h"
+                  style={{ color: "#D7DDF8" }}
+                ></i>
+              </div>
             </div>
-          )}
-        </Droppable>
+            <Droppable droppableId={column.id} type="card">
+              {provided => (
+                <div
+                  className={classes.cardSection}
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {cards.map((card, index) => (
+                    <Task key={card.id} card={card} index={index} />
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
 
-        <Button variant="contained" className={classes.addCard}>
-          Add Card
-        </Button>
-      </Paper>
-    </Grid>
+            <Button variant="contained" className={classes.addCard}>
+              Add Card
+            </Button>
+          </Paper>
+        </Grid>
+      )}
+    </Draggable>
   );
 };
 

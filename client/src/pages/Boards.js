@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import initialData from "./InitialData";
 import BoardBar from "./BoardBar";
 import Column from "./Column";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -30,76 +30,104 @@ const Boards = () => {
   const [data, setData] = useState(initialData);
 
   const onDragEnd = result => {
-      const { destination, source, draggableId } = result
+    const { destination, source, draggableId, type } = result;
 
-      if(!destination){
-          return
-      }
+    if (!destination) {
+      return;
+    }
 
-      if(destination.droppableId === source.droppableId && destination.index === source.index){
-          return
-      }
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
 
-      const start = data.columns[source.droppableId]
-      const finish = data.columns[destination.droppableId]
-      //Moving withing the same column
-      if(start === finish){
-          const newCardIds = Array.from(start.cardIds)
-          newCardIds.splice(source.index, 1)
-          newCardIds.splice(destination.index, 0, draggableId)
-          const newColumn = {
-              ...start,
-              cardIds: newCardIds
-          }
-    
-          setData({
-              ...data,
-              columns: {
-                  ...data.columns,
-                  [newColumn.id]: newColumn
-              }
-          })
-          return
-      }
-      //Moving from one column to another
-      const startCardIds = Array.from(start.cardIds)
-      startCardIds.splice(source.index, 1)
-      const newStart = {
-          ...start,
-          cardIds: startCardIds,
-      }
+    if(type === 'column'){
+        const newColumnOrder = Array.from(data.columnOrder)
+        newColumnOrder.splice(source.index, 1)
+        newColumnOrder.splice(destination.index, 0, draggableId)
 
-      const finishCardIds = Array.from(finish.cardIds)
-      finishCardIds.splice(destination.index, 0, draggableId)
-      const newFinish = {
-          ...finish,
-          cardIds: finishCardIds,
-      }
+        setData({
+            ...data,
+            columnOrder: newColumnOrder
+        })
+        return
+    }
+
+    const start = data.columns[source.droppableId];
+    const finish = data.columns[destination.droppableId];
+    //Moving withing the same column
+    if (start === finish) {
+      const newCardIds = Array.from(start.cardIds);
+      newCardIds.splice(source.index, 1);
+      newCardIds.splice(destination.index, 0, draggableId);
+      const newColumn = {
+        ...start,
+        cardIds: newCardIds
+      };
 
       setData({
-          ...data,
-          columns: {
-              ...data.columns,
-              [newStart.id]: newStart,
-              [newFinish.id]: newFinish
-          }
-      })
-  }
+        ...data,
+        columns: {
+          ...data.columns,
+          [newColumn.id]: newColumn
+        }
+      });
+      return;
+    }
+    //Moving from one column to another
+    const startCardIds = Array.from(start.cardIds);
+    startCardIds.splice(source.index, 1);
+    const newStart = {
+      ...start,
+      cardIds: startCardIds
+    };
+
+    const finishCardIds = Array.from(finish.cardIds);
+    finishCardIds.splice(destination.index, 0, draggableId);
+    const newFinish = {
+      ...finish,
+      cardIds: finishCardIds
+    };
+
+    setData({
+      ...data,
+      columns: {
+        ...data.columns,
+        [newStart.id]: newStart,
+        [newFinish.id]: newFinish
+      }
+    });
+  };
 
   return (
     <div>
       <BoardBar />
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className={classes.container}>
-          <div className={classes.grid}>
-            {data.columnOrder.map(columnId => {
-              const column = data.columns[columnId];
-              const cards = column.cardIds.map(cardId => data.cards[cardId]);
+        <Droppable
+          droppableId="all-columns"
+          direction="horizontal"
+          type="column"
+        >
+          {provided => (
+            <div className={classes.container} {...provided.droppableProps} ref={provided.innerRef}>
+              <div className={classes.grid}>
+                {data.columnOrder.map((columnId, index) => {
+                  const column = data.columns[columnId];
+                  const cards = column.cardIds.map(
+                    cardId => data.cards[cardId]
+                  );
 
-              return <Column key={column.id} column={column} cards={cards} />;
-            })}
-          </div>
-        </div>
+                  return (
+                    <Column key={column.id} column={column} cards={cards} index={index} />
+                  );
+                })}
+              </div>
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
       </DragDropContext>
     </div>
   );

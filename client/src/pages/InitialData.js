@@ -27,7 +27,35 @@ const initialData = {
       deadline: "07/04/2020",
       tag: "green",
       description: "lorem ipsum"
-    }
+    },
+    "card-5": {
+        id: "card-5",
+        title: "Extra Activity",
+        deadline: "07/04/2020",
+        tag: "green",
+        description: "lorem ipsum"
+      },
+      "card-6": {
+        id: "card-6",
+        title: "Find a hobby",
+        deadline: "07/04/2020",
+        tag: "green",
+        description: "lorem ipsum"
+      },
+      "card-7": {
+        id: "card-7",
+        title: "Write Notes",
+        deadline: "07/04/2020",
+        tag: "green",
+        description: "lorem ipsum"
+      },
+      "card-8": {
+        id: "card-8",
+        title: "Refer library",
+        deadline: "07/04/2020",
+        tag: "green",
+        description: "lorem ipsum"
+      }
   },
   columns: {
     "column-1": {
@@ -38,7 +66,7 @@ const initialData = {
     "column-2": {
       id: "column-2",
       title: "In Progress",
-      cardIds: []
+      cardIds: ["card-5", "card-6", "card-7", "card-8"]
     },
     "column-3": {
       id: "column-3",
