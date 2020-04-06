@@ -1,5 +1,6 @@
 const Card = require('../models/Card');
-const ErrorResponse = require('../utils/errorResponse');
+const Column = require('../models/Column');
+const {ErrorResponse} = require('../utils/errorResponse');
 const asyncHandler = require('../middlewares/asyncHandler');
 
 //Return User Id from the req object
@@ -18,9 +19,19 @@ exports.createCard= asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse('Title and columnId are required',403));
     }
 
+    const column = await Column.findById(columnId);
+
+    if (!column){
+        return next(new ErrorResponse('Invalid column Id', 403))
+    }
+
     const card = await Card.create(
         {title, owner, columnId, orderOnColumn, deadline, tags, comments, description, attachment}
         );
+
+    //Update the field cards[] on the column
+    column.cards.push(card._id);
+    await column.save();
 
     res.status(200).json(card);
 });

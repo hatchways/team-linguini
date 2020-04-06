@@ -1,5 +1,6 @@
 const Column = require('../models/Column');
-const ErrorResponse = require('../utils/errorResponse');
+const Board = require('../models/Board')
+const {ErrorResponse} = require('../utils/errorResponse');
 const asyncHandler = require('../middlewares/asyncHandler');
 
 //Return User Id from the req object
@@ -19,7 +20,17 @@ exports.createColumn= asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse('Title and boardId are required',403));
     }
 
+    const board = await Board.findById(boardId);
+
+    if (!Board){
+        return next(new ErrorResponse('Invalid board Id', 403))
+    }
+
     const column = await Column.create({title, owner, boardId, orderOnBoard, cards});
+
+    //Update the field columns[] on the board
+    board.columns.push(column._id);
+    await board.save();
 
     res.status(200).json(column);
 });
