@@ -3,7 +3,7 @@ import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route } from "react-router-dom";
 
 import { theme } from "./themes/theme";
-import Board from "./pages/Board";
+import Boards from "./pages/Boards";
 
 import "./App.css";
 
@@ -11,7 +11,7 @@ function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
-        <Route path="/" component={Board} />
+        <Route path="/" component={Boards} />
       </BrowserRouter>
     </MuiThemeProvider>
   );

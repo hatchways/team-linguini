@@ -109,28 +109,28 @@ const useStyles = makeStyles(theme => ({
 //Cards Data Structure
 const cardsData = [
   {
-    id: "1",
+    id: "10",
     title: "Study Math",
     deadline: "07/04/2020",
     tag: "green",
     description: "lorem ipsum"
   },
   {
-    id: "2",
+    id: "20",
     title: "Go to School",
     deadline: "07/04/2020",
     tag: "green",
     description: "lorem ipsum"
   },
   {
-    id: "3",
+    id: "30",
     title: "Do your Homework",
     deadline: "07/04/2020",
     tag: "green",
     description: "lorem ipsum"
   },
   {
-    id: "4",
+    id: "40",
     title: "Eat your veggies",
     deadline: "07/04/2020",
     tag: "green",
@@ -141,24 +141,28 @@ const cardsData = [
 //Column Data Structure
 const columnsData = {
   1: {
+    id: "1",
     title: "Backlog",
     cards: cardsData,
     columnOrder: 1
   },
   2: {
+    id: "2",
     title: "In Progress",
     cards: [],
-    columnOrder: 1
+    columnOrder: 2
   },
   3: {
+    id: "3",
     title: "Review",
     cards: [],
-    columnOrder: 1
+    columnOrder: 3
   },
   4: {
+    id: "4",
     title: "Completed",
     cards: [],
-    columnOrder: 1
+    columnOrder: 4
   }
 };
 
@@ -168,7 +172,23 @@ const Board = () => {
 
   const onDragEnd = (result, columns, setColumns) => {
     if (!result.destination) return;
-    const { source, destination } = result;
+    const { source, destination, type } = result;
+
+    if(type === 'column'){
+        const sourceColumn = columns[source.droppableId];
+        const destinationColumn = columns[destination.droppableId];
+        
+        setColumns({
+            ...columns,
+            [source.droppableId]: {
+                ...sourceColumn
+            },
+            [destination.droppableId]: {
+                ...destinationColumn
+            }
+        })
+    }
+
     if (source.droppableId !== destination.droppableId) {
       const sourceColumn = columns[source.droppableId];
       const destinationColumn = columns[destination.droppableId];
@@ -220,87 +240,98 @@ const Board = () => {
         </Toolbar>
       </AppBar>
 
-      <div className={classes.container}>
-        <div className={classes.grid}>
-          <DragDropContext
-            onDragEnd={result => onDragEnd(result, columns, setColumns)}
-          >
-            {Object.entries(columns).map(([id, column]) => (
-              <Droppable droppableId={id} key={id}>
-                {(provided, snapshot) => {
-                  return (
-                    <div {...provided.droppableProps} ref={provided.innerRef}>
-                      <Grid key={id} item>
-                        <Paper className={classes.paper}>
-                          <div className={classes.columnTitle}>
-                            <Typography variant="h6" className={classes.column}>
-                              {column.title}
-                            </Typography>
-                            <div className={classes.icon}>
-                              <i
-                                className="fas fa-ellipsis-h"
-                                style={{ color: "#D7DDF8" }}
-                              ></i>
-                            </div>
+      <DragDropContext
+        onDragEnd={result => onDragEnd(result, columns, setColumns)}
+      >
+          <Droppable droppableId="all-columns" direction="horizontal" type="column">
+              {(provided) => (
+                  <div className={classes.container} {...provided.droppableProps} ref={provided.innerRef}>
+                  <div className={classes.grid}>
+                    {Object.entries(columns).map(([id, column]) => (
+                        <Draggable draggableId={column.id} index={column.columnOrder} key={id}>
+                            {(provided) => (
+                      <Grid key={id} item ref={provided.innerRef}
+                      {...provided.draggableProps}>
+                      <Paper className={classes.paper}>
+                        <div className={classes.columnTitle} 
+                      {...provided.dragHandleProps}>
+                          <Typography variant="h6" className={classes.column}>
+                            {column.title}
+                          </Typography>
+                          <div className={classes.icon}>
+                            <i
+                              className="fas fa-ellipsis-h"
+                              style={{ color: "#D7DDF8" }}
+                            ></i>
                           </div>
-
-                          <div className={classes.cardSection}>
-                            {column.cards.map((card, index) => {
-                              return (
-                                <Draggable
-                                  key={card.id}
-                                  draggableId={card.id}
-                                  index={index}
-                                >
-                                  {(provided, snapshot) => {
-                                    return (
-                                      <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        style={{
-                                          userSelect: "none",
-                                          ...provided.draggableProps.style
-                                        }}
-                                      >
-                                        <Card className={classes.card}>
-                                          <CardContent>
-                                            <div className={classes.tag} />
-                                            <Typography
-                                              className={classes.cardTitle}
-                                              gutterBottom
-                                            >
-                                              {card.title}
-                                            </Typography>
-                                            <Typography color="textSecondary">
-                                              {card.deadline}
-                                            </Typography>
-                                          </CardContent>
-                                        </Card>
-                                      </div>
-                                    );
-                                  }}
-                                </Draggable>
-                              );
-                            })}
-                          </div>
-                          <Button
-                            variant="contained"
-                            className={classes.addCard}
-                          >
-                            Add Card
-                          </Button>
-                        </Paper>
-                      </Grid>
-                      {provided.placeholder}
-                    </div>
-                  );
-                }}
-              </Droppable>
-            ))}
-          </DragDropContext>
-        </div>
-      </div>
+                        </div>
+      
+                        <Droppable droppableId={id} key={id} type="card">
+                          {(provided, snapshot) => {
+                            return (
+                              <div
+                                className={classes.cardSection}
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                              >
+                                {column.cards.map((card, index) => {
+                                  return (
+                                    <Draggable
+                                      key={card.id}
+                                      draggableId={card.id}
+                                      index={index}
+                                    >
+                                      {(provided, snapshot) => {
+                                        return (
+                                          <div
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                            style={{
+                                              userSelect: "none",
+                                              ...provided.draggableProps.style
+                                            }}
+                                          >
+                                            <Card className={classes.card}>
+                                              <CardContent>
+                                                <div className={classes.tag} />
+                                                <Typography
+                                                  className={classes.cardTitle}
+                                                  gutterBottom
+                                                >
+                                                  {card.title}
+                                                </Typography>
+                                                <Typography color="textSecondary">
+                                                  {card.deadline}
+                                                </Typography>
+                                              </CardContent>
+                                            </Card>
+                                          </div>
+                                        );
+                                      }}
+                                    </Draggable>
+                                  );
+                                })}
+                                {provided.placeholder}
+                              </div>
+                            );
+                          }}
+                        </Droppable>
+      
+                        <Button variant="contained" className={classes.addCard}>
+                          Add Card
+                        </Button>
+                      </Paper>
+                    </Grid>
+                            )}
+                        </Draggable>
+                    ))}
+                  </div>
+                  {provided.placeholder}
+                </div>
+              )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
 };
