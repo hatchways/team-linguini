@@ -1,4 +1,5 @@
 import React from "react";
+import { Draggable } from "react-beautiful-dnd";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -24,18 +25,27 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Task = ({ card }) => {
+const Task = ({ card, index }) => {
   const classes = useStyles();
   return (
-    <Card className={classes.card}>
-      <CardContent>
-        <div className={classes.tag} />
-        <Typography className={classes.cardTitle} gutterBottom>
-          {card.title}
-        </Typography>
-        <Typography color="textSecondary">{card.deadline}</Typography>
-      </CardContent>
-    </Card>
+    <Draggable draggableId={card.id} index={index}>
+      {provided => (
+        <Card
+          className={classes.card}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+        >
+          <CardContent>
+            <div className={classes.tag} />
+            <Typography className={classes.cardTitle} gutterBottom>
+              {card.title}
+            </Typography>
+            <Typography color="textSecondary">{card.deadline}</Typography>
+          </CardContent>
+        </Card>
+      )}
+    </Draggable>
   );
 };
 

@@ -30,7 +30,11 @@ const Boards = () => {
   const [data, setData] = useState(initialData);
 
   const onDragEnd = result => {
-      
+      const { destination, source, draggableId } = result
+
+      if(!destination){
+          return
+      }
   }
 
   return (
