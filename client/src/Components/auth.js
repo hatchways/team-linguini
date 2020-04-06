@@ -18,8 +18,8 @@ const AuthForm = (props) => {
     const passwordValidator = {
         required: 'Password is required',
         minLength: {
-            value: 6,
-            message: "Password needs 6 characters at least"
+            value: 8,
+            message: "Password needs 8 characters at least"
         }
     }
 
