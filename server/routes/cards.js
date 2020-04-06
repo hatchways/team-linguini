@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {createCard, getSingleCard, getCards, updateCard} = require('../controllers/cards')
+const {createCard, getSingleCard, getCards, updateCard, deleteCard} = require('../controllers/cards')
 
 router
     .route('/')
@@ -9,7 +9,8 @@ router
 router
     .route('/:id')
     .get(getSingleCard)
-    .put(updateCard);
+    .put(updateCard)
+    .delete(deleteCard);
 
 
 

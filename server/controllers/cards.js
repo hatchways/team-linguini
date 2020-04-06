@@ -94,21 +94,21 @@ exports.updateCard= asyncHandler(async (req, res, next) => {
 //@Desc delete card
 //@Route DELETE /api/v1/cards/id
 // //@Access private (only for owner
-// exports.deleteCard= async (req, res, next) => {
-//     const card = await Card.findById(req.params.id);
-//
-//     if (!card) {
-//         return next(new ErrorResponse ('Invalid Course Id', 404));
-//     }
-//
-//     if (card.owner.toString() !== getUserId(req)) {
-//         return next(new ErrorResponse('Not authorized to update course.', 401));
-//     }
-//
-//     await Card.findByIdAndDelete(req.params.id)
-//
-//     //delete card on the field "cards" of the belonged board
-//
-//     res.status(200).json({message: 'Delete the card successfully.'});
-// };
+exports.deleteCard= asyncHandler(async (req, res, next) => {
+    const card = await Card.findById(req.params.id);
+
+    if (!card) {
+        return next(new ErrorResponse ('Invalid Card Id', 404));
+    }
+
+    if (card.owner.toString() !== getUserId(req)) {
+        return next(new ErrorResponse('Not authorized to delete card.', 401));
+    }
+
+    await Card.findByIdAndDelete(req.params.id)
+
+    //delete card on the field "cards" of the belonged board
+
+    res.status(200).json({message: 'Delete the card successfully.'});
+});
 

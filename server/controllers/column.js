@@ -90,24 +90,24 @@ exports.updateColumn= asyncHandler(async (req, res, next) => {
     res.status(200).json(column);
 });
 
-//@Desc delete column
-//@Route DELETE /api/v1/columns/id
-// //@Access private (only for owner
-// exports.deleteColumn= async (req, res, next) => {
-//     const column = await Column.findById(req.params.id);
-//
-//     if (!column) {
-//         return next(new ErrorResponse ('Invalid Course Id', 404));
-//     }
-//
-//     if (column.owner.toString() !== getUserId(req)) {
-//         return next(new ErrorResponse('Not authorized to update course.', 401));
-//     }
-//
-//     await Column.findByIdAndDelete(req.params.id)
-//
-//     //delete column on the field "columns" of the belonged board
-//
-//     res.status(200).json({message: 'Delete the column successfully.'});
-// };
+// @Desc delete column
+// @Route DELETE /api/v1/columns/id
+//@Access private (only for owner
+exports.deleteColumn= asyncHandler(async (req, res, next) => {
+    const column = await Column.findById(req.params.id);
+
+    if (!column) {
+        return next(new ErrorResponse ('Invalid Column Id', 404));
+    }
+
+    if (column.owner.toString() !== getUserId(req)) {
+        return next(new ErrorResponse('Not authorized to delete column.', 401));
+    }
+
+    await Column.findByIdAndDelete(req.params.id)
+
+    //delete column on the field "columns" of the belonged board
+
+    res.status(200).json({message: 'Delete the column successfully.'});
+});
 
