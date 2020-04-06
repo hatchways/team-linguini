@@ -1,4 +1,5 @@
 const User = require('../models/Users');
+const {initializeFirstBoard} = require('../controllers/boards');
 const { ErrorResponse, errorFormater } = require('../utils/errorResponse');
 const { accessToken } = require('../utils/tokens');
 const { validationResult } = require("express-validator")
@@ -40,6 +41,9 @@ module.exports.registerController = async (req, res, next) => {
                         const error = new ErrorResponse("Error in database saving user.", 401);
                         return next(error);
                     } else if(data) {
+                        //Create the first board for new user
+                        initializeFirstBoard(data._id);
+
                         data.password = undefined
                         token = accessToken(data.id)
                         return res.json({ 
