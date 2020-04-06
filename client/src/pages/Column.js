@@ -1,5 +1,6 @@
 import React from "react";
-import Task from "./Task"
+import Task from "./Task";
+import { Droppable } from "react-beautiful-dnd";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -64,10 +65,16 @@ const Column = ({ column, cards }) => {
             <i className="fas fa-ellipsis-h" style={{ color: "#D7DDF8" }}></i>
           </div>
         </div>
-
-        <div className={classes.cardSection}>
-          {cards.map(card => <Task key={card.id} card={card} />)}
-        </div>
+        <Droppable droppableId={column.id}>
+          {provided => (
+            <div className={classes.cardSection} {...provided.droppableProps} innerRef={provided.innerRef}>
+              {cards.map(card => (
+                <Task key={card.id} card={card} />
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
 
         <Button variant="contained" className={classes.addCard}>
           Add Card

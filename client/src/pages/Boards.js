@@ -1,19 +1,10 @@
 import React, { useState } from "react";
 import initialData from "./InitialData";
 import BoardBar from "./BoardBar";
-import Column from './Column'
+import Column from "./Column";
+import { DragDropContext } from "react-beautiful-dnd";
 
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
   grid: {
@@ -38,19 +29,25 @@ const Boards = () => {
   const classes = useStyles();
   const [data, setData] = useState(initialData);
 
+  const onDragEnd = result => {
+      
+  }
+
   return (
     <div>
       <BoardBar />
-      <div className={classes.container}>
-        <div className={classes.grid}>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <div className={classes.container}>
+          <div className={classes.grid}>
             {data.columnOrder.map(columnId => {
-                const column = data.columns[columnId]
-                const cards = column.cards.map(cardId => data.cards[cardId])
+              const column = data.columns[columnId];
+              const cards = column.cards.map(cardId => data.cards[cardId]);
 
-                return <Column key={column.id} column={column} cards={cards} />
+              return <Column key={column.id} column={column} cards={cards} />;
             })}
+          </div>
         </div>
-      </div>
+      </DragDropContext>
     </div>
   );
 };
