@@ -105,7 +105,7 @@ module.exports.logInController = async (req, res, next) => {
  * @param: req, res, next
  * @returns: none
 */
-module.exports.tokenVerifier = async (req, res, next) => {
+module.exports.confirmThatisAuthorizedWorks = async (req, res, next) => {
     res.json({
         user: req.user
     })
