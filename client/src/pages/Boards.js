@@ -35,6 +35,55 @@ const Boards = () => {
       if(!destination){
           return
       }
+
+      if(destination.droppableId === source.droppableId && destination.index === source.index){
+          return
+      }
+
+      const start = data.columns[source.droppableId]
+      const finish = data.columns[destination.droppableId]
+      //Moving withing the same column
+      if(start === finish){
+          const newCardIds = Array.from(start.cardIds)
+          newCardIds.splice(source.index, 1)
+          newCardIds.splice(destination.index, 0, draggableId)
+          const newColumn = {
+              ...start,
+              cardIds: newCardIds
+          }
+    
+          setData({
+              ...data,
+              columns: {
+                  ...data.columns,
+                  [newColumn.id]: newColumn
+              }
+          })
+          return
+      }
+      //Moving from one column to another
+      const startCardIds = Array.from(start.cardIds)
+      startCardIds.splice(source.index, 1)
+      const newStart = {
+          ...start,
+          cardIds: startCardIds,
+      }
+
+      const finishCardIds = Array.from(finish.cardIds)
+      finishCardIds.splice(destination.index, 0, draggableId)
+      const newFinish = {
+          ...finish,
+          cardIds: finishCardIds,
+      }
+
+      setData({
+          ...data,
+          columns: {
+              ...data.columns,
+              [newStart.id]: newStart,
+              [newFinish.id]: newFinish
+          }
+      })
   }
 
   return (
@@ -45,7 +94,7 @@ const Boards = () => {
           <div className={classes.grid}>
             {data.columnOrder.map(columnId => {
               const column = data.columns[columnId];
-              const cards = column.cards.map(cardId => data.cards[cardId]);
+              const cards = column.cardIds.map(cardId => data.cards[cardId]);
 
               return <Column key={column.id} column={column} cards={cards} />;
             })}
