@@ -3,15 +3,12 @@ const Column = require('../models/Column');
 const {ErrorResponse} = require('../utils/errorResponse');
 const asyncHandler = require('../middlewares/asyncHandler');
 
-//Return User Id from the req object
-const getUserId = req => req.user._id;
-
 //@Desc create a new card
 //@Route POST /api/v1/cards
 //@Access private
 exports.createCard= asyncHandler(async (req, res, next) => {
     //Take the useId as the owner
-    const owner = getUserId(req);
+    const owner = req.user._id;
 
     const {title, columnId, deadline, tags, comments, description, attachment} = req.body;
 
@@ -54,7 +51,7 @@ exports.getSingleCard= asyncHandler(async (req, res, next) => {
 //@Access private
 exports.getCards= asyncHandler(async (req, res, next) => {
     const filter = {...req.query};
-    filter.owner = getUserId();
+    filter.owner = req.user._id;
     console.log(filter);
 
     const cards = await Card.find(filter);
@@ -76,7 +73,7 @@ exports.updateCard= asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse ('Invalid Card Id', 404));
     }
 
-    if (card.owner.toString() !== getUserId(req)) {
+    if (card.owner.toString() !== req.user._id) {
         return next(new ErrorResponse('Not authorized to update card.', 401));
     }
 
@@ -101,7 +98,7 @@ exports.deleteCard= asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse ('Invalid Card Id', 404));
     }
 
-    if (card.owner.toString() !== getUserId(req)) {
+    if (card.owner.toString() !== req.user._id) {
         return next(new ErrorResponse('Not authorized to delete card.', 401));
     }
 

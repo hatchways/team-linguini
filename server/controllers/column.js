@@ -53,7 +53,7 @@ exports.getSingleColumn= asyncHandler(async (req, res, next) => {
 //@Access private
 exports.getColumns= asyncHandler(async (req, res, next) => {
     const filter = {...req.query};
-    filter.owner = getUserId();
+    filter.owner = getUserId(req);
 
     const columns = await Column.find(filter);//.populate('cards');
 

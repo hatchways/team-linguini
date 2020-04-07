@@ -52,10 +52,7 @@ exports.createBoard = asyncHandler(async (req, res, next) => {
 //@Access private
 exports.getSelectedBoard = asyncHandler(async (req, res, next) => {
 
-    console.log('xxxxxxxxxxxxxxx',req.user);
-
     const board = await Board.findById(req.user.selectedBoard);
-    console.log('xxxxxxxxxxxxxxxxxxxxx', board)
 
     res.status(200).json(board);
 });
