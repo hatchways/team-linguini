@@ -4,7 +4,7 @@ import {useAuth} from "../providers/auth/auth.provider";
 import {authStyle} from '../themes/signup.style';
 import {setIsAuthenticated, fetchUserSuccess, fetchUserRequest, fetchUserFailure} from "../providers/auth/auth.action";
 
-import {AuthForm, RedirectDiv} from '../Components/auth'
+import {AuthForm, RedirectDiv} from '../components/auth'
 import axios from "axios";
 import {Grid, makeStyles} from "@material-ui/core";
 

@@ -35,14 +35,15 @@ module.exports.registerController = async (req, res, next) => {
                       email,
                       password,
                       name,
-                  })
+                  });
+
                 user.save((err, data) => {
                     if (err){
+                        console.log('1231dsfasdfa',err);
                         const error = new ErrorResponse("Error in database saving user.", 401);
                         return next(error);
                     } else if(data) {
-                        //Create the first board for new user
-                        const board = initializeFirstBoard(data._id);
+                        initializeFirstBoard(data._id);
 
                         data.password = undefined
                         token = accessToken(data.id)

@@ -15,11 +15,6 @@ const CardSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         require: true
     },
-
-    owner: {
-        type: String,
-        default: ''
-    },
     owner: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',

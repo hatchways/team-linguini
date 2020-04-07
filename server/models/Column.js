@@ -14,16 +14,10 @@ const ColumnSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         require: true
     },
-
-
-    owner: {
-        type: String,
-        default: ''
-    },
     owner: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
-        default: ''
+        require: true
     }, //I will uncomment this field after the User module finishes
 
     createAt: {
