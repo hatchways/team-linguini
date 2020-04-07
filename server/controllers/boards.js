@@ -27,7 +27,8 @@ exports.initializeFirstBoard = async (userObjectId) => {
         //Return
         return board._id;
     } catch (e) {
-        return new ErrorResponse(e.message, 500)
+        // return new ErrorResponse(e.message, 500)
+        return ;
     }
 }
 
