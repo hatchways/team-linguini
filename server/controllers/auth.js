@@ -42,7 +42,7 @@ module.exports.registerController = async (req, res, next) => {
                         return next(error);
                     } else if(data) {
                         //Create the first board for new user
-                        initializeFirstBoard(data._id);
+                        const board = initializeFirstBoard(data._id);
 
                         data.password = undefined
                         token = accessToken(data.id)

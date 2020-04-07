@@ -1,5 +1,6 @@
 const Board = require('../models/Board');
 const Column = require('../models/Column');
+const User = require('../models/Users');
 const asyncHandler = require('../middlewares/asyncHandler');
 const { ErrorResponse} = require('../utils/errorResponse');
 
@@ -15,6 +16,11 @@ exports.initializeFirstBoard = async (userObjectId) => {
 
         board.columns = [column1._id, column2._id];
         await board.save();
+
+        const user = await User.findById(userObjectId);
+        user.selectedBoard = board._id;
+        user.boards = [board._id];
+        user.save();
 
         //Return
         return true;
