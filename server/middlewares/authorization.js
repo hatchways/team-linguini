@@ -10,8 +10,9 @@ const { ErrorResponse } = require('../utils/errorResponse')
  * @param: req, res, next
  * @returns: none
 */
-module.exports.isAuthorized = async ( req, res, next ) => {
+module.exports.isAuthenticated = async (req, res, next ) => {
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+
         try {
             const token = req.headers.authorization.split(' ')[1];
             const decoded = verify(token, process.env.ACCESS_TOKEN_SECRET);
@@ -22,10 +23,10 @@ module.exports.isAuthorized = async ( req, res, next ) => {
             req.user = user;
             next()
         } catch {
-            return next(new ErrorResponse('Error verifying authorization.', 500))
+            return next(new ErrorResponse('Error verifying authentication.', 500))
         }
 
     } else {
-        return next(new ErrorResponse('Authorization Failed.', 401))
+        return next(new ErrorResponse('Authentication Failed.', 401))
     }
 };

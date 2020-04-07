@@ -8,6 +8,7 @@ import { theme } from "./themes/theme";
 import LandingPage from "./pages/Landing";
 import {Signup} from "./pages/Signup"
 import {Login} from "./pages/Login";
+import Test from "./pages/Test"
 
 import "./App.css";
 
@@ -19,6 +20,7 @@ function App() {
               <Route exact path="/" component={LandingPage} />
               <Route exact path="/signup" component={Signup}/>
               <Route exact path="/login" component={Login}/>
+              <Route exact path="/test" component={Test}/>
           </BrowserRouter>
       </AuthProvider>
     </MuiThemeProvider>

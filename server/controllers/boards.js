@@ -44,3 +44,17 @@ exports.createBoard = asyncHandler(async (req, res, next) => {
 
     res.status(200).json(board);
 });
+
+//@Desc get a selected board of the user
+//@Route GET /api/v1/boards/selected
+//@Access private
+exports.getSelectedBoard = asyncHandler(async (req, res, next) => {
+
+    console.log('yyyyyyyyyyyyyyyyyyy')
+    //Take the useId as the owner
+    const owner = getUserId(req);
+
+    const board = await Board.findById(req.user.selectedBoard);
+
+    res.status(200).json(board);
+});

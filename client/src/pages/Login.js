@@ -37,6 +37,8 @@ const Login = () => {
                     //Save data on local storage
                     localStorage.setItem('isAuthenticated', true);
                     localStorage.setItem('user', JSON.stringify(res.data.user));
+                    localStorage.setItem('token', JSON.stringify(res.data.token));
+
 
                     //Update the state of Auth providers
                     dispatchIsAuthenticated(setIsAuthenticated(true));
