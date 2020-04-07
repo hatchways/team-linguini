@@ -13,9 +13,9 @@ export const authFetch = async (url, config={}) => {
         // config.body = JSON.stringify(data);
     }
     else {
-        throw "No token saved! Please login again.";
-        //redirect to login page
-        // window.location.replace("/login")
+        // throw "No token saved! Please login again.";
+        // redirect to login page
+        window.location.replace("/login")
         console.log("no token saved")
         return;
     }
@@ -24,6 +24,6 @@ export const authFetch = async (url, config={}) => {
         const res = await fetch(url, config);
         return res;
     } catch (e) {
-        throw e.message;
+        return e;
     }
 }

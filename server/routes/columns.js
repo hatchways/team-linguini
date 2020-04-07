@@ -1,5 +1,8 @@
 const router = require('express').Router();
 const {createColumn, getColumns, updateColumn, getSingleColumn, deleteColumn} = require('../controllers/column')
+const {isAuthenticated} = require('../middlewares/authorization');
+
+router.use(isAuthenticated);
 
 router
     .route('/')

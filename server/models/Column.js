@@ -20,11 +20,11 @@ const ColumnSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    /*owner: {
+    owner: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
         default: ''
-    },*/ //I will uncomment this field after the User module finishes
+    }, //I will uncomment this field after the User module finishes
 
     createAt: {
         type: Date,

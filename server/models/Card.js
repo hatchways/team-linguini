@@ -20,11 +20,11 @@ const CardSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    /*owner: {
+    owner: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
         require: true
-    },*/ //I will uncomment this field after the Use module finishes
+    }, //I will uncomment this field after the Use module finishes
     createAt: {
         type: Date,
         default: Date.now()

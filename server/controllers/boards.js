@@ -30,7 +30,7 @@ exports.initializeFirstBoard = async (userObjectId) => {
 }
 
 //Return User Id from the req object
-const getUserId = req => '';
+const getUserId = req => req.user._id;
 
 //@Desc create a new board
 //@Route POST /api/v1/boards

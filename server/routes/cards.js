@@ -1,7 +1,8 @@
 const router = require('express').Router();
 const {createCard, getSingleCard, getCards, updateCard, deleteCard} = require('../controllers/cards')
+const {isAuthenticated} = require('../middlewares/authorization')
 
-// router.use(isAuthenticated);
+router.use(isAuthenticated);
 
 router
     .route('/')
