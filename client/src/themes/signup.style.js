@@ -1,4 +1,3 @@
-/*
 exports.authStyle = {
     vh100: {
         height: '100vh'
@@ -43,4 +42,3 @@ exports.authStyle = {
         }
     }
 }
-*/
