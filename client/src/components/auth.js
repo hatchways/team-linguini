@@ -29,7 +29,7 @@ const AuthForm = (props) => {
         <Box component={'form'} className={classes.root} onSubmit={handleSubmit(props.onSubmit)}>
             <Typography align={'center'} className={classes.title}>{props.title}</Typography>
 
-            <FormHelperText error className={classes.error}>{props.serverResponse}{errors.email && (errors.email.message + '. ')}{errors.password && errors.password.message}</FormHelperText>
+            <FormHelperText error={true} className={classes.error}>{props.serverResponse}{errors.email && (errors.email.message + '. ')}{errors.password && errors.password.message}</FormHelperText>
 
             <TextField name="email" variant={'outlined'} type="text" label={props.input1}
                        className={classes.input}
