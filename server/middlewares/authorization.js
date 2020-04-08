@@ -22,8 +22,8 @@ module.exports.isAuthenticated = async (req, res, next ) => {
 
             req.user = user;
             next()
-        } catch {
-            return next(new ErrorResponse('Error verifying authentication.', 500))
+        } catch (e){
+            return next(new ErrorResponse(e.message, 401))
         }
 
     } else {

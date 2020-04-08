@@ -23,7 +23,7 @@ exports.createCard= asyncHandler(async (req, res, next) => {
     }
 
     const card = await Card.create(
-        {title, owner, columnId, orderOnColumn, deadline, tags, comments, description, attachment}
+        {title, owner, columnId, deadline, tags, comments, description, attachment}
         );
 
     //Update the field cards[] on the column
@@ -62,7 +62,7 @@ exports.getCards= asyncHandler(async (req, res, next) => {
     });
 });
 
-//@Desc update the card on field title or orderOnBoard
+//@Desc update the card on field title
 //@Route PUT /api/v1/cards/id
 //@Access private
 exports.updateCard= asyncHandler(async (req, res, next) => {
@@ -79,7 +79,7 @@ exports.updateCard= asyncHandler(async (req, res, next) => {
 
     const newData = {};
     //Limit for the fields could be update
-    ['title', 'columnId', 'orderOnColumn', 'deadline', 'tags', 'comments', 'description', 'attachment'].forEach(field => {
+    ['title', 'columnId', 'deadline', 'tags', 'comments', 'description', 'attachment'].forEach(field => {
         const value = req.body[field];
         if (value) newData[field] = value;
     })
