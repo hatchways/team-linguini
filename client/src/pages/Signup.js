@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Grid} from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import {useHistory} from "react-router-dom";
-import { AuthForm, RedirectDiv} from "../Components/auth"
+import { AuthForm, RedirectDiv} from "../components/auth"
 import {authStyle} from '../themes/signup.style';
 import axios from 'axios';
 
