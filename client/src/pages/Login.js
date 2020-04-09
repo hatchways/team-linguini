@@ -45,7 +45,6 @@ const Login = () => {
 
                     //Redirect to dashboard
                     history.push('/');
-
                 } else {
                     console.log(res)
                     setServerResponse(res.data.error);

@@ -10,6 +10,7 @@ import Board from "./pages/Board";
 import {Signup} from "./pages/Signup"
 import {Login} from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute"
+import LogOut from "./components/LogOut"
 
 import "./App.css";
 
@@ -18,13 +19,11 @@ function App() {
     <MuiThemeProvider theme={theme}>
       <AuthProvider>
           <BrowserRouter>
-              <Switch>
               <ProtectedRoute exact path="/" component={Board} />
               <Route exact path="/protected" component={ProtectedRoute} />
               <Route exact path="/signup" component={Signup}/>
               <Route exact path="/login" component={Login}/>
-              </Switch>
-          </BrowserRouter>
+              </BrowserRouter>
       </AuthProvider>
     </MuiThemeProvider>
   );
