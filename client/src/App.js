@@ -20,7 +20,6 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <ProtectedRoute exact path="/" component={Board} />
-          <Route exact path="/protected" component={ProtectedRoute} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
           <ProtectedRoute exact path="/logout" component={LogOut} />
