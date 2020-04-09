@@ -91,3 +91,78 @@ exports.getInit = asyncHandler(async (req, res, next) => {
 
     res.status(200).json(output);
 });
+
+//@Desc get all boards of the user
+//@Route GET /api/v1/boards/
+//@Access private
+exports.getBoards = asyncHandler(async (req, res, next) => {
+    const filter = {...req.query};
+    filter.owner = req.user.id;
+
+    const boards = await Board.find(filter).select('-owner');
+
+    res.status(200).json({count: boards.length, boards});
+});
+
+//@Desc get a single board with id
+//@Route GET /api/v1/boards/
+//@Access private
+exports.getSingleBoard = asyncHandler(async (req, res, next) => {
+
+    const board = await Board.findById(req.params.id).select('-owner');
+
+    if (!board) {
+        return next(new ErrorResponse('Invalid object id', 404));
+    }
+
+    res.status(200).json(board);
+});
+
+//@Desc update the board on field title or orderOnBoard
+//@Route PUT /api/v1/boards/id
+//@Access private
+exports.updateBoard= asyncHandler(async (req, res, next) => {
+
+    let board = await Board.findOne({_id: req.params.id});
+
+    if (!board) {
+        return next(new ErrorResponse ('Invalid Board Id', 404));
+    }
+
+    if (board.owner.toString() !== getUserId(req)) {
+        return next(new ErrorResponse('Not authorized to update the board.', 401));
+    }
+
+    const newData = {};
+    //Limit for the fields could be update
+    ['title', 'columns'].forEach(field => {
+        const value = req.body[field];
+        if (value) newData[field] = value;
+    })
+
+    board = await Board.findByIdAndUpdate(req.params.id, newData, {new: true});
+
+    res.status(200).json(board);
+});
+
+// @Desc delete board
+// @Route DELETE /api/v1/boards/id
+//@Access private (only for owner
+exports.deleteBoard= asyncHandler(async (req, res, next) => {
+    const board = await Column.findById(req.params.id);
+
+    if (!board) {
+        return next(new ErrorResponse ('Invalid Board Id', 404));
+    }
+
+    if (board.owner.toString() !== getUserId(req)) {
+        return next(new ErrorResponse('Not authorized to delete board.', 401));
+    }
+
+    await Board.findByIdAndDelete(req.params.id)
+
+    //delete board on the field "columns" of the belonged board
+
+    res.status(200).json({message: 'Delete the board successfully.'});
+});
+
