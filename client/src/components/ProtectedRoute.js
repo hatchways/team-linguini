@@ -6,7 +6,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={(props) => 
+      render={(props) =>
         checkLocalStorage === "true" ? (
           <Component {...props} />
         ) : (
