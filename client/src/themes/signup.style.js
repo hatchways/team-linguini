@@ -38,7 +38,17 @@ exports.authStyle = {
             marginTop: 35,
             width: 145,
             height: 50,
-            color: '#ffffff'
+            color: '#ffffff',
+            backgroundColor: '#759CFC',
+            "&:hover": {
+                background: "#759CFC"
+            }
         }
+    },
+    img: {
+        backgroundImage: 'url("/images/image1.png")',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundSize: 'cover'
     }
 }
