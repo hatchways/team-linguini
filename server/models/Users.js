@@ -17,6 +17,20 @@ const User = new mongoose.Schema({
         type: String,
         required: [true, 'is required'],
         index: { unique: true },
+    },
+    selectedBoard: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Board'
+    },
+    boards: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Board'
+        }
+    ],
+    createAt: {
+        type: Date,
+        default: Date.now()
     }
 });
 

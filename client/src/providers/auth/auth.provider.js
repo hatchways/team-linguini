@@ -7,7 +7,7 @@ const AuthContext = React.createContext();
 const AuthProvider = (props) => {
     //2 states of AuthProviders to store the state of authentication
     const preAuthenticated = window.localStorage.getItem('isAuthenticated') || false;
-    const preUserInfo = window.localStorage.getItem('userInfor') || null;
+    const preUserInfo = window.localStorage.getItem('user') || null;
     const [isAuthenticated, dispatchIsAuthenticated] = useReducer(isAuthenticatedReducer, preAuthenticated);
     const [user, dispatchUser] = useReducer(userReducer, preUserInfo);
 
