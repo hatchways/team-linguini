@@ -26,6 +26,7 @@ const Signup = () => {
 
                 //If success to create a new account, redirect to login page
                 if (res.status === 200){
+
                     history.push('/')
                 } else {
                     setServerResponse(res.data.error);
@@ -40,8 +41,8 @@ const Signup = () => {
 
     return (
         <Grid container className={classes.vh100}>
-            <Grid item md={6} xs={12}>
-                <img alt='' src={"/images/image1.png"} width={'100%'} height={'100%'}/>
+            <Grid item md={6} xs={12} className={classes.img}>
+                {/*<img alt='' src={"/images/image1.png"} className={classes.img}/>*/}
             </Grid>
             <Grid item md={6} xs={12}>
                 <AuthForm title="Sign up to Kanban" input1="Enter email" input2="Create Password" submit="Sign up"
