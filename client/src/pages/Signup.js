@@ -26,9 +26,7 @@ const Signup = () => {
 
                 //If success to create a new account, redirect to login page
                 if (res.status === 200){
-                    // history.push('/login')
-                    //Redirect to dashboard
-                    history.push('/');
+
                 } else {
                     setServerResponse(res.data.error);
                 }

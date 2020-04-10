@@ -46,12 +46,6 @@ exports.authStyle = {
         }
     },
     img: {
-        // maxWidth: '100%',
-        // width: 'auto',
-        // height: 'auto',
-        // maxHeight: '100%',
-        // verticalAlign: 'middle',
-        // horizontalAlign: 'middle'
         backgroundImage: 'url("/images/image1.png")',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
