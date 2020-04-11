@@ -5,7 +5,6 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
-const pingRouter = require("./routes/ping");
 const authRouter = require("./routes/authRoutes")
 const boardRouter = require('./routes/boards');
 const columnRouter = require('./routes/columns');
@@ -26,7 +25,6 @@ app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/ping", pingRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/boards", boardRouter);
 app.use("/api/v1/columns", columnRouter);
