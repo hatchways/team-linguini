@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {useHistory} from 'react-router-dom';
-import {useAuth} from "../providers/auth/auth.provider";
+import {useAuth} from "../context/auth/auth.provider";
 import {authStyle} from '../themes/signup.style';
-import {setIsAuthenticated, fetchUserSuccess, fetchUserRequest, fetchUserFailure} from "../providers/auth/auth.action";
+import {setIsAuthenticated, fetchUserSuccess, fetchUserRequest, fetchUserFailure} from "../context/auth/auth.action";
 
 import {AuthForm, RedirectDiv} from '../components/auth'
 import {Grid, makeStyles} from "@material-ui/core";

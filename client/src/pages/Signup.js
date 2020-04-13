@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import {useHistory} from "react-router-dom";
 import { AuthForm, RedirectDiv} from "../components/auth"
 import {authStyle} from '../themes/signup.style';
-import {fetchUserFailure, fetchUserSuccess, setIsAuthenticated} from "../providers/auth/auth.action";
-import {useAuth} from "../providers/auth/auth.provider";
+import {fetchUserFailure, fetchUserSuccess, setIsAuthenticated} from "../context/auth/auth.action";
+import {useAuth} from "../context/auth/auth.provider";
 
 const Signup = () => {
     const auth = useAuth();

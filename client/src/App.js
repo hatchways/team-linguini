@@ -2,7 +2,7 @@ import React from "react";
 import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route } from "react-router-dom";
 
-import {AuthProvider} from './providers/auth/auth.provider'
+import {AuthProvider} from './context/auth/auth.provider'
 
 import { theme } from "./themes/theme";
 
