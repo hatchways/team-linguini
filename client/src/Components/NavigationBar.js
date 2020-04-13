@@ -16,10 +16,9 @@ const useStyles = makeStyles(theme => ({
     appBar: {
       background: "#FFFFFF",
       boxShadow: "none",
-      display: 'flex',
       flexDirection: "row",
       alignItems: 'center',
-      justifyContent: 'space-between',
+      height: '85px',
     },
     toolBar: {
       justifyContent: 'space-between',
@@ -28,9 +27,39 @@ const useStyles = makeStyles(theme => ({
     },
     button: {
       margin: theme.spacing(1),
+      color: '#666666',
     },
     title: {
       color: 'black',
+    }, 
+    buttonText: {
+      fontSize: 14,
+      fontWeight: 'bold',
+    },
+    buttonIcons: {
+      marginRight:'8px'
+    }, 
+    createBox: {
+      alignItems: 'center',
+      height: '100px',
+    },
+    createButton: {
+      backgroundColor: "#759DFD",
+      marginRight: '40px',
+      width: '175px',
+    },
+    createButtonText: {
+      color: '#FFFFFF',
+      fontWeight: 'bold',
+      padding: '10px',
+    },
+    createButtonIcon: {
+      color: '#FFFFFF'
+    },
+    userIcon: {
+      width: '68px',
+      height: '68px',
+      flexShrink: 3,
     }
   }));
 
@@ -39,25 +68,34 @@ const NavigationBar = () => {
     return(
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className = {classes.toolBar}>
-          <Box display="flex">
+          <Box >
             <Typography variant="title">
               <img src="/images/logo.png" alt="bug"  />
             </Typography>  
           </Box>
-          <Box display="flex">
-            <Button>
-              <DashboardRoundedIcon/> Dashboard 
+          <Box >
+            <Button className = {classes.button}>
+              <DashboardRoundedIcon className = {classes.buttonIcons}/> 
+              <Typography className = {classes.buttonText}>
+                Dashboard 
+              </Typography>
               </Button>
-            <Button>
-              <CalendarTodayOutlinedIcon/> Calendar
+            <Button className = {classes.button}>
+              <CalendarTodayOutlinedIcon className = {classes.buttonIcons}/> 
+              <Typography className = {classes.buttonText}>
+                Calender 
+              </Typography>
             </Button>
           </Box>
-          <Box display="flex">
-            <Button variant="contained" color="blue">
-              <AddIcon/> Create board
+          <Box className className = {classes.createBox}>
+            <Button variant="contained" className = {classes.createButton}>
+              <AddIcon className = {classes.createButtonIcon}/> 
+              <Typography className = {classes.createButtonText}>
+              Create board
+              </Typography>
             </Button>
             <IconButton>
-              <AccountCircleIcon/>
+              <AccountCircleIcon className = {classes.userIcon}/>
             </IconButton>
           </Box>
         </Toolbar>
