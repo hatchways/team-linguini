@@ -65,7 +65,7 @@ exports.getInit = asyncHandler(async (req, res, next) => {
     } else {
         const boardId = await initializeFirstBoard(req.user._id);
         output.boards = [boardId];
-        output.selectedBoard = boardId;
+        output.selectedBoard = await Board.findById(boardId);
     }
 
     //Get columns of the selected board

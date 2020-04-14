@@ -17,11 +17,12 @@ export const authFetch = async (url, config={}) => {
         // redirect to login page
         window.location.replace("/login")
         console.log("no token saved")
-        return;
+        return new Error("no token saved");
     }
 
     try {
         const res = await fetch(url, config);
+        // console.log(config);
         return res;
     } catch (e) {
         return e;

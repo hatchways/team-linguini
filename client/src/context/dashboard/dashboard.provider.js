@@ -9,30 +9,34 @@ const DashboardProvider = (props) => {
     const [isFetching, setIsFetching] = useState(false);
     const [error, setError] = useState(null);
     const [boards, setBoards] = useState([]);
-    const [selectedBoard, setSelectedBoard] =useState({});
+    const [selectedBoard, setSelectedBoard] = useState({});
     const [columns, setColumns] =useState({});
     const [cards, setCards] =useState({});
 
-    useEffect(() => {
-        setIsFetching(true);
-
-        authFetch('/api/v1/boards/init')
-            .then(res => res.json())
-            .then(res => {
-                setIsFetching(false);
-                if (!res.error){
-                    setCards(res.cards);
-                    setColumns(res.columns);
-                    setBoards(res.boards);
-                    setSelectedBoard(res.selectedBoard);
-                } else {
-                    throw Error(res.error)
-                }
-            })
-            .catch(e => {
-                setError(e.message);
-            })
-    })
+    //Initialize data from server
+    const url = "/api/v1/boards/init";
+    useEffect(
+        () => {
+            setIsFetching(true);
+            authFetch(url)
+                .then(res => res.json())
+                .then(res => {
+                    setIsFetching(false);
+                    if (!res.error){
+                        setError(null);
+                        setSelectedBoard(res.selectedBoard);
+                        setCards(res.cards);
+                        setColumns(res.columns);
+                        setBoards(res.boards);
+                    } else {
+                        throw Error(res.error)
+                    }
+                })
+                .catch(e => {
+                    setError(e.message);
+                })
+        },
+        [])
 
     const defaultValue = {
         isFetching, setIsFetching,
