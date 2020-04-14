@@ -6,7 +6,7 @@ const asyncHandler = require('../middlewares/asyncHandler');
 const { ErrorResponse} = require('../utils/errorResponse');
 
 /*Create new board for the new account*/
-exports.initializeFirstBoard = async (userObjectId) => {
+const initializeFirstBoard = async (userObjectId) => {
 
     try {
         //Create a new board
@@ -33,6 +33,9 @@ exports.initializeFirstBoard = async (userObjectId) => {
     }
 }
 
+exports.initializeFirstBoard = initializeFirstBoard()
+
+
 //Return User Id from the req object
 const getUserId = req => req.user._id;
 
@@ -58,7 +61,7 @@ exports.getInit = asyncHandler(async (req, res, next) => {
 
     if (req.user.selectedBoard) {
         output.boards = req.user.boards;
-        output.selectedBoard = req.user.selectedBoard;
+        output.selectedBoard = await Board.findById(req.user.selectedBoard);
     } else {
         const boardId = await initializeFirstBoard(req.user._id);
         output.boards = [boardId];
@@ -66,21 +69,19 @@ exports.getInit = asyncHandler(async (req, res, next) => {
     }
 
     //Get columns of the selected board
-    const board = await Board.findById(output.selectedBoard).populate('columns');
+    const board = output.selectedBoard;
 
-    const columnOrder = output.columnOrder = [];
     const outputCards = output.cards = {};
     const outputColumns = output.columns = {};
 
     for (let i=0; i< board.columns.length; i++) {
-        const column = board.columns[i];
+        const column = await Column.findById(board.columns[i]);
         column.owner = undefined;
         column.__v = undefined;
         column.createAt = undefined;
 
         //Save column to output
         const columnId = column._id.toString();
-        columnOrder.push(columnId);
 
         outputColumns[columnId] = column;
 
