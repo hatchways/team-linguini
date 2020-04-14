@@ -1,5 +1,5 @@
 import React from "react";
-import { MuiThemeProvider } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/core/styles";
 import { BrowserRouter, Route } from "react-router-dom";
 
 import {AuthProvider} from './providers/auth/auth.provider'
@@ -14,8 +14,9 @@ import Test from "./pages/Test"
 import "./App.css";
 
 function App() {
+  console.log(theme)
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <AuthProvider>
           <BrowserRouter>
               <Route exact path="/" component={Board} />
@@ -24,7 +25,7 @@ function App() {
               <Route exact path="/test" component={Test}/>
           </BrowserRouter>
       </AuthProvider>
-    </MuiThemeProvider>
+    </ThemeProvider>
   );
 }
 

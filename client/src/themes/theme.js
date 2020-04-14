@@ -13,5 +13,17 @@ export const theme = createMuiTheme({
   },
   palette: {
     primary: { main: "#DF1B1B" }
+  },
+  overrides: {
+    MuiLink: {
+      root: {
+        color: 'blue'
+      },
+      underlineHover: {
+        '&:hover': {
+          textDecoration: 'none'
+        }
+      }
+    } 
   }
 });

@@ -1,5 +1,5 @@
 import {useForm} from "react-hook-form";
-import {Box, Button, FormHelperText, makeStyles, TextField, Typography} from "@material-ui/core";
+import {Box, Button, FormHelperText, makeStyles, TextField, Typography, Link as MuiLink} from "@material-ui/core";
 import {authStyle} from "../themes/signup.style";
 import {Link} from "react-router-dom";
 import React from "react";
@@ -56,7 +56,7 @@ const RedirectDiv = (props) => {
     return (
         <Box component={'div'} className={AuthDivStyle.root}>
             <Typography className={AuthDivStyle.margin}>{props.title}</Typography>
-            <Link to={props.link}><Typography>{props.desc}</Typography></Link>
+            <Link to={props.link} style={{textDecoration: 'none'}}><MuiLink>{props.desc}</MuiLink></Link>
         </Box>
     )
 }
