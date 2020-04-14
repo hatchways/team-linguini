@@ -5,6 +5,7 @@ import Column from "../components/Column";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import { makeStyles } from "@material-ui/core/styles";
+import {useDashboard} from "../context/dashboard/dashboard.provider";
 
 const useStyles = makeStyles(theme => ({
   grid: {
@@ -27,7 +28,8 @@ const useStyles = makeStyles(theme => ({
 
 const Board = () => {
   const classes = useStyles();
-  const [data, setData] = useState(initialData);
+  // const [data, setData] = useState(initialData);
+  const data = useDashboard();
 
   const onDragEnd = result => {
     const { destination, source, draggableId, type } = result;

@@ -12,15 +12,18 @@ import {Login} from "./pages/Login";
 import Test from "./pages/Test"
 
 import "./App.css";
+import {DashboardProvider} from "./context/dashboard/dashboard.provider";
 
 function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <AuthProvider>
           <BrowserRouter>
-              <Route exact path="/" component={Board} />
               <Route exact path="/signup" component={Signup}/>
               <Route exact path="/login" component={Login}/>
+              <DashboardProvider>
+                  <Route exact path="/" component={Board} />
+              </DashboardProvider>
               <Route exact path="/test" component={Test}/>
           </BrowserRouter>
       </AuthProvider>
