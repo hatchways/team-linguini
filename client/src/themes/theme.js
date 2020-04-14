@@ -17,7 +17,7 @@ export const theme = createMuiTheme({
   overrides: {
     MuiLink: {
       root: {
-        color: 'blue'
+        color: '#039be5'
       },
       underlineHover: {
         '&:hover': {
