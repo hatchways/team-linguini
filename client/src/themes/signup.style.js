@@ -9,7 +9,7 @@ exports.authStyle = {
             borderTop: 'solid 1px',
             borderColor: '#EDEFF6'
         },
-        margin: {
+        displayMsg: {
             marginTop: 25,
             fontWeight: 500
         }

@@ -55,7 +55,7 @@ const RedirectDiv = (props) => {
 
     return (
         <Box component={'div'} className={AuthDivStyle.root}>
-            <Typography className={AuthDivStyle.margin}>{props.title}</Typography>
+            <Typography className={AuthDivStyle.displayMsg}>{props.title}</Typography>
             <Link to={props.link} style={{textDecoration: 'none'}}><MuiLink>{props.desc}</MuiLink></Link>
         </Box>
     )
