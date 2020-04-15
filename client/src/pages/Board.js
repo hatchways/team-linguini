@@ -1,10 +1,10 @@
-import React, { useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import BoardBar from "../components/BoardBar";
 import Column from "../components/Column";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import { makeStyles } from "@material-ui/core/styles";
-import {useDashboard} from "../context/dashboard/dashboard.provider";
+import {DashboardContext} from "../context/dashboard/dashboard.provider";
 import {authFetch} from "../helpers/authFetch";
 
 const useStyles = makeStyles(theme => ({
@@ -40,8 +40,7 @@ const Board = () => {
     selectedBoard, setSelectedBoard,
     columns, setColumns,
     cards, setCards
-  } = useDashboard();
-
+  } = useContext(DashboardContext);
 
 
 
@@ -50,6 +49,11 @@ const Board = () => {
         <BoardBar/>
     )
   }
+
+  console.log(boards);
+  console.log('selectedBoard', selectedBoard);
+  console.log('columns', columns);
+  console.log(cards);
 
   const onDragEnd = result => {
     const { destination, source, draggableId, type } = result;
@@ -66,12 +70,12 @@ const Board = () => {
     }
 
     if (type === "column") {
-      const newColumnOrder = Array.from(boards.columns);
+      const newColumnOrder = Array.from(selectedBoard.columns);
       newColumnOrder.splice(source.index, 1);
       newColumnOrder.splice(destination.index, 0, draggableId);
 
-      setBoards({
-        ...boards,
+      setSelectedBoard({
+        ...selectedBoard,
         columns: newColumnOrder
       });
       return;

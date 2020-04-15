@@ -28,5 +28,6 @@ const useAuth = () => React.useContext(AuthContext);
 
 export {
     useAuth,
+    AuthContext,
     AuthProvider
 }
