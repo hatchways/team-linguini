@@ -7,10 +7,11 @@ exports.authStyle = {
             marginTop: 20,
             textAlign: 'center',
             borderTop: 'solid 1px',
-            borderColor: '#D3D3D3'
+            borderColor: '#EDEFF6'
         },
         margin: {
-            marginTop: 25
+            marginTop: 25,
+            fontWeight: 500
         }
     },
     form: {

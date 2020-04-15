@@ -1,5 +1,5 @@
 import {useForm} from "react-hook-form";
-import {Box, Button, FormHelperText, makeStyles, TextField, Typography, Link as MuiLink} from "@material-ui/core";
+import {Box, Button, FormHelperText, makeStyles, TextField, Typography, Link as MuiLink, InputLabel} from "@material-ui/core";
 import {authStyle} from "../themes/signup.style";
 import {Link} from "react-router-dom";
 import React from "react";
@@ -31,12 +31,12 @@ const AuthForm = (props) => {
 
             <FormHelperText error={true} className={classes.error}>{props.serverResponse}{errors.email && (errors.email.message + '. ')}{errors.password && errors.password.message}</FormHelperText>
 
-            <TextField name="email" variant={'outlined'} type="text" label={props.input1}
+            <TextField id="email" name="email" variant={'outlined'} type="text" label={props.input1}
                        className={classes.input}
                        inputRef={register(emailValidator)}
                        error={errors.email}
                        // helperText={errors.email && errors.email.message}
-            />
+            /> 
 
             <TextField name="password" variant={'outlined'} type="password" label={props.input2}
                        className={classes.input}

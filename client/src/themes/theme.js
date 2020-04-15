@@ -24,6 +24,14 @@ export const theme = createMuiTheme({
           textDecoration: 'none'
         }
       }
+    },
+    MuiInputLabel: {
+      root: {
+        color: 'black',
+        fontWeight: '500',
+        width: '100%',
+        textAlign: 'center',
+      }
     } 
   }
 });
