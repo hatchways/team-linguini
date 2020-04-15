@@ -8,34 +8,30 @@ export const theme = createMuiTheme({
       // could customize the h1 variant as well
     },
     button: {
-      textTransform: 'none'
-    }
+      textTransform: "none",
+    },
   },
   palette: {
-    primary: { main: "#DF1B1B" }
+    primary: { main: "#DF1B1B" },
   },
   overrides: {
     MuiLink: {
       root: {
-        color: '#039be5'
+        color: "#039be5",
       },
       underlineHover: {
-        '&:hover': {
-          textDecoration: 'none'
-        }
-      }
+        "&:hover": {
+          textDecoration: "none",
+        },
+      },
     },
     MuiInputLabel: {
       root: {
-        color: 'black',
-        fontWeight: '500',
-        width: '100%',
-        textAlign: 'center',
-        '&::focus': {
-          width: '0',
-          textAlign: 'none'
-        }
-      }
-    } 
-  }
+        color: "black",
+        fontWeight: "500",
+        //width: '100%',
+        //textAlign: 'center',
+      },
+    },
+  },
 });
