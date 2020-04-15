@@ -33,11 +33,30 @@ const useStyles = makeStyles(theme => ({
   },
   cardSection: {
     height: 410,
-    overflow: "hidden",
+    position: "relative",
+    overflow: "auto",
     overflowY: "scroll",
     "&::-webkit-scrollbar": {
       display: "none"
+    },
+    after: {
+      position: 'absolute',
+      content: '',
+      background: 'linear-gradient(to bottom, rgba(251,251,251,1) 0%,rgba(251,251,251,0) 100%)',
+      top: 0,
+      left: 0,
+      right: 0,
+      height: '70px'
     }
+  },
+  'cardSection::after': {
+    position: 'absolute',
+    content: '',
+    background: 'linear-gradient(to bottom, rgba(251,251,251,1) 0%,rgba(251,251,251,0) 100%)',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: '70px'
   },
   addCard: {
     background: "#759CFC",
