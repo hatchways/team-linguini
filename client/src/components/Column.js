@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
     color: "white",
     boxShadow: "none",
     position: "absolute",
-    bottom: 20,
+    bottom: 10,
     left: 20,
     "&:hover": {
       background: "#759CFC"
