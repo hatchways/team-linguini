@@ -4,9 +4,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import {useHistory} from "react-router-dom";
 import { AuthForm, RedirectDiv} from "../components/auth"
 import {authStyle} from '../themes/signup.style';
-import axios from 'axios';
+import {fetchUserFailure, fetchUserSuccess, setIsAuthenticated} from "../context/auth/auth.action";
+import {useAuth} from "../context/auth/auth.provider";
 
 const Signup = () => {
+    const auth = useAuth();
+    const {dispatchIsAuthenticated, dispatchUser} = auth;
+
     const history = useHistory();
 
     const [serverResponse, setServerResponse] = useState('');
@@ -17,26 +21,43 @@ const Signup = () => {
     //Callback for the form submission after validation
     const onSubmit = values => {
         const {email, password} = values;
-        console.log(email, password);
 
         //Make a request to backend
-        const url = '/api/v1/auth/register'
-        axios.post(url, {email, password})
+        const url = '/api/v1/auth/register';
+        const options = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({email, password}),
+        };
+        fetch(url, options)
+            .then(res => res.json())
             .then(res => {
-
                 //If success to create a new account, redirect to login page
-                if (res.status === 200){
+                if (!res.error){
+                    //Save data on local storage
+                    localStorage.setItem('isAuthenticated', true);
+                    localStorage.setItem('user', JSON.stringify(res.user));
+                    localStorage.setItem('token', JSON.stringify(res.token));
 
-                    history.push('/')
+
+                    //Update the state of Auth providers
+                    dispatchIsAuthenticated(setIsAuthenticated(true));
+                    dispatchUser(fetchUserSuccess(res.user))
+                    console.log('login successfully');
+
+                    //Redirect to dashboard
+                    history.push('/');
+
                 } else {
-                    setServerResponse(res.data.error);
+                    throw Error(res.error)
                 }
 
             })
-            .catch(error => {
-                setServerResponse(error.response.data.error);
+            .catch(e => {
+                // console.log(e);
+                dispatchUser(fetchUserFailure(e.message))
+                setServerResponse(e.message);
             });
-
     };
 
     return (
