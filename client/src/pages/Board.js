@@ -44,6 +44,7 @@ const Board = () => {
 
 
 
+
   if (error!== null || isFetching || boards.length ===0) {
     return (
         <BoardBar/>
