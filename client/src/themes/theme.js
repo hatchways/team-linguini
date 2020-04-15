@@ -31,6 +31,10 @@ export const theme = createMuiTheme({
         fontWeight: '500',
         width: '100%',
         textAlign: 'center',
+        '&::focus': {
+          width: '0',
+          textAlign: 'none'
+        }
       }
     } 
   }

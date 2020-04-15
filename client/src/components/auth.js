@@ -1,5 +1,5 @@
 import {useForm} from "react-hook-form";
-import {Box, Button, FormHelperText, makeStyles, TextField, Typography, Link as MuiLink, InputLabel} from "@material-ui/core";
+import {Box, Button, FormHelperText, makeStyles, TextField, Typography, InputLabel} from "@material-ui/core";
 import {authStyle} from "../themes/signup.style";
 import {Link} from "react-router-dom";
 import React from "react";
@@ -31,7 +31,7 @@ const AuthForm = (props) => {
 
             <FormHelperText error={true} className={classes.error}>{props.serverResponse}{errors.email && (errors.email.message + '. ')}{errors.password && errors.password.message}</FormHelperText>
 
-            <TextField id="email" name="email" variant={'outlined'} type="text" label={props.input1}
+            <TextField name="email" variant={'outlined'} type="text" label={props.input1}
                        className={classes.input}
                        inputRef={register(emailValidator)}
                        error={errors.email}
@@ -56,7 +56,7 @@ const RedirectDiv = (props) => {
     return (
         <Box component={'div'} className={AuthDivStyle.root}>
             <Typography className={AuthDivStyle.displayMsg}>{props.title}</Typography>
-            <Link to={props.link} style={{textDecoration: 'none'}}><MuiLink>{props.desc}</MuiLink></Link>
+            <Link to={props.link} style={{textDecoration: 'none', color: '#039be5'}}>{props.desc}</Link>
         </Box>
     )
 }
