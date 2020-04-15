@@ -12,6 +12,7 @@ import {Login} from "./pages/Login";
 import Test from "./pages/Test"
 
 import "./App.css";
+import Card from "./components/Card";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route exact path="/signup" component={Signup}/>
               <Route exact path="/login" component={Login}/>
               <Route exact path="/test" component={Test}/>
+              <Route exact path="/card" component={Card}/>
           </BrowserRouter>
       </AuthProvider>
     </MuiThemeProvider>
