@@ -8,28 +8,28 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     height: 550,
     width: 320,
     background: "#F4F6FF",
     boxShadow: "none",
     position: "relative",
-    marginRight: "20px"
+    marginRight: "20px",
   },
   column: {
     marginLeft: "25px",
-    paddingTop: "20px"
+    paddingTop: "20px",
   },
   columnTitle: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
   },
   icon: {
     marginLeft: "150px",
     marginTop: "20px",
     padding: "20px",
-    cursor: "pointer"
+    cursor: "pointer",
   },
   cardSection: {
     height: 410,
@@ -37,8 +37,8 @@ const useStyles = makeStyles(theme => ({
     overflow: "auto",
     overflowY: "scroll",
     "&::-webkit-scrollbar": {
-      display: "none"
-    }
+      display: "none",
+    },
   },
   addCard: {
     background: "#759CFC",
@@ -48,16 +48,16 @@ const useStyles = makeStyles(theme => ({
     bottom: 10,
     left: 20,
     "&:hover": {
-      background: "#759CFC"
-    }
-  }
+      background: "#759CFC",
+    },
+  },
 }));
 
 const Column = ({ column, cards, index }) => {
   const classes = useStyles();
   return (
     <Draggable draggableId={column.id} index={index}>
-      {provided => (
+      {(provided) => (
         <Grid
           key={column.id}
           item
@@ -77,7 +77,7 @@ const Column = ({ column, cards, index }) => {
               </div>
             </div>
             <Droppable droppableId={column.id} type="card">
-              {provided => (
+              {(provided) => (
                 <div
                   className={classes.cardSection}
                   {...provided.droppableProps}
