@@ -18,8 +18,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-/build
-
 
 #TODO add .env to your gitignore
 
