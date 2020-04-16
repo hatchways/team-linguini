@@ -11,6 +11,7 @@ import CalendarTodayOutlinedIcon from '@material-ui/icons/CalendarTodayOutlined'
 import AddIcon from '@material-ui/icons/Add';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
+import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     appBar: {
@@ -25,9 +26,13 @@ const useStyles = makeStyles(theme => ({
       alignItems: 'center',
       flexGrow: 2,
     },
-    button: {
+    buttonNotSelected: {
       margin: theme.spacing(1),
       color: '#666666',
+    },
+    selectedButton:{
+      margin: theme.spacing(1),
+      color: '#759DFD',
     },
     title: {
       color: 'black',
@@ -38,10 +43,6 @@ const useStyles = makeStyles(theme => ({
     },
     buttonIcons: {
       marginRight:'8px'
-    }, 
-    createBox: {
-      alignItems: 'center',
-      height: '100px',
     },
     createButton: {
       backgroundColor: "#759DFD",
@@ -72,25 +73,31 @@ const NavigationBar = () => {
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className = {classes.toolBar}>
           <Box >
+            <Button>
             <Typography variant="title">
               <img src="/images/logo.png" alt="bug"  />
-            </Typography>  
+            </Typography>
+            </Button>  
           </Box>
           <Box >
-            <Button className = {classes.button}>
+            <Button className = {classes.buttonNotSelected}
+              component = {NavLink}
+              to="/" activeClassName = {classes.selectedButton}>
               <DashboardRoundedIcon className = {classes.buttonIcons}/> 
               <Typography className = {classes.buttonText}>
                 Dashboard 
               </Typography>
-              </Button>
-            <Button className = {classes.button}>
-              <CalendarTodayOutlinedIcon className = {classes.buttonIcons}/> 
-              <Typography className = {classes.buttonText}>
-                Calender 
-              </Typography>
             </Button>
+                <Button className = {classes.buttonNotSelected}
+                component = {NavLink}
+                to="/calendar" activeClassName = {classes.selectedButton}>
+                  <CalendarTodayOutlinedIcon className = {classes.buttonIcons}/> 
+                    <Typography className = {classes.buttonText}>
+                    Calendar 
+                    </Typography>
+                </Button>    
           </Box>
-          <Box className className = {classes.createBox}>
+          <Box className >
             <Button variant="contained" className = {classes.createButton}>
               <AddIcon className = {classes.createButtonIcon}/> 
               <Typography className = {classes.createButtonText}>
