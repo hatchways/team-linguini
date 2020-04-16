@@ -1,5 +1,5 @@
 import {useForm} from "react-hook-form";
-import {Box, Button, FormHelperText, makeStyles, TextField, Typography, InputLabel} from "@material-ui/core";
+import {Box, Button, FormHelperText, makeStyles, TextField, Typography} from "@material-ui/core";
 import {authStyle} from "../themes/signup.style";
 import {Link} from "react-router-dom";
 import React from "react";

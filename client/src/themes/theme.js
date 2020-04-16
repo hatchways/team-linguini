@@ -31,7 +31,7 @@ export const theme = createMuiTheme({
         fontWeight: "500",
         //width: '100%',
         //textAlign: 'center',
-      },
-    },
+      }
+    }
   },
 });

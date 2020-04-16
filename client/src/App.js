@@ -14,7 +14,6 @@ import Test from "./pages/Test"
 import "./App.css";
 
 function App() {
-  console.log(theme)
   return (
     <ThemeProvider theme={theme}>
       <AuthProvider>
