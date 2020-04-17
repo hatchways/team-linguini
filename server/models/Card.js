@@ -10,7 +10,7 @@ const CardSchema = new mongoose.Schema({
     comments: [String],
     description: String,
     attachment: String,
-
+    colorCode: String,
     columnId : {
         type: mongoose.Schema.ObjectId,
         require: true
