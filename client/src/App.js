@@ -10,7 +10,7 @@ import Board from "./pages/Board";
 import { Signup } from "./pages/Signup";
 import { Login } from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
-import LogOut from "./components/LogOut";
+import LogOut from "./helpers/LogOut";
 
 import "./App.css";
 
