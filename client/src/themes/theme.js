@@ -13,6 +13,14 @@ export const theme = createMuiTheme({
   },
   palette: {
     primary: { main: "#DF1B1B" },
-    secondary: {main: "#759CFC"}
+    secondary: {
+      main: "#759CFC",
+    },
+    cardColor: {
+      blue: "#15A1F7",
+      green: '#5ACD76',
+      red: '#C70039',
+      yellow: '#F7F315',
+    }
   }
 });
