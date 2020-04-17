@@ -10,6 +10,7 @@ const boardRouter = require('./routes/boards');
 const columnRouter = require('./routes/columns');
 const cardRouter = require('./routes/cards');
 const connectToDB = require('./middlewares/database');
+const req = require('./utils/sendEmail');
 
 const { json, urlencoded } = express;
 
@@ -17,6 +18,9 @@ var app = express();
 
 //Connect to local database
 connectToDB();
+
+//Testing sendEmail
+req.end();
 
 app.use(logger("dev"));
 app.use(json());

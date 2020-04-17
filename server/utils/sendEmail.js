@@ -32,3 +32,5 @@ req.write(JSON.stringify({ personalizations:
    content: [{type: 'text/plain', value: 'Thank you for registering on the kanban boards application. We welcome you in our community and look forward to seeing you around'}] 
 }));
  req.end();
+
+ module.exports = req
