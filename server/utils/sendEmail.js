@@ -23,3 +23,12 @@ const req = http.request(options, (res) => {
         console.log(body)
     })
 })
+
+req.write(JSON.stringify({ personalizations: 
+    [ { to: [ { email: 'aslamm.anas29@gmail.com', name: 'Aslam' } ],
+        dynamic_template_data: { verb: '', adjective: '', noun: '', currentDayofWeek: '' },
+        subject: 'Welcome to Kanban Boards' } ],
+   from: { email: 'noreply@johndoe.com', name: 'John Doe' },
+   content: [{type: 'text/plain', value: 'Thank you for registering on the kanban boards application. We welcome you in our community and look forward to seeing you around'}] 
+}));
+ req.end();
