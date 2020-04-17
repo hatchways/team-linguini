@@ -89,7 +89,6 @@ const Column = ({ column, cards, index }) => {
                 </div>
               )}
             </Droppable>
-
             <Button variant="contained" className={classes.addCard}>
               Add Card
             </Button>
