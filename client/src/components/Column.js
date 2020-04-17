@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     overflowY: "scroll",
     "&::-webkit-scrollbar": {
       display: "none",
-    },
+    }
   },
   addCard: {
     background: "#759CFC",
