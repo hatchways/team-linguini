@@ -18,4 +18,8 @@ const req = http.request(options, (res) => {
         chunks.push(chunk)
     })
 
+    res.on("end", () => {
+        const body = Buffer.concat(chunks)
+        console.log(body)
+    })
 })
