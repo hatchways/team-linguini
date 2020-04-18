@@ -20,7 +20,7 @@ var app = express();
 connectToDB();
 
 //Testing sendEmail
-sendEmail("aslamm.anas29@gmail.com");
+sendEmail();
 
 app.use(logger("dev"));
 app.use(json());
