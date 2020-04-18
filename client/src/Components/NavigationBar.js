@@ -120,7 +120,7 @@ const NavigationBar = () => {
       <Toolbar className={classes.toolBar}>
         <Box>
           <Button>
-            <Typography variant="title">
+            <Typography>
               <img src="/images/logo.png" alt="bug" />
             </Typography>
           </Button>
@@ -145,7 +145,7 @@ const NavigationBar = () => {
             <Typography className={classes.buttonText}>Calendar</Typography>
           </Button>
         </Box>
-        <Box className>
+        <Box>
           <Button variant="contained" className={classes.createButton}>
             <AddIcon className={classes.createButtonIcon} />
             <Typography className={classes.createButtonText}>
