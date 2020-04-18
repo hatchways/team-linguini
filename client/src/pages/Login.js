@@ -1,11 +1,10 @@
 import React, {useState} from "react";
 import {useHistory} from 'react-router-dom';
-import {useAuth} from "../providers/auth/auth.provider";
+import {useAuth} from "../context/auth/auth.provider";
 import {authStyle} from '../themes/signup.style';
-import {setIsAuthenticated, fetchUserSuccess, fetchUserRequest, fetchUserFailure} from "../providers/auth/auth.action";
+import {setIsAuthenticated, fetchUserSuccess, fetchUserRequest, fetchUserFailure} from "../context/auth/auth.action";
 
 import {AuthForm, RedirectDiv} from '../components/auth'
-import axios from "axios";
 import {Grid, makeStyles} from "@material-ui/core";
 
 const Login = () => {
@@ -30,39 +29,47 @@ const Login = () => {
 
         dispatchUser(fetchUserRequest());
 
-        axios.post(url, {email, password})
+        const options = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({email, password}),
+        };
+
+        fetch(url, options)
+            .then(res => res.json())
             .then(res => {
                 //If success to create a new account, redirect to login page
-                if (res.status === 200){
+                if (!res.error){
                     //Save data on local storage
                     localStorage.setItem('isAuthenticated', true);
-                    localStorage.setItem('user', JSON.stringify(res.data.user));
+                    localStorage.setItem('user', JSON.stringify(res.user));
+                    localStorage.setItem('token', JSON.stringify(res.token));
+
 
                     //Update the state of Auth providers
                     dispatchIsAuthenticated(setIsAuthenticated(true));
-                    dispatchUser(fetchUserSuccess(res.data.user))
+                    dispatchUser(fetchUserSuccess(res.user))
                     console.log('login successfully');
 
                     //Redirect to dashboard
                     history.push('/');
                 } else {
-                    console.log(res)
-                    setServerResponse(res.data.error);
+                    throw Error(res.error)
                 }
 
             })
-            .catch(error => {
-                dispatchUser(fetchUserFailure(error.response.data.user))
-                setServerResponse(error.response.data.error);
-                console.log(error.response.data.error);
+            .catch(e => {
+                // console.log(e);
+                dispatchUser(fetchUserFailure(e.message))
+                setServerResponse(e.message);
             });
 
     }
 
     return (
         <Grid container className={classes.vh100}>
-            <Grid item md={6} xs={12} >
-                <img alt='' src={"/images/image1.png"} width={'100%'} height={'100%'}/>
+            <Grid item md={6} xs={12} className={classes.img}>
+                {/*<img alt='' src={"/images/image1.png"} className={classes.img}/>*/}
             </Grid>
             <Grid item md={6} xs={12}>
                 <AuthForm title="Welcome back!" input1="Enter email" input2="Password" submit="Log in"

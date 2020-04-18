@@ -44,5 +44,11 @@ exports.authStyle = {
                 background: "#759CFC"
             }
         }
+    },
+    img: {
+        backgroundImage: 'url("/images/image1.png")',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundSize: 'cover'
     }
 }
