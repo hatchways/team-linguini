@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Dialog, Button, Typography, Grid, TextField, InputBase, DialogActions, Select, MenuItem, Menu} from "@material-ui/core";
+import { Dialog, Button, Typography, Grid, TextField, InputBase, DialogActions, Select, MenuItem, Menu, Checkbox} from "@material-ui/core";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
@@ -8,6 +8,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import Box from "@material-ui/core/Box";
 import { palette } from '@material-ui/system';
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 const DialogTitle = (props) => {
   const classes = makeStyles((theme) => ({
@@ -40,9 +41,6 @@ const DialogTitle = (props) => {
 
   const { children, onClose, colorCode, ...other } = props;
 
-  const handleOnchange= () => {
-
-  }
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -71,9 +69,6 @@ const DialogTitle = (props) => {
         <MenuItem onClick={handleClose}><Box className={classes.colorLine} bgcolor={"cardColor.green"}/></MenuItem>
         <MenuItem onClick={handleClose}><Box className={classes.colorLine} bgcolor={"cardColor.yellow"}/></MenuItem>
       </Menu>
-      {/*<Select onChange={handleOnchange}>*/}
-      {/*  <MenuItem value={'#5ACD76'}><Box component={"div"} className={classes.color1 + classes.colorLine}/></MenuItem>*/}
-      {/*</Select>*/}
       {onClose ? (
         <IconButton
           aria-label="close"
@@ -99,6 +94,8 @@ const Buttons = (props) => {
       height: 34,
       width: 116,
       marginBottom: 8,
+      fontSize: 12,
+      backgroundColor: '#D9E8FC'
     },
   }))();
 
@@ -149,6 +146,27 @@ const Buttons = (props) => {
   );
 };
 
+const ChecklistItems = (props) => {
+  const {checklistItems, setChecklistItems} = props
+
+  const handleChecklist = (event) => {
+    const newList = checklistItems;
+    newList[event.target.name][1] = event.target.checked;
+    setChecklistItems(newList);
+  };
+
+  return (
+    <Fragment>
+      {checklistItems.map((item,index) => (
+        <FormControlLabel
+          control={<Checkbox checked={item[1]} onChange={handleChecklist} name={index}/>}
+          label={item[0]}
+        />
+      ))}
+    </Fragment>
+  )
+}
+
 const CardStyle = (theme) => ({
   root: {
     height: 700,
@@ -172,11 +190,14 @@ const CardStyle = (theme) => ({
   label: {
     fontSize: 18,
     fontWeight: "bold",
+    marginBottom: 8,
+    marginTop: 12
   },
   bottomButton: {
     height: 34,
     width: 100,
     marginRight: theme.spacing(4),
+    marginTop: 20
   },
 });
 
@@ -187,7 +208,8 @@ const Card = (props) => {
     colorCode: 'green',
     description: "I am very happy",
     deadline: new Date(2020, 4, 17),
-    tags: ['Math', 'Biology']
+    tags: ['Math', 'Biology'],
+    checklist: [['Apple',true], ['Banana',false]]
   };
 
   const [showDeadline, setShowDeadline] = useState(undefined);
@@ -204,6 +226,8 @@ const Card = (props) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const [checklistItems, setChecklistItems] = useState(card.checklist);
 
   const classes = makeStyles(CardStyle)();
 
@@ -243,7 +267,7 @@ const Card = (props) => {
                 <Box display={showTag || 'none'}>
                   <Typography className={classes.label}>Tag</Typography>
                   <InputBase defaultValue={card.tags.join(', ')}/>
-                  <TextField name={'tags'} placeholder={'add tag'}/>
+                  <TextField name={'tags'} placeholder={'Add tag ...'} size={'small'} variant={'outlined'}/>
                 </Box>
                 <Box display={showDeadline || 'none'}>
                   <Typography className={classes.label}>Deadline</Typography>
@@ -260,6 +284,8 @@ const Card = (props) => {
                 </Box>
                 <Box display={showChecklist || 'none'}>
                   <Typography className={classes.label}>Check-list</Typography>
+                  <ChecklistItems checklistItems={checklistItems} setChecklistItems={setChecklistItems}/>
+                  <TextField type='text' variant={'outlined'} placeholder={'Add an item ...'} size='small'></TextField>
                 </Box>
                 <Box display={showAttachment || 'none'}>
                   <Typography className={classes.label}>Attachment</Typography>
@@ -283,14 +309,6 @@ const Card = (props) => {
             >
               Save
             </Button>
-            {/*<Button*/}
-            {/*  variant={"contained"}*/}
-            {/*  // color={"secondary"}*/}
-            {/*  type={"submit"}*/}
-            {/*  className={classes.bottomButton}*/}
-            {/*>*/}
-            {/*  Cancel*/}
-            {/*</Button>*/}
           </Box>
         </DialogContent>
       </Dialog>
