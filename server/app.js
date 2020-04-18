@@ -3,6 +3,8 @@ const express = require("express");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const fileUpload = require('express-fileupload');
+const _ = require('lodash');
 
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/authRoutes")
@@ -17,6 +19,11 @@ var app = express();
 
 //Connect to local database
 connectToDB();
+
+// enable files upload
+app.use(fileUpload({
+  createParentPath: true
+}));
 
 app.use(logger("dev"));
 app.use(json());

@@ -4,7 +4,8 @@
 
 export const authFetch = async (url, config={}) => {
     let token = JSON.parse(localStorage.getItem('token')) || null
-
+    console.log('0000000', config);
+    console.log('111111111111')
     if(token) {
         config.headers = {
             'authorization': 'Bearer ' + token.toString(),
@@ -17,11 +18,13 @@ export const authFetch = async (url, config={}) => {
         // redirect to login page
         window.location.replace("/login")
         console.log("no token saved")
-        return;
+        return new Error("no token saved");
     }
 
     try {
+        console.log(config)
         const res = await fetch(url, config);
+        // console.log(config);
         return res;
     } catch (e) {
         return e;
