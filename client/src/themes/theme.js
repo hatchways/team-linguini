@@ -29,8 +29,6 @@ export const theme = createMuiTheme({
       root: {
         color: "black",
         fontWeight: "500",
-        //width: '100%',
-        //textAlign: 'center',
       }
     }
   },
