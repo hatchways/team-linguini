@@ -175,6 +175,7 @@ const NavigationBar = () => {
             showPreviews={true}
             maxFileSize={5000000}
             onClose={handleCloseDropFile}
+            submitButtonText={"Save"}
           />
         </Box>
       </Toolbar>
