@@ -53,7 +53,6 @@ const Login = () => {
 
                     //Redirect to dashboard
                     history.push('/');
-
                 } else {
                     throw Error(res.error)
                 }
