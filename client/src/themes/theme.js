@@ -8,10 +8,28 @@ export const theme = createMuiTheme({
       // could customize the h1 variant as well
     },
     button: {
-      textTransform: 'none'
-    }
+      textTransform: "none",
+    },
   },
   palette: {
-    primary: { main: "#DF1B1B" }
-  }
+    primary: { main: "#DF1B1B" },
+  },
+  overrides: {
+    MuiLink: {
+      root: {
+        color: "#039be5",
+      },
+      underlineHover: {
+        "&:hover": {
+          textDecoration: "none",
+        },
+      },
+    },
+    MuiInputLabel: {
+      root: {
+        color: "black",
+        fontWeight: "500",
+      }
+    }
+  },
 });
