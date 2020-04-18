@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import initialData from "../context/InitialData";
-import NavigationBar from "../components/NavigationBar"
+import NavigationBar from "../components/NavigationBar";
 import BoardBar from "../components/BoardBar";
 import Column from "../components/Column";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   grid: {
     marginTop: "40px",
     marginLeft: "20px",
-    display: "flex"
+    display: "flex",
   },
   container: {
     width: "100%",
@@ -21,16 +21,16 @@ const useStyles = makeStyles(theme => ({
     margin: "0 auto",
     paddingBottom: "17px",
     "&::-webkit-scrollbar": {
-      display: "none"
-    }
-  }
+      display: "none",
+    },
+  },
 }));
 
 const Board = () => {
   const classes = useStyles();
   const [data, setData] = useState(initialData);
 
-  const onDragEnd = result => {
+  const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
 
     if (!destination) {
@@ -51,7 +51,7 @@ const Board = () => {
 
       setData({
         ...data,
-        columnOrder: newColumnOrder
+        columnOrder: newColumnOrder,
       });
       return;
     }
@@ -65,15 +65,15 @@ const Board = () => {
       newCardIds.splice(destination.index, 0, draggableId);
       const newColumn = {
         ...start,
-        cardIds: newCardIds
+        cardIds: newCardIds,
       };
 
       setData({
         ...data,
         columns: {
           ...data.columns,
-          [newColumn.id]: newColumn
-        }
+          [newColumn.id]: newColumn,
+        },
       });
       return;
     }
@@ -82,14 +82,14 @@ const Board = () => {
     startCardIds.splice(source.index, 1);
     const newStart = {
       ...start,
-      cardIds: startCardIds
+      cardIds: startCardIds,
     };
 
     const finishCardIds = Array.from(finish.cardIds);
     finishCardIds.splice(destination.index, 0, draggableId);
     const newFinish = {
       ...finish,
-      cardIds: finishCardIds
+      cardIds: finishCardIds,
     };
 
     setData({
@@ -97,8 +97,8 @@ const Board = () => {
       columns: {
         ...data.columns,
         [newStart.id]: newStart,
-        [newFinish.id]: newFinish
-      }
+        [newFinish.id]: newFinish,
+      },
     });
   };
 
@@ -112,7 +112,7 @@ const Board = () => {
           direction="horizontal"
           type="column"
         >
-          {provided => (
+          {(provided) => (
             <div
               className={classes.container}
               {...provided.droppableProps}
@@ -122,7 +122,7 @@ const Board = () => {
                 {data.columnOrder.map((columnId, index) => {
                   const column = data.columns[columnId];
                   const cards = column.cardIds.map(
-                    cardId => data.cards[cardId]
+                    (cardId) => data.cards[cardId]
                   );
 
                   return (
