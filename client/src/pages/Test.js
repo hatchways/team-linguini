@@ -12,11 +12,8 @@ const Test = () => {
     const onSubmit = (data) => {
       data.preventDefault();
       const file=data.target[0].files[0];
-      const num=data.target[2].value;
-      const fileType =file.name.split('.')[1];
       const formData = new FormData();
-      formData.append('num', num);
-      formData.append('file', file)
+      formData.append('avatar', file)
 
         const url = '/api/v1/users/uploadAvatar';
         const token = JSON.parse(localStorage.getItem('token')) || null
@@ -41,7 +38,6 @@ const Test = () => {
         <div>{data}</div>
         <Box component={'form'} onSubmit={onSubmit}>
           <TextField type={'file'} variant={'outlined'} name={'file'}></TextField>
-          <TextField type={'text'} value={'12345'} name={'num'}/>
           <Button type={'submit'}>Submit</Button>
         </Box>
       </div>
