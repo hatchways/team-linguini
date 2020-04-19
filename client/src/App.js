@@ -11,8 +11,7 @@ import { Signup } from "./pages/Signup";
 import { Login } from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LogOut from "./helpers/LogOut";
-
-import "./App.css";
+import Calendar from "./pages/Calendar";
 
 function App() {
   return (
@@ -20,6 +19,7 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <ProtectedRoute exact path="/" component={Board} />
+          <Route exact path="/calendar" component={Calendar} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
           <ProtectedRoute exact path="/logout" component={LogOut} />
