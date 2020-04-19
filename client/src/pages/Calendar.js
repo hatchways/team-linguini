@@ -8,4 +8,4 @@ return(
 )
 }
 
-export defauly Calendar
+export default Calendar
