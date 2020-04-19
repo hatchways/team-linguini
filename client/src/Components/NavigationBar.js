@@ -17,6 +17,7 @@ import CalendarTodayOutlinedIcon from "@material-ui/icons/CalendarTodayOutlined"
 import AddIcon from "@material-ui/icons/Add";
 import { NavLink } from "react-router-dom";
 import { DropzoneDialog } from "material-ui-dropzone";
+import CreationDialog from "./CreationDialog";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -73,6 +74,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavigationBar = () => {
+  const [openCreationBoardDialog, setCreationBoardDialog] = useState(false);
+
+  const handleOpenCreationBoardDialog = () => {
+    setCreationBoardDialog(true);
+  };
+
+  const handleCloseCreationBoardDialog = () => {
+    setCreationBoardDialog(false);
+  };
+
   const initialStateDropFile = {
     open: false,
     files: [],
@@ -146,12 +157,22 @@ const NavigationBar = () => {
           </Button>
         </Box>
         <Box className>
-          <Button variant="contained" className={classes.createButton}>
+          <Button
+            variant="contained"
+            className={classes.createButton}
+            onClick={handleOpenCreationBoardDialog}
+          >
             <AddIcon className={classes.createButtonIcon} />
             <Typography className={classes.createButtonText}>
               Create board
             </Typography>
           </Button>
+          <CreationDialog
+            title="Create a new column"
+            description="Add Title"
+            onCloseModal={handleCloseCreationBoardDialog}
+            openModal={openCreationBoardDialog}
+          />
           <IconButton
             aria-controls="simple-menu"
             aria-haspopup="true"
