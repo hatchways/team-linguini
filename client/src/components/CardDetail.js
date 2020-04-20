@@ -50,7 +50,7 @@ const DialogTitle = (props) => {
     },
   }))();
 
-  const { children, onClose, colorCode, ...other } = props;
+  const { children, onClose, colorCode, setColorCode, ...other } = props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -58,7 +58,8 @@ const DialogTitle = (props) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (color) => () => {
+    setColorCode(color);
     setAnchorEl(null);
   };
 
@@ -78,16 +79,16 @@ const DialogTitle = (props) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleClose('blue')}>
           <Box className={classes.colorLine} bgcolor={"cardColor.blue"} />
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleClose('red')}>
           <Box className={classes.colorLine} bgcolor={"cardColor.red"} />
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleClose('green')}>
           <Box className={classes.colorLine} bgcolor={"cardColor.green"} />
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleClose('yellow')}>
           <Box className={classes.colorLine} bgcolor={"cardColor.yellow"} />
         </MenuItem>
       </Menu>
@@ -114,7 +115,7 @@ const Buttons = (props) => {
   const classes = makeStyles((theme) => ({
     root: {
       height: 34,
-      width: 116,
+      width: 112,
       marginBottom: 8,
       fontSize: 12,
       backgroundColor: "#D9E8FC",
@@ -123,7 +124,7 @@ const Buttons = (props) => {
 
   const handleClick = (value, setValue) => () => {
     if (value === undefined) {
-      setValue("initial");
+      setValue("block");
     } else {
       setValue(undefined);
     }
@@ -211,6 +212,7 @@ const ChecklistItems = (props) => {
               checked={item[1]}
               onChange={handleChecklist}
               name={index}
+              inputProps={{ 'aria-label': item[0] }}
             />
           }
           label={item[0]}
@@ -226,16 +228,25 @@ const CardStyle = (theme) => ({
     width: 840,
   },
   leftGrid: {
-    width: 656,
+    [theme.breakpoints.up('sm')] :{
+      width: '79%',
+    },
+    [theme.breakpoints.down('sm')] :{
+      width: '100%',
+    }
   },
   rightGrid: {
-    width: 165,
+    [theme.breakpoints.up('sm')] :{
+      width: '21%',
+    },
+    [theme.breakpoints.down('sm')] :{
+      width: '100%',
+    }
   },
   label: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8,
-    paddingTop: 12,
   },
   bottomButton: {
     height: 34,
@@ -271,6 +282,8 @@ const CardDetail = (props) => {
   const [showChecklist, setShowChecklist] = useState(undefined);
 
   const [deadline, setDeadline] = useState(card.deadline);
+  const [description, setDescription] = useState(card.description);
+  const [colorCode, setColorCode] = useState(card.colorCode);
 
   const [checklistItems, setChecklistItems] = useState(card.checklist);
 
@@ -294,7 +307,8 @@ const CardDetail = (props) => {
         <DialogTitle
           id="customized-dialog-title"
           onClose={handleClose}
-          colorCode={card.colorCode}
+          colorCode={colorCode}
+          setColorCode={setColorCode}
         >
           {card.title}
         </DialogTitle>
@@ -302,17 +316,19 @@ const CardDetail = (props) => {
           <Box component={"form"}>
             <Grid container spacing={8}>
               <Grid item className={classes.leftGrid}>
-                <Typography className={classes.label}>Description</Typography>
-                <TextField
-                  multiline
-                  rows={5}
-                  name="description"
-                  fullWidth
-                  variant={"outlined"}
-                  defaultValue={card.description}
-                  // onChange={(e) => e.target.description}
-                />
-                <Box display={showTag || "none"}>
+                <Box component={'div'} mb={2}>
+                  <Typography className={classes.label}>Description</Typography>
+                  <TextField
+                    multiline
+                    rows={5}
+                    onChange={value => setDescription(value)}
+                    fullWidth
+                    variant={"outlined"}
+                    defaultValue={card.description}
+                    // onChange={(e) => e.target.description}
+                  />
+                </Box>
+                <Box component={'div'} display={showTag || "none"}  mb={2} >
                   <Typography className={classes.label}>Tag</Typography>
                   <InputBase defaultValue={card.tags.join(", ")} />
                   <TextField
@@ -322,19 +338,7 @@ const CardDetail = (props) => {
                     variant={"outlined"}
                   />
                 </Box>
-                <Box display={showDeadline || "none"}>
-                  <Typography className={classes.label}>Deadline</Typography>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <DateTimePicker
-                      value={deadline}
-                      ampm={false}
-                      onChange={(date) => setDeadline(date)}
-                      animateYearScrolling
-                      clearable
-                    />
-                  </MuiPickersUtilsProvider>
-                </Box>
-                <Box display={showChecklist || "none"}>
+                <Box component={'div'} mb={3} display={showChecklist || "none"}>
                   <Typography className={classes.label}>Check-list</Typography>
                   <ChecklistItems
                     checklistItems={checklistItems}
@@ -347,7 +351,19 @@ const CardDetail = (props) => {
                     size="small"
                   ></TextField>
                 </Box>
-                <Box display={showAttachment || "none"}>
+                <Box component={'div'} pb={3} display={showDeadline || "none"}>
+                  <Typography className={classes.label}>Deadline</Typography>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <DateTimePicker
+                      value={deadline}
+                      ampm={false}
+                      onChange={(date) => setDeadline(date)}
+                      animateYearScrolling
+                      clearable
+                    />
+                  </MuiPickersUtilsProvider>
+                </Box>
+                <Box component={'div'} mb={3} display={showAttachment || "none"}>
                   <Typography className={classes.label}>Attachment</Typography>
                   <TextField
                     type={"file"}
