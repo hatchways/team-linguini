@@ -235,7 +235,7 @@ const CardStyle = (theme) => ({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8,
-    marginTop: 12,
+    paddingTop: 12,
   },
   bottomButton: {
     height: 34,
