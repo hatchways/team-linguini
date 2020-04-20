@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@material-ui/core";
 
-const CreationDialog = ({
+const CreateModelByName = ({
   description,
   onCloseModal,
   openModal,
@@ -53,11 +53,11 @@ const CreationDialog = ({
   );
 };
 
-CreationDialog.propTypes = {
+CreateModelByName.propTypes = {
   description: PropTypes.string.isRequired,
   onCloseModal: PropTypes.func.isRequired,
   openModal: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
 };
 
-export default CreationDialog;
+export default CreateModelByName;
