@@ -124,6 +124,11 @@ const NavigationBar = () => {
     });
   };
 
+  const saveCreateBoardDialog = (data) => {
+    console.log("hi");
+    console.log(data);
+  };
+
   const classes = useStyles();
 
   return (
@@ -168,10 +173,12 @@ const NavigationBar = () => {
             </Typography>
           </Button>
           <CreationDialog
-            title="Create a new column"
+            title="Create a new board"
             description="Add Title"
             onCloseModal={handleCloseCreationBoardDialog}
             openModal={openCreationBoardDialog}
+            name="board"
+            saveValue={(event) => saveCreateBoardDialog(event)}
           />
           <IconButton
             aria-controls="simple-menu"
