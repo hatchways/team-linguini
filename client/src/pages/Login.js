@@ -55,7 +55,7 @@ const Login = () => {
           console.log("login successfully");
 
           //Redirect to dashboard
-          history.push("/");
+          window.location.replace("/");
         } else {
           throw Error(res.error);
         }
