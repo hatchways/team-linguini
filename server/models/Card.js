@@ -9,7 +9,10 @@ const CardSchema = new mongoose.Schema({
     tags: [String],
     comments: [String],
     description: String,
-    attachment: String,
+    attachment: [ {
+            fileName: String,
+            url: String
+    }],
     colorCode: String,
     columnId : {
         type: mongoose.Schema.ObjectId,
