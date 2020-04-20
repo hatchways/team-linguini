@@ -17,7 +17,7 @@ import CalendarTodayOutlinedIcon from "@material-ui/icons/CalendarTodayOutlined"
 import AddIcon from "@material-ui/icons/Add";
 import { NavLink } from "react-router-dom";
 import { DropzoneDialog } from "material-ui-dropzone";
-import CreationDialog from "./CreationDialog";
+import CreateModelByName from "./CreateModelByName";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -125,7 +125,6 @@ const NavigationBar = () => {
   };
 
   const saveCreateBoardDialog = (data) => {
-    console.log("hi");
     console.log(data);
   };
 
@@ -172,7 +171,7 @@ const NavigationBar = () => {
               Create board
             </Typography>
           </Button>
-          <CreationDialog
+          <CreateModelByName
             title="Create a new board"
             description="Add Title"
             onCloseModal={handleCloseCreationBoardDialog}
