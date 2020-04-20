@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import {
+  FormGroup,
   Dialog,
   Button,
   Typography,
@@ -11,6 +12,8 @@ import {
   MenuItem,
   Menu,
   Checkbox,
+  Paper,
+  FormHelperText
 } from "@material-ui/core";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -21,6 +24,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import DateFnsUtils from "@date-io/date-fns";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { authFetch } from '../helpers/authFetch'
 
 const DialogTitle = (props) => {
   const classes = makeStyles((theme) => ({
@@ -198,27 +202,50 @@ const ChecklistItems = (props) => {
   const { checklistItems, setChecklistItems } = props;
 
   const handleChecklist = (event) => {
-    const newList = checklistItems;
-    newList[event.target.name][1] = event.target.checked;
+    const newList = [...checklistItems];
+    // const newItem = {
+    //   content:
+    // }
+    newList[event.target.name].active = event.target.checked;
     setChecklistItems(newList);
   };
 
+  const handleKeyPress = (event) => {
+    console.log(event.target.value);
+    // return;
+    if (event.key === 'Enter'){
+      event.preventDefault();
+      const newList = [...checklistItems];
+      newList.push({content: event.target.value, active: false});
+      setChecklistItems(newList);
+    }
+  }
+
   return (
-    <Fragment>
+    <FormGroup>
       {checklistItems.map((item, index) => (
         <FormControlLabel
           control={
             <Checkbox
-              checked={item[1]}
+              checked={item.active}
               onChange={handleChecklist}
               name={index}
-              inputProps={{ 'aria-label': item[0] }}
+              inputProps={{ 'aria-label': item.content }}
             />
           }
-          label={item[0]}
+          label={item.content}
         />
       ))}
-    </Fragment>
+      <TextField
+        multiline={true}
+        rows={1}
+        type="text"
+        variant={"outlined"}
+        placeholder={"Add an item ..."}
+        size="small"
+        onKeyDown={handleKeyPress}
+      ></TextField>
+    </FormGroup>
   );
 };
 
@@ -264,15 +291,19 @@ const CardDetail = (props) => {
   const { handleClose, open } = props;
   const card = {
     title: "Card tittle",
-    _id: "",
+    _id: "5e9df1d39826242590e79729",
     colorCode: "green",
     description: "I am very happy",
     deadline: new Date(),
     tags: ["Math", "Biology"],
     checklist: [
-      ["Apple", true],
-      ["Banana", false],
+      {content: "Apple", active: true},
+      {content: "Banana", active: false},
     ],
+    attachment: [ {
+      "fileName": "abc",
+      "url": "http://a.ca"
+    }]
   };
 
   //States for showing the elements
@@ -284,6 +315,10 @@ const CardDetail = (props) => {
   const [deadline, setDeadline] = useState(card.deadline);
   const [description, setDescription] = useState(card.description);
   const [colorCode, setColorCode] = useState(card.colorCode);
+  const [tags, setTags] = useState(card.tags.join(', '));
+
+  const [isFetching, setIsFetching] = useState(false);
+  const [error, setError] = useState(undefined);
 
   const [checklistItems, setChecklistItems] = useState(card.checklist);
 
@@ -291,8 +326,45 @@ const CardDetail = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // window.localStorage.setItem("xxxxx", JSON.stringify(values));
+
+    const url = '/api/v1/cards/'+card._id;
+    const content = {
+      deadline, description, colorCode, tags: tags.split(', '),
+      checklist: checklistItems,
+    }
+
+    console.log(content);
+
+    setIsFetching(true);
+
+    authFetch(url, {
+      method: 'PUT',
+      body: JSON.stringify(content)
+    }).then(res => res.json())
+      .then(data => {
+        setIsFetching(false);
+
+        if (data.error) {
+          throw new Error(data.error);
+          return;
+        }
+        setError(undefined);
+
+        console.log('update successfully')
+
+        //Update the card to Dashboard Provider
+
+        //Close the dialog
+        // handleClose();
+      })
+      .catch(error => {
+        setError(error.message);
+      })
   };
+
+  const handleFileUpload = (event) => {
+    event.preventDefault();
+  }
 
   return (
     <Box component={"div"}>
@@ -321,7 +393,7 @@ const CardDetail = (props) => {
                   <TextField
                     multiline
                     rows={5}
-                    onChange={value => setDescription(value)}
+                    onChange={event => setDescription(event.target.value)}
                     fullWidth
                     variant={"outlined"}
                     defaultValue={card.description}
@@ -329,13 +401,14 @@ const CardDetail = (props) => {
                   />
                 </Box>
                 <Box component={'div'} display={showTag || "none"}  mb={2} >
-                  <Typography className={classes.label}>Tag</Typography>
-                  <InputBase defaultValue={card.tags.join(", ")} />
+                  <Typography className={classes.label}>Tags</Typography>
                   <TextField
                     name={"tags"}
                     placeholder={"Add tag ..."}
                     size={"small"}
+                    defaultValue={tags}
                     variant={"outlined"}
+                    onChange={event => { event.preventDefault(); setTags(event.target.value)}}
                   />
                 </Box>
                 <Box component={'div'} mb={3} display={showChecklist || "none"}>
@@ -344,12 +417,6 @@ const CardDetail = (props) => {
                     checklistItems={checklistItems}
                     setChecklistItems={setChecklistItems}
                   />
-                  <TextField
-                    type="text"
-                    variant={"outlined"}
-                    placeholder={"Add an item ..."}
-                    size="small"
-                  ></TextField>
                 </Box>
                 <Box component={'div'} pb={3} display={showDeadline || "none"}>
                   <Typography className={classes.label}>Deadline</Typography>
@@ -363,13 +430,18 @@ const CardDetail = (props) => {
                     />
                   </MuiPickersUtilsProvider>
                 </Box>
-                <Box component={'div'} mb={3} display={showAttachment || "none"}>
+                <Box component={'form'} mb={3} display={showAttachment || "none"} onSubmit={handleFileUpload}>
                   <Typography className={classes.label}>Attachment</Typography>
-                  <TextField
-                    type={"file"}
-                    name={"attachment"}
-                    variant={"outlined"}
-                  ></TextField>
+                  <Box component={'form'} variant={"outlined"}>
+                    <InputBase type={'file'} name={'file'}/>
+                    <Button type={'submit'} variant={'contained'} size={'small'} color={"secondary"}>Upload</Button>
+                  </Box>
+                  {/*<TextField*/}
+                  {/*  type={"file"}*/}
+                  {/*  name={"attachment"}*/}
+                  {/*  variant={"outlined"}*/}
+                  {/*></TextField>*/}
+                  {/*<Button type={'submit'} variant={'contained'} size={'small'}>Upload</Button>*/}
                 </Box>
               </Grid>
               <Grid item className={classes.rightGrid}>
@@ -395,6 +467,7 @@ const CardDetail = (props) => {
             >
               Save
             </Button>
+            <Box mt={2} mb={2}><FormHelperText error={true}>{error}</FormHelperText></Box>
           </Box>
         </DialogContent>
       </Dialog>

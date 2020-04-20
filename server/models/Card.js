@@ -9,6 +9,10 @@ const CardSchema = new mongoose.Schema({
     tags: [String],
     comments: [String],
     description: String,
+    checklist: [ {
+        content: String,
+        active: Boolean
+    }],
     attachment: [ {
             fileName: String,
             url: String
