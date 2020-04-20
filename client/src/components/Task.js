@@ -13,7 +13,8 @@ const useStyles = makeStyles(theme => ({
   },
   cardTitle: {
     fontSize: 14,
-    fontWeight: 700
+    fontWeight: 700,
+    paddingLeft: 0
   },
   tag: {
     height: "7px",
@@ -54,7 +55,7 @@ const Task = ({ card, index }) => {
           >
             <CardContent>
               <div className={classes.tag} />
-              <Button className={classes.cardTitle}  onClick={handleClickOpen}>
+              <Button className={classes.cardTitle} onClick={handleClickOpen}>
                 {card.title}
               </Button>
               <Typography color="textSecondary">{card.deadline}</Typography>
