@@ -20,7 +20,7 @@ import Box from "@material-ui/core/Box";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import DateFnsUtils from "@date-io/date-fns";
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 const DialogTitle = (props) => {
   const classes = makeStyles((theme) => ({
@@ -325,8 +325,9 @@ const CardDetail = (props) => {
                 <Box display={showDeadline || "none"}>
                   <Typography className={classes.label}>Deadline</Typography>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <DatePicker
+                    <DateTimePicker
                       value={deadline}
+                      ampm={false}
                       onChange={(date) => setDeadline(date)}
                       animateYearScrolling
                       clearable
