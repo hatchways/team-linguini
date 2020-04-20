@@ -12,7 +12,7 @@ import {Login} from "./pages/Login";
 import Test from "./pages/Test"
 
 import "./App.css";
-import Card from "./components/Card";
+import Card from "./components/CardDetail";
 
 function App() {
   return (

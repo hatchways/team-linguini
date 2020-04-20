@@ -1,10 +1,9 @@
-import React from "react";
+import React, { Fragment, useState } from 'react'
 import { Draggable } from "react-beautiful-dnd";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
+import {Card, Button, Typography, CardContent} from "@material-ui/core";
+import CardDetail from './CardDetail'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -27,25 +26,45 @@ const useStyles = makeStyles(theme => ({
 
 const Task = ({ card, index }) => {
   const classes = useStyles();
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleClick = (event) => {
+    console.log('xyz');
+  }
+
   return (
-    <Draggable draggableId={card.id} index={index}>
-      {provided => (
-        <Card
-          className={classes.card}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-        >
-          <CardContent>
-            <div className={classes.tag} />
-            <Typography className={classes.cardTitle} gutterBottom>
-              {card.title}
-            </Typography>
-            <Typography color="textSecondary">{card.deadline}</Typography>
-          </CardContent>
-        </Card>
-      )}
-    </Draggable>
+    <Fragment>
+      <Draggable draggableId={card.id} index={index}
+        // shouldRespectForcePress={true}
+      >
+        {provided => (
+          <Card
+            className={classes.card}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+          >
+            <CardContent>
+              <div className={classes.tag} />
+              <Button className={classes.cardTitle}  onClick={handleClickOpen}>
+                {card.title}
+              </Button>
+              <Typography color="textSecondary">{card.deadline}</Typography>
+            </CardContent>
+          </Card>
+        )}
+      </Draggable>
+
+      <CardDetail open={open} handleClose={handleClose}></CardDetail>
+    </Fragment>
   );
 };
 
