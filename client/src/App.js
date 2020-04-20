@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import LogOut from "./helpers/LogOut";
 
 import "./App.css";
+import Test from './pages/Test'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
           <ProtectedRoute exact path="/logout" component={LogOut} />
+          <Route exact path="/test" component={Test} />
         </BrowserRouter>
       </AuthProvider>
     </MuiThemeProvider>
