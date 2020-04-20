@@ -7,11 +7,11 @@ const fileUpload = require('express-fileupload');
 const _ = require('lodash');
 
 const indexRouter = require("./routes/index");
-const authRouter = require("./routes/authRoutes")
-const boardRouter = require('./routes/boards');
-const columnRouter = require('./routes/columns');
-const cardRouter = require('./routes/cards');
-const connectToDB = require('./middlewares/database');
+const authRouter = require("./routes/authRoutes");
+const boardRouter = require("./routes/boards");
+const columnRouter = require("./routes/columns");
+const cardRouter = require("./routes/cards");
+const connectToDB = require("./middlewares/database");
 
 const { json, urlencoded } = express;
 
@@ -38,25 +38,25 @@ app.use("/api/v1/columns", columnRouter);
 app.use("/api/v1/cards", cardRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(function (req, res, next) {
+  next(createError(400));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
   console.log(err);
 
-  if (err.name === 'CastError'){
-    res.status(404).json({error: "Invalid Object Id."})
-  };
+  if (err.name === "CastError") {
+    res.status(404).json({ error: "Invalid Object Id." });
+  }
 
   // render the error page
   res.status(err.status || 500);
-  res.json({ error: err.message});
+  res.json({ error: err.message });
 });
 
 module.exports = app;
