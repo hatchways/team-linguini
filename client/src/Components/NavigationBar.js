@@ -126,6 +126,27 @@ const NavigationBar = () => {
 
   const saveCreateBoardDialog = (data) => {
     console.log(data);
+    //req.user._id // ask about this set up!
+    /*
+    const owner = getUserId(req);
+    ...
+    const {title} = req.body;
+    const board = await Board.create({title, owner});
+    ...
+    const BoardSchema = new mongoose.Schema({
+    title: String,
+    */
+    const { board } = data;
+    postData = {
+      title: board,
+    };
+    fetch("http://localhost:XXXX/api/v1/boards", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postData),
+    }).then((response) => response.json());
   };
 
   const classes = useStyles();
