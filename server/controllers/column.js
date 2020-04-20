@@ -4,7 +4,7 @@ const {ErrorResponse} = require('../utils/errorResponse');
 const asyncHandler = require('../middlewares/asyncHandler');
 
 //Return User Id from the req object
-const getUserId = req => req.user._id;
+const getUserId = req => req.user._id.toString();
 
 //@Desc create a new board without cards
 //@Route POST /api/v1/columns

@@ -73,7 +73,7 @@ exports.updateCard= asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse ('Invalid Card Id', 404));
     }
 
-    if (card.owner.toString() !== req.user._id) {
+    if (card.owner.toString() !== req.user._id.toString()) {
         return next(new ErrorResponse('Not authorized to update card.', 401));
     }
 
@@ -98,7 +98,7 @@ exports.deleteCard= asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse ('Invalid Card Id', 404));
     }
 
-    if (card.owner.toString() !== req.user._id) {
+    if (card.owner.toString() !== req.user._id.toString()) {
         return next(new ErrorResponse('Not authorized to delete card.', 401));
     }
 
