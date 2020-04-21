@@ -137,7 +137,7 @@ const NavigationBar = () => {
     title: String,
     */
     const { board } = data;
-    postData = {
+    const postData = {
       title: board,
     };
     fetch("http://localhost:XXXX/api/v1/boards", {
