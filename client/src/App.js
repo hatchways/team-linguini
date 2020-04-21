@@ -13,19 +13,22 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import LogOut from "./helpers/LogOut";
 
 import "./App.css";
+import {DashboardProvider} from "./context/dashboard/dashboard.provider";
 import Test from './pages/Test'
 
 function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <AuthProvider>
-        <BrowserRouter>
-          <ProtectedRoute exact path="/" component={Board} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/login" component={Login} />
-          <ProtectedRoute exact path="/logout" component={LogOut} />
-          <Route exact path="/test" component={Test} />
-        </BrowserRouter>
+          <BrowserRouter>
+              <Route exact path="/signup" component={Signup}/>
+              <Route exact path="/login" component={Login}/>
+              <DashboardProvider>
+                  <ProtectedRoute exact path="/" component={Board} />
+              </DashboardProvider>
+              <ProtectedRoute exact path="/logout" component={LogOut} />
+              <Route exact path="/test" component={Test}/>
+          </BrowserRouter>
       </AuthProvider>
     </MuiThemeProvider>
   );

@@ -82,10 +82,10 @@ const useStyles = makeStyles((theme) => ({
 const Column = ({ column, cards, index }) => {
   const classes = useStyles();
   return (
-    <Draggable draggableId={column.id} index={index}>
-      {(provided) => (
+    <Draggable draggableId={column._id} index={index}>
+      {provided => (
         <Grid
-          key={column.id}
+          key={column._id}
           item
           {...provided.draggableProps}
           ref={provided.innerRef}
@@ -102,15 +102,15 @@ const Column = ({ column, cards, index }) => {
                 ></i>
               </div>
             </div>
-            <Droppable droppableId={column.id} type="card">
-              {(provided) => (
+            <Droppable droppableId={column._id} type="card">
+              {provided => (
                 <div
                   className={classes.cardSection}
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
                   {cards.map((card, index) => (
-                    <Task key={card.id} card={card} index={index} />
+                    <Task key={card._id} card={card} index={index} />
                   ))}
                   {provided.placeholder}
                 </div>
