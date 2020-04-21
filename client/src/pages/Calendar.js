@@ -26,9 +26,11 @@ const Calendar = () => {
           defaultView="dayGridMonth"
           plugins={[dayGridPlugin]}
           contentHeight={500}
-          header={{left:   '',
-          center: 'title',
-          right:  'today prev,next'}}
+          header={{
+            left: "",
+            center: "title",
+            right: "prevYear, prev, next, nextYear",
+          }}
         />
       </Container>
     </div>
