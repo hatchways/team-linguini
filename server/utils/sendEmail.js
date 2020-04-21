@@ -10,9 +10,10 @@ const send = async (message) => {
 };
 
 const sendWelcomeEmail = async (to) => {
+  console.log('Email Sent')
   await send({
     to,
-    from: "aslamm.anas29@gmail.com",
+    from: process.env.FROM_EMAIL,
     subject: "Welcome to Kanban Boards",
     text:
       "Thank you for registering on the kanban boards application. We welcome you to our community and look forward to seeing you around.",
