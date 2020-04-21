@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction"
 import { Container, Box, Grid } from "@material-ui/core";
 import "./Calendar.css"
 
@@ -30,7 +31,7 @@ const Calendar = () => {
       <Box className={classes.container}>
         <FullCalendar
           defaultView="dayGridMonth"
-          plugins={[dayGridPlugin]}
+          plugins={[dayGridPlugin, interactionPlugin]}
           contentHeight={500}
           header={{
             left: "",
@@ -51,6 +52,7 @@ const Calendar = () => {
           eventBorderColor='white'
           fixedWeekCount={false}
           editable={true}
+          eventDrop={info => console.log(info)}
         />
       </Box>
     </div>
