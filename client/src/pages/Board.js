@@ -1,4 +1,6 @@
 import React, {useState, useEffect, useContext} from "react";
+import initialData from "../context/InitialData";
+import NavigationBar from "../components/NavigationBar"
 import BoardBar from "../components/BoardBar";
 import Column from "../components/Column";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -123,6 +125,7 @@ const Board = () => {
 
   return (
     <div>
+      <NavigationBar />
       <BoardBar />
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable

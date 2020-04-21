@@ -2,17 +2,19 @@ import React from "react";
 import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route } from "react-router-dom";
 
-import {AuthProvider} from './context/auth/auth.provider'
+import { AuthProvider } from "./context/auth/auth.provider";
 
 import { theme } from "./themes/theme";
 
 import Board from "./pages/Board";
-import {Signup} from "./pages/Signup"
-import {Login} from "./pages/Login";
-import Test from "./pages/Test"
+import { Signup } from "./pages/Signup";
+import { Login } from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
+import LogOut from "./helpers/LogOut";
 
 import "./App.css";
 import {DashboardProvider} from "./context/dashboard/dashboard.provider";
+import Test from './pages/Test'
 
 function App() {
   return (
@@ -24,6 +26,7 @@ function App() {
               <DashboardProvider>
                   <Route exact path="/" component={Board} />
               </DashboardProvider>
+              <ProtectedRoute exact path="/logout" component={LogOut} />
               <Route exact path="/test" component={Test}/>
           </BrowserRouter>
       </AuthProvider>

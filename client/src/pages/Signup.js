@@ -1,26 +1,30 @@
-import React, {useState} from "react";
-import {Grid} from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
-import {useHistory} from "react-router-dom";
-import { AuthForm, RedirectDiv} from "../components/auth"
-import {authStyle} from '../themes/signup.style';
-import {fetchUserFailure, fetchUserSuccess, setIsAuthenticated} from "../context/auth/auth.action";
-import {useAuth} from "../context/auth/auth.provider";
+import React, { useState } from "react";
+import { Grid } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
+import { AuthForm, RedirectDiv } from "../components/auth";
+import { authStyle } from "../themes/signup.style";
+import {
+  fetchUserFailure,
+  fetchUserSuccess,
+  setIsAuthenticated,
+} from "../context/auth/auth.action";
+import { useAuth } from "../context/auth/auth.provider";
 
 const Signup = () => {
-    const auth = useAuth();
-    const {dispatchIsAuthenticated, dispatchUser} = auth;
+  const auth = useAuth();
+  const { dispatchIsAuthenticated, dispatchUser } = auth;
 
-    const history = useHistory();
+  const history = useHistory();
 
-    const [serverResponse, setServerResponse] = useState('');
+  const [serverResponse, setServerResponse] = useState("");
 
-    //Classes of CSS style
-    const classes = makeStyles(authStyle)();
+  //Classes of CSS style
+  const classes = makeStyles(authStyle)();
 
-    //Callback for the form submission after validation
-    const onSubmit = values => {
-        const {email, password} = values;
+  //Callback for the form submission after validation
+  const onSubmit = (values) => {
+    const { email, password } = values;
 
         //Make a request to backend
         const url = '/api/v1/auth/register';
@@ -48,31 +52,39 @@ const Signup = () => {
                     //Redirect to dashboard
                     window.location.replace('/');
 
-                } else {
-                    throw Error(res.error)
-                }
+        } else {
+          throw Error(res.error);
+        }
+      })
+      .catch((e) => {
+        // console.log(e);
+        dispatchUser(fetchUserFailure(e.message));
+        setServerResponse(e.message);
+      });
+  };
 
-            })
-            .catch(e => {
-                // console.log(e);
-                dispatchUser(fetchUserFailure(e.message))
-                setServerResponse(e.message);
-            });
-    };
+  return (
+    <Grid container className={classes.vh100}>
+      <Grid item md={6} xs={12} className={classes.img}>
+        {/*<img alt='' src={"/images/image1.png"} className={classes.img}/>*/}
+      </Grid>
+      <Grid item md={6} xs={12}>
+        <AuthForm
+          title="Sign up to Kanban"
+          input1="Enter email"
+          input2="Create Password"
+          submit="Sign up"
+          onSubmit={onSubmit}
+          serverResponse={serverResponse}
+        />
+        <RedirectDiv
+          title={"Already have an account?"}
+          link={"/login"}
+          desc={"Login"}
+        />
+      </Grid>
+    </Grid>
+  );
+};
 
-    return (
-        <Grid container className={classes.vh100}>
-            <Grid item md={6} xs={12} className={classes.img}>
-                {/*<img alt='' src={"/images/image1.png"} className={classes.img}/>*/}
-            </Grid>
-            <Grid item md={6} xs={12}>
-                <AuthForm title="Sign up to Kanban" input1="Enter email" input2="Create Password" submit="Sign up"
-                          onSubmit={onSubmit}
-                          serverResponse={serverResponse}/>
-                <RedirectDiv title={'Already have an account?'} link={'/login'} desc={'Login'}/>
-            </Grid>
-        </Grid>
-    )
-}
-
-export {Signup};
+export { Signup };
