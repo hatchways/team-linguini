@@ -88,9 +88,12 @@ const RedirectDiv = (props) => {
 
   return (
     <Box component={"div"} className={AuthDivStyle.root}>
-      <Typography className={AuthDivStyle.margin}>{props.title}</Typography>
-      <Link to={props.link}>
-        <Typography>{props.desc}</Typography>
+      <Typography className={AuthDivStyle.displayMsg}>{props.title}</Typography>
+      <Link
+        to={props.link}
+        style={{ textDecoration: "none", color: "#039be5" }}
+      >
+        {props.desc}
       </Link>
     </Box>
   );

@@ -22,6 +22,7 @@ const User = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Board'
     },
+    avatarUrl: String,
     boards: [
         {
             type: mongoose.Schema.ObjectId,

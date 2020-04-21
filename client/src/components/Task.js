@@ -9,7 +9,8 @@ const useStyles = makeStyles(theme => ({
   card: {
     margin: "auto",
     width: "280px",
-    marginBottom: "10px"
+    marginBottom: "10px",
+    borderRadius: '8px'
   },
   cardTitle: {
     fontSize: 14,
@@ -43,29 +44,26 @@ const Task = ({ card, index }) => {
 
   return (
     <Fragment>
-      <Draggable draggableId={card.id} index={index}
-        // shouldRespectForcePress={true}
-      >
-        {provided => (
-          <Card
-            className={classes.card}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            ref={provided.innerRef}
-          >
-            <CardContent>
-              <div className={classes.tag} />
-              <Button className={classes.cardTitle} onClick={handleClickOpen}>
-                {card.title}
-              </Button>
-              <Typography color="textSecondary">{card.deadline}</Typography>
-            </CardContent>
-          </Card>
-        )}
-      </Draggable>
-
-      <CardDetail open={open} handleClose={handleClose}></CardDetail>
-    </Fragment>
+    <Draggable draggableId={card._id} index={index}>
+      {provided => (
+        <Card
+          className={classes.card}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+        >
+          <CardContent onClick={()=> console.log('abdsjksdfkjsdfkj')}>
+            <div className={classes.tag} />
+            <Button className={classes.cardTitle} onClick={handleClickOpen}>
+              {card.title}
+            </Button>
+            <Typography color="textSecondary">{card.deadline}</Typography>
+          </CardContent>
+        </Card>
+      )}
+    </Draggable>
+    <CardDetail open={open} handleClose={handleClose}></CardDetail>
+</Fragment>
   );
 };
 

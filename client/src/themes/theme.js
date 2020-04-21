@@ -22,5 +22,23 @@ export const theme = createMuiTheme({
       red: '#C70039',
       yellow: '#F7F315',
     }
-  }
+  },
+  overrides: {
+    MuiLink: {
+      root: {
+        color: "#039be5",
+      },
+      underlineHover: {
+        "&:hover": {
+          textDecoration: "none",
+        },
+      },
+    },
+    MuiInputLabel: {
+      root: {
+        color: "black",
+        fontWeight: "500",
+      }
+    }
+  },
 });
