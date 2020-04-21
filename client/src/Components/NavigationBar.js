@@ -17,6 +17,7 @@ import CalendarTodayOutlinedIcon from "@material-ui/icons/CalendarTodayOutlined"
 import AddIcon from "@material-ui/icons/Add";
 import { NavLink } from "react-router-dom";
 import { DropzoneDialog } from "material-ui-dropzone";
+import { authFetch } from "../helpers/authFetch";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -79,6 +80,7 @@ const NavigationBar = () => {
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [data, setData] = useState("Hello world");
 
   const handleClickAvatarMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -106,11 +108,28 @@ const NavigationBar = () => {
   };
 
   const handleSaveDropFile = (files) => {
+    console.log(files);
     setStateDropFile({
       ...stateDropFile,
       files: files,
       open: false,
     });
+    //data.preventDefault();
+    //const file = data.target[0].files[0];
+    const formData = new FormData();
+    formData.append("avatar", files[0]);
+
+    const url = "/api/v1/users/uploadAvatar";
+    const token = JSON.parse(localStorage.getItem("token")) || null;
+    authFetch(url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        //setData(JSON.stringify(data));
+      });
   };
 
   const classes = useStyles();
