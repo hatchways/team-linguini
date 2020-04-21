@@ -1,7 +1,37 @@
-.fc-view {
-   border-radius: 50px 
+.fc-button-primary {
+    background-color: #759CFC;
+    border-color: #759CFC;
+}
+.fc-button-primary:hover {
+    background-color: #759CFC;
+    border-color: #759CFC;
+}
+
+.fc-ltr .fc-dayGrid-view .fc-day-top .fc-day-number {
+    float: left;
+    color: #9CAACC;
 }
 
 .fc-day {
-    background-color: #F4F6FF
+    background-color: #F4F6FF;
+}
+
+.fc-day-header {
+    color: #9CAACC;
+}
+
+
+.fc-unthemed .fc-content {
+    border-radius: 50px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.fc-event {
+    border-color: white;
+    box-shadow: 0px 0px 10px -2px rgba(84, 84, 84, 0.3);
+}
+
+.fc-title {
+    font-weight: 600;
 }

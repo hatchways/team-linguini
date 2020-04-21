@@ -35,7 +35,7 @@ const Calendar = () => {
           header={{
             left: "",
             center: "title",
-            right: "prevYear, prev, next, nextYear",
+            right: "today prevYear, prev, next, nextYear",
           }}
           events={[
             { title: 'event 1', date: '2020-04-24' },
@@ -48,7 +48,7 @@ const Calendar = () => {
           eventLimit={true}
           eventBackgroundColor='white'
           eventTextColor='black'
-          eventBorderColor='lightgrey'
+          eventBorderColor='white'
           fixedWeekCount={false}
         />
       </Box>
