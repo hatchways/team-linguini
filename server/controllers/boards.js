@@ -33,7 +33,7 @@ const initializeFirstBoard = async (userObjectId) => {
     }
 }
 
-exports.initializeFirstBoard = initializeFirstBoard()
+exports.initializeFirstBoard = initializeFirstBoard
 
 
 //Return User Id from the req object

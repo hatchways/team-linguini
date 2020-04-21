@@ -15,7 +15,7 @@ export const authFetch = async (url, config={}) => {
     else {
         // throw "No token saved! Please login again.";
         // redirect to login page
-        window.location.replace("/login")
+        // window.location.replace("/login")
         console.log("no token saved")
         return new Error("no token saved");
     }
