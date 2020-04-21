@@ -58,15 +58,16 @@ exports.createBoard = asyncHandler(async (req, res, next) => {
 exports.getInit = asyncHandler(async (req, res, next) => {
 
     const output = {};
+    let user = await User.findById(req.user._id).populate({path: 'boards', select:'_id title'});
+    output.avatarUrl = user.avatarUrl ? req.user.avatarUrl : '';
 
-    if (req.user.selectedBoard) {
-        output.boards = req.user.boards;
-        output.selectedBoard = await Board.findById(req.user.selectedBoard);
-    } else {
+    if (user.boards.length === 0) {
         const boardId = await initializeFirstBoard(req.user._id);
-        output.boards = [boardId];
-        output.selectedBoard = await Board.findById(boardId);
+        user = await User.findById(req.user._id).populate({path: 'boards', select:'_id title'});
     }
+
+    output.boards = user.boards;
+    output.selectedBoard = await Board.findById(user.selectedBoard);
 
     //Get columns of the selected board
     const board = output.selectedBoard;

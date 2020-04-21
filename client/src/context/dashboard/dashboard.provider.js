@@ -12,6 +12,7 @@ const DashboardProvider = (props) => {
     const [selectedBoard, setSelectedBoard] = useState({});
     const [columns, setColumns] =useState({});
     const [cards, setCards] =useState({});
+    const [avatarUrl, setAvatarUrl] = useState(null);
 
     //Initialize data from server
     const url = "/api/v1/boards/init";
@@ -28,6 +29,7 @@ const DashboardProvider = (props) => {
                         setCards(res.cards);
                         setColumns(res.columns);
                         setBoards(res.boards);
+                        setAvatarUrl(res.avatarUrl);
                     } else {
                         throw Error(res.error)
                     }
