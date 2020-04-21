@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from 'react'
 import { Draggable } from "react-beautiful-dnd";
 
-import { makeStyles } from "@material-ui/core/styles";
-import {Card, Button, Typography, CardContent} from "@material-ui/core";
+import { makeStyles} from "@material-ui/core/styles";
+import {Card, Box, Button, Typography, CardContent} from "@material-ui/core";
 import CardDetail from './CardDetail'
 
 const useStyles = makeStyles(theme => ({
@@ -20,13 +20,13 @@ const useStyles = makeStyles(theme => ({
   tag: {
     height: "7px",
     width: "45px",
-    background: "#5ACD76",
     borderRadius: "5px",
     marginBottom: "10px"
   }
 }));
 
 const Task = ({ card, index }) => {
+
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -38,9 +38,6 @@ const Task = ({ card, index }) => {
     setOpen(false);
   };
 
-  const handleClick = (event) => {
-    console.log('xyz');
-  }
 
   return (
     <Fragment>
@@ -52,8 +49,8 @@ const Task = ({ card, index }) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <CardContent onClick={()=> console.log('abdsjksdfkjsdfkj')}>
-            <div className={classes.tag} />
+          <CardContent >
+            <Box className={classes.tag} bgcolor={"cardColor." + card.colorCode}/>
             <Button className={classes.cardTitle} onClick={handleClickOpen}>
               {card.title}
             </Button>
@@ -62,7 +59,7 @@ const Task = ({ card, index }) => {
         </Card>
       )}
     </Draggable>
-    <CardDetail open={open} handleClose={handleClose}></CardDetail>
+    <CardDetail open={open} handleClose={handleClose} card={card}></CardDetail>
 </Fragment>
   );
 };

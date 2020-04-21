@@ -66,7 +66,7 @@ exports.getCards= asyncHandler(async (req, res, next) => {
 //@Route PUT /api/v1/cards/id
 //@Access private
 exports.updateCard= asyncHandler(async (req, res, next) => {
-
+    console.log(req.body);
     let card = await Card.findOne({_id: req.params.id});
 
     if (!card) {
@@ -79,7 +79,7 @@ exports.updateCard= asyncHandler(async (req, res, next) => {
 
     const newData = {};
     //Limit for the fields could be update
-    ['title', 'columnId', 'deadline', 'tags', 'comments', 'description', 'attachment'].forEach(field => {
+    ['title', 'columnId', 'deadline', 'tags', 'comments', 'description', 'attachment', 'colorCode', 'checklist'].forEach(field => {
         const value = req.body[field];
         if (value) newData[field] = value;
     })

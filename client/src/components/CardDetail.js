@@ -25,6 +25,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import DateFnsUtils from "@date-io/date-fns";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { authFetch } from '../helpers/authFetch'
+import {useDashboard} from '../context/dashboard/dashboard.provider'
 
 const DialogTitle = (props) => {
   const classes = makeStyles((theme) => ({
@@ -211,7 +212,6 @@ const ChecklistItems = (props) => {
   };
 
   const handleKeyPress = (event) => {
-    console.log(event.target.value);
     // return;
     if (event.key === 'Enter'){
       event.preventDefault();
@@ -289,22 +289,8 @@ const CardStyle = (theme) => ({
 
 const CardDetail = (props) => {
   const { handleClose, open } = props;
-  const card = {
-    title: "Card tittle",
-    _id: "5e9df1d39826242590e79729",
-    colorCode: "green",
-    description: "I am very happy",
-    deadline: new Date(),
-    tags: ["Math", "Biology"],
-    checklist: [
-      {content: "Apple", active: true},
-      {content: "Banana", active: false},
-    ],
-    attachment: [ {
-      "fileName": "abc",
-      "url": "http://a.ca"
-    }]
-  };
+  const card = props.card;
+  const {cards, setCards} = useDashboard();
 
   //States for showing the elements
   const [showDeadline, setShowDeadline] = useState(undefined);
@@ -333,8 +319,6 @@ const CardDetail = (props) => {
       checklist: checklistItems,
     }
 
-    console.log(content);
-
     setIsFetching(true);
 
     authFetch(url, {
@@ -350,9 +334,10 @@ const CardDetail = (props) => {
         }
         setError(undefined);
 
-        console.log('update successfully')
-
         //Update the card to Dashboard Provider
+        const newCards = {...cards};
+        newCards[card._id] = data;
+        setCards(newCards);
 
         //Close the dialog
         // handleClose();

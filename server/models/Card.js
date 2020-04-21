@@ -17,7 +17,10 @@ const CardSchema = new mongoose.Schema({
             fileName: String,
             url: String
     }],
-    colorCode: String,
+    colorCode: {
+        type: String,
+        default: 'green'
+    },
     columnId : {
         type: mongoose.Schema.ObjectId,
         require: true
