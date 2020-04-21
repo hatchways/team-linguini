@@ -18,6 +18,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { NavLink } from "react-router-dom";
 import { DropzoneDialog } from "material-ui-dropzone";
 import CreateModelByName from "./CreateModelByName";
+import { authFetch } from "../helpers/authFetch";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -140,13 +141,16 @@ const NavigationBar = () => {
     const postData = {
       title: board,
     };
-    fetch("http://localhost:XXXX/api/v1/boards", {
+    const url = "/api/v1/boards/";
+
+    authFetch(url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postData),
-    }).then((response) => response.json());
+      body: postData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
   };
 
   const classes = useStyles();
@@ -156,7 +160,7 @@ const NavigationBar = () => {
       <Toolbar className={classes.toolBar}>
         <Box>
           <Button>
-            <Typography variant="title">
+            <Typography>
               <img src="/images/logo.png" alt="bug" />
             </Typography>
           </Button>
