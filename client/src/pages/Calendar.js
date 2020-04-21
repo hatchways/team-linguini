@@ -50,6 +50,7 @@ const Calendar = () => {
           eventTextColor='black'
           eventBorderColor='white'
           fixedWeekCount={false}
+          editable={true}
         />
       </Box>
     </div>

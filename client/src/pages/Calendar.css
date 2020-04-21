@@ -23,8 +23,8 @@
 
 .fc-unthemed .fc-content {
     border-radius: 50px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
 }
 
 .fc-event {
@@ -35,3 +35,7 @@
 .fc-title {
     font-weight: 600;
 }
+
+.fc td {
+    background-color: #f5f6ff;
+  }
