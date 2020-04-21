@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -84,19 +84,23 @@ const useStyles = makeStyles((theme) => ({
 const BoardBar = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [boardTitles, setBoardTitles] = useState([]);
 
   const handleDrawerOpen = () => {
-    setOpen(true);
     const url = "/api/v1/boards/";
 
     authFetch(url, {
       method: "GET",
-      //body: postData,
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.boards);
+        const titles = [];
+        for (let i = 0; i < data.boards.length; i += 1) {
+          titles.push(data.boards[i].title);
+        }
+        setBoardTitles(titles);
+        setOpen(true);
       });
   };
 
@@ -129,7 +133,7 @@ const BoardBar = () => {
       </AppBar>
       <Drawer
         className={classes.drawer}
-        variant="persistent"
+        //variant="persistent"
         anchor="right"
         open={open}
         classes={{
@@ -147,20 +151,7 @@ const BoardBar = () => {
         </div>
         <Divider />
         <List>
-          {[
-            "Board 1",
-            "Board 2",
-            "Board 3",
-            "Board 1",
-            "Board 2",
-            "Board 3",
-            "Board 1",
-            "Board 2",
-            "Board 3",
-            "Board 1",
-            "Board 2",
-            "Board 3",
-          ].map((text, index) => (
+          {boardTitles.map((text, index) => (
             <ListItem button key={text}>
               <ListItemText primary={text} />
             </ListItem>
