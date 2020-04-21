@@ -26,30 +26,32 @@ const Signup = () => {
   const onSubmit = (values) => {
     const { email, password } = values;
 
-    //Make a request to backend
-    const url = "/api/v1/auth/register";
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    };
-    fetch(url, options)
-      .then((res) => res.json())
-      .then((res) => {
-        //If success to create a new account, redirect to login page
-        if (!res.error) {
-          //Save data on local storage
-          localStorage.setItem("isAuthenticated", true);
-          localStorage.setItem("user", JSON.stringify(res.user));
-          localStorage.setItem("token", JSON.stringify(res.token));
+        //Make a request to backend
+        const url = '/api/v1/auth/register';
+        const options = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({email, password}),
+        };
+        fetch(url, options)
+            .then(res => res.json())
+            .then(res => {
+                //If success to create a new account, redirect to login page
+                if (!res.error){
+                    //Save data on local storage
+                    localStorage.setItem('isAuthenticated', true);
+                    localStorage.setItem('user', JSON.stringify(res.user));
+                    localStorage.setItem('token', JSON.stringify(res.token));
 
-          //Update the state of Auth providers
-          dispatchIsAuthenticated(setIsAuthenticated(true));
-          dispatchUser(fetchUserSuccess(res.user));
-          console.log("login successfully");
 
-          //Redirect to dashboard
-          window.location.replace('/')
+                    //Update the state of Auth providers
+                    dispatchIsAuthenticated(setIsAuthenticated(true));
+                    dispatchUser(fetchUserSuccess(res.user))
+                    console.log('login successfully');
+
+                    //Redirect to dashboard
+                    window.location.replace('/');
+
         } else {
           throw Error(res.error);
         }
