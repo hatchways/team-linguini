@@ -24,7 +24,7 @@ function App() {
               <Route exact path="/signup" component={Signup}/>
               <Route exact path="/login" component={Login}/>
               <DashboardProvider>
-                  <Route exact path="/" component={Board} />
+                  <ProtectedRoute exact path="/" component={Board} />
               </DashboardProvider>
               <ProtectedRoute exact path="/logout" component={LogOut} />
               <Route exact path="/test" component={Test}/>
