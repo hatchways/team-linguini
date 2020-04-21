@@ -127,25 +127,18 @@ const NavigationBar = () => {
 
   const saveCreateBoardDialog = (data) => {
     console.log(data);
-    //req.user._id // ask about this set up!
-    /*
-    const owner = getUserId(req);
-    ...
-    const {title} = req.body;
-    const board = await Board.create({title, owner});
-    ...
-    const BoardSchema = new mongoose.Schema({
-    title: String,
-    */
-    const { board } = data;
+
+    /*const { board } = data;
     const postData = {
       title: board,
-    };
+    };*/
+    const formData = new FormData();
+    formData.append("title", data.board);
     const url = "/api/v1/boards/";
 
     authFetch(url, {
       method: "POST",
-      body: postData,
+      body: formData,
     })
       .then((res) => res.json())
       .then((data) => {

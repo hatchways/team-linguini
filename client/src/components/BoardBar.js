@@ -15,6 +15,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import { authFetch } from "../helpers/authFetch";
 
 const drawerWidth = 240;
 
@@ -87,6 +88,16 @@ const BoardBar = () => {
 
   const handleDrawerOpen = () => {
     setOpen(true);
+    const url = "/api/v1/boards/";
+
+    authFetch(url, {
+      method: "GET",
+      //body: postData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.boards);
+      });
   };
 
   const handleDrawerClose = () => {
@@ -106,10 +117,6 @@ const BoardBar = () => {
             My School Board
           </Typography>
           <IconButton
-            /*edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"*/
             color="inherit"
             aria-label="open drawer"
             edge="end"
