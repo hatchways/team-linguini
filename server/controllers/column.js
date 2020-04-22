@@ -1,5 +1,6 @@
 const Column = require('../models/Column');
 const Board = require('../models/Board')
+const Card = require('../models/Card')
 const {ErrorResponse} = require('../utils/errorResponse');
 const asyncHandler = require('../middlewares/asyncHandler');
 
@@ -103,6 +104,12 @@ exports.deleteColumn= asyncHandler(async (req, res, next) => {
     if (column.owner.toString() !== getUserId(req)) {
         return next(new ErrorResponse('Not authorized to delete column.', 401));
     }
+
+    const board = await Board.findById(column.boardId);
+    board.columns = board.columns.filter(columnId => columnId.toString() !== column._id.toString());
+    await board.save();
+
+    column.cards.forEach(card => Card.findByIdAndDelete(card.toString()))
 
     await Column.findByIdAndDelete(req.params.id)
 
