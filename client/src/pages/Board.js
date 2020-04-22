@@ -1,15 +1,20 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import initialData from "../context/InitialData";
 import NavigationBar from "../components/NavigationBar";
 import BoardBar from "../components/BoardBar";
 import Column from "../components/Column";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-
+import { Box, Button, Typography } from "@material-ui/core";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
-import {DashboardContext} from "../context/dashboard/dashboard.provider";
-import {authFetch} from "../helpers/authFetch";
+import { DashboardContext } from "../context/dashboard/dashboard.provider";
+import { authFetch } from "../helpers/authFetch";
+import CreateModelByName from "../components/CreateModelByName";
 
 const useStyles = makeStyles((theme) => ({
+  addColumn: {
+    height: 550,
+  },
   grid: {
     marginTop: "40px",
     marginLeft: "20px",
@@ -33,28 +38,31 @@ const Board = () => {
   // const [data, setData] = useState(initialData);
 
   const [switchBoard, setSwitchBoard] = useState(false);
+  const [openCreationBoardDialog, setCreationBoardDialog] = useState(false);
 
   //Access the states from Dashboard Provider
   const {
-    isFetching, setIsFetching,
-    error, setError,
-    boards, setBoards,
-    selectedBoard, setSelectedBoard,
-    columns, setColumns,
-    cards, setCards
+    isFetching,
+    setIsFetching,
+    error,
+    setError,
+    boards,
+    setBoards,
+    selectedBoard,
+    setSelectedBoard,
+    columns,
+    setColumns,
+    cards,
+    setCards,
   } = useContext(DashboardContext);
 
-
-
-  if (error!== null || isFetching || boards.length ===0) {
-    return (
-        <BoardBar/>
-    )
+  if (error !== null || isFetching || boards.length === 0) {
+    return <BoardBar />;
   }
 
   console.log(boards);
-  console.log('selectedBoard', selectedBoard);
-  console.log('columns', columns);
+  console.log("selectedBoard", selectedBoard);
+  console.log("columns", columns);
   console.log(cards);
 
   const onDragEnd = (result) => {
@@ -78,7 +86,7 @@ const Board = () => {
 
       setSelectedBoard({
         ...selectedBoard,
-        columns: newColumnOrder
+        columns: newColumnOrder,
       });
       return;
     }
@@ -92,12 +100,12 @@ const Board = () => {
       newCardIds.splice(destination.index, 0, draggableId);
       const newColumn = {
         ...start,
-        cards: newCardIds
+        cards: newCardIds,
       };
 
       setColumns({
         ...columns,
-        [newColumn._id]: newColumn
+        [newColumn._id]: newColumn,
       });
       return;
     }
@@ -106,23 +114,46 @@ const Board = () => {
     startCardIds.splice(source.index, 1);
     const newStart = {
       ...start,
-      cards: startCardIds
+      cards: startCardIds,
     };
 
     const finishCardIds = Array.from(finish.cards);
     finishCardIds.splice(destination.index, 0, draggableId);
     const newFinish = {
       ...finish,
-      cards: finishCardIds
+      cards: finishCardIds,
     };
 
     setColumns({
       ...columns,
       [newStart._id]: newStart,
-      [newFinish._id]: newFinish
+      [newFinish._id]: newFinish,
     });
   };
 
+  const handleOpenCreationBoardDialog = () => {
+    setCreationBoardDialog(true);
+  };
+
+  const handleCloseCreationBoardDialog = () => {
+    setCreationBoardDialog(false);
+  };
+  const saveCreateBoardDialog = (data) => {
+    console.log(data);
+
+    const formData = new FormData();
+    formData.append("title", data.board);
+    const url = "/api/v1/boards/";
+
+    authFetch(url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
   return (
     <div>
       <NavigationBar />
@@ -140,11 +171,28 @@ const Board = () => {
               ref={provided.innerRef}
             >
               <div className={classes.grid}>
+                <Box>
+                  <Button
+                    variant="contained"
+                    className={classes.addColumn}
+                    onClick={handleOpenCreationBoardDialog}
+                  >
+                    <AddCircleOutlineIcon
+                      className={classes.createButtonIcon}
+                    />
+                  </Button>
+                  <CreateModelByName
+                    title="Create a new board"
+                    description="Add Title"
+                    onCloseModal={handleCloseCreationBoardDialog}
+                    openModal={openCreationBoardDialog}
+                    name="board"
+                    saveValue={(event) => saveCreateBoardDialog(event)}
+                  />
+                </Box>
                 {selectedBoard.columns.map((columnId, index) => {
                   const column = columns[columnId];
-                  const cardsArr = column.cards.map(
-                    cardId => cards[cardId]
-                  );
+                  const cardsArr = column.cards.map((cardId) => cards[cardId]);
 
                   return (
                     <Column

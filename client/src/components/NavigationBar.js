@@ -178,7 +178,7 @@ const NavigationBar = () => {
             <Typography className={classes.buttonText}>Calendar</Typography>
           </Button>
         </Box>
-        <Box className>
+        <Box>
           <Button
             variant="contained"
             className={classes.createButton}
