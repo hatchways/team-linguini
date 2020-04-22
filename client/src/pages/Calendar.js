@@ -6,9 +6,6 @@ import interactionPlugin from "@fullcalendar/interaction"
 import { Container, Box, Grid } from "@material-ui/core";
 import "./Calendar.css"
 
-import BoardBar from "../components/BoardBar";
-import NavigationBar from "../components/NavigationBar";
-
 const useStyles = makeStyles((theme) => ({
   container: {
     height: "600px",
@@ -26,8 +23,6 @@ const Calendar = () => {
   const classes = useStyles();
   return (
     <div>
-      <NavigationBar />
-      <BoardBar />
       <Box className={classes.container}>
         <FullCalendar
           defaultView="dayGridMonth"
