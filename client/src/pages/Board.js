@@ -148,11 +148,13 @@ const Board = () => {
     setCreationBoardDialog(false);
   };
   const saveCreateBoardDialog = (data) => {
-    console.log(data);
+    console.log("data");
+    console.log(selectedBoard._id);
 
     const formData = new FormData();
     formData.append("title", data.board);
-    const url = "/api/v1/boards/";
+    formData.append("boardId", selectedBoard._id);
+    const url = "/api/v1/columns";
 
     authFetch(url, {
       method: "POST",
