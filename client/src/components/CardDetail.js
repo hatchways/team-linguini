@@ -149,6 +149,7 @@ const Buttons = (props) => {
     props.setShowAttachment
   );
 
+
   return (
     <Fragment>
       <Box mb={2}>ADD TO CARD</Box>
@@ -192,7 +193,7 @@ const Buttons = (props) => {
       {/*<Button variant="contained" className={classes.root}>*/}
       {/*  Share*/}
       {/*</Button>*/}
-      <Button variant="contained" className={classes.root}>
+      <Button variant="contained" className={classes.root} onClick={props.handleDeleteClick}>
         Delete
       </Button>
     </Fragment>
@@ -290,7 +291,7 @@ const CardStyle = (theme) => ({
 const CardDetail = (props) => {
   const { handleClose, open } = props;
   const card = props.card;
-  const {cards, setCards} = useDashboard();
+  const {cards, setCards, columns, setColumns} = useDashboard();
 
   //States for showing the elements
   const [showDeadline, setShowDeadline] = useState(undefined);
@@ -346,6 +347,31 @@ const CardDetail = (props) => {
         setError(error.message);
       })
   };
+
+  const handleDeleteClick = (event) => {
+    const url = '/api/v1/cards/' + card._id;
+
+    authJSONFetch(url, {method: 'DELETE'})
+      .then(res => res.json())
+      .then(res => {
+        if (! res.error) {
+          setError(res.error);
+          return;
+        }
+
+        const newCards = {...cards};
+        newCards[card._id] = undefined;
+        setCards(newCards);
+
+        const newColumns = {columns};
+        const newColumn = newColumns[card.columnId].filter(cardId => cardId !== card._id);
+        setColumns(newColumns);
+
+        console.log('delete card successfully')
+        handleClose();
+      })
+
+  }
 
   const handleFileUpload = (event) => {
     event.preventDefault();
@@ -440,6 +466,7 @@ const CardDetail = (props) => {
                     showChecklist,
                     showTag,
                     showAttachment,
+                    handleDeleteClick
                   }}
                 />
               </Grid>

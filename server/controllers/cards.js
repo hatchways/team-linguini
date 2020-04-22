@@ -102,6 +102,10 @@ exports.deleteCard= asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse('Not authorized to delete card.', 401));
     }
 
+    const column = await Column.findById(card.columnId);
+    column.cards = column.cards.filter(cardId => cardId.toString() !== card._id.toString());
+    await column.save();
+
     await Card.findByIdAndDelete(req.params.id)
 
     //delete card on the field "cards" of the belonged board

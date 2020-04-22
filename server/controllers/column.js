@@ -26,7 +26,7 @@ exports.createColumn= asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse('Invalid board Id', 403))
     }
 
-    const column = await Column.create({title, owner, boardId, orderOnBoard, cards});
+    const column = await Column.create({title, owner, boardId, cards});
 
     //Update the field columns[] on the board
     board.columns.push(column._id);

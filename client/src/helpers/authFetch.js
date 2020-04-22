@@ -15,7 +15,6 @@ export const authFetch = async (url, config={}) => {
     }
 
     try {
-        console.log(config)
         const res = await fetch(url, config);
         return res;
     } catch (e) {
@@ -36,7 +35,6 @@ export const authJSONFetch = async (url, config={}) => {
     }
 
     try {
-        console.log(config)
         const res = await fetch(url, config);
         return res;
     } catch (e) {
