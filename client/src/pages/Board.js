@@ -12,12 +12,21 @@ import { authFetch } from "../helpers/authFetch";
 import CreateModelByName from "../components/CreateModelByName";
 
 const useStyles = makeStyles((theme) => ({
+  horizontalCollection: {
+    marginTop: "40px",
+    display: "flex",
+    justifycontent: "flex-start",
+    flexwrap: "nowrap",
+  },
   addColumn: {
     height: 550,
+    //marginRight: 40,
+    //boxShadow: "none",
+    //position: "fixed",
+    //boder: 20,
   },
   grid: {
-    marginTop: "40px",
-    marginLeft: "20px",
+    marginLeft: "60px",
     display: "flex",
   },
   container: {
@@ -158,57 +167,60 @@ const Board = () => {
     <div>
       <NavigationBar />
       <BoardBar />
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable
-          droppableId="all-columns"
-          direction="horizontal"
-          type="column"
-        >
-          {(provided) => (
-            <div
-              className={classes.container}
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              <div className={classes.grid}>
-                <Box>
-                  <Button
-                    variant="contained"
-                    className={classes.addColumn}
-                    onClick={handleOpenCreationBoardDialog}
-                  >
-                    <AddCircleOutlineIcon
-                      className={classes.createButtonIcon}
-                    />
-                  </Button>
-                  <CreateModelByName
-                    title="Create a new board"
-                    description="Add Title"
-                    onCloseModal={handleCloseCreationBoardDialog}
-                    openModal={openCreationBoardDialog}
-                    name="board"
-                    saveValue={(event) => saveCreateBoardDialog(event)}
-                  />
-                </Box>
-                {selectedBoard.columns.map((columnId, index) => {
-                  const column = columns[columnId];
-                  const cardsArr = column.cards.map((cardId) => cards[cardId]);
+      <div className={classes.horizontalCollection}>
+        <Box>
+          <Button
+            variant="contained"
+            className={classes.addColumn}
+            onClick={handleOpenCreationBoardDialog}
+            position="fixed"
+          >
+            <AddCircleOutlineIcon className={classes.createButtonIcon} />
+          </Button>
+          <CreateModelByName
+            title="Create a new board"
+            description="Add Title"
+            onCloseModal={handleCloseCreationBoardDialog}
+            openModal={openCreationBoardDialog}
+            name="board"
+            saveValue={(event) => saveCreateBoardDialog(event)}
+          />
+        </Box>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable
+            droppableId="all-columns"
+            direction="horizontal"
+            type="column"
+          >
+            {(provided) => (
+              <div
+                className={classes.container}
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                <div className={classes.grid}>
+                  {selectedBoard.columns.map((columnId, index) => {
+                    const column = columns[columnId];
+                    const cardsArr = column.cards.map(
+                      (cardId) => cards[cardId]
+                    );
 
-                  return (
-                    <Column
-                      key={column._id}
-                      column={column}
-                      cards={cardsArr}
-                      index={index}
-                    />
-                  );
-                })}
+                    return (
+                      <Column
+                        key={column._id}
+                        column={column}
+                        cards={cardsArr}
+                        index={index}
+                      />
+                    );
+                  })}
+                </div>
+                {provided.placeholder}
               </div>
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </div>
     </div>
   );
 };
