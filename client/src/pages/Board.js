@@ -155,14 +155,27 @@ const Board = () => {
     formData.append("title", data.board);
     formData.append("boardId", selectedBoard._id);
     const url = "/api/v1/columns";
-
+    const updatedColumns = { ...columns };
     authFetch(url, {
       method: "POST",
       body: formData,
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log("newcolumns", data);
+        updatedColumns[data._id] = data;
+        console.log("columnbefore upate", updatedColumns);
+        setColumns(updatedColumns);
+        const newColumn = Array.from(columns);
+        newColumn.push(data._id);
+        /*const newBoards = [...boards];
+        newBoards.push({ _id: data._id, title: data.title });
+        setBoards(newBoards);*/
+        setSelectedBoard({
+          ...selectedBoard,
+          columns: newColumn,
+        });
+        console.log("new context columns", columns);
       });
   };
   return (
