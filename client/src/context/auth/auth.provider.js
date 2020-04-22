@@ -2,7 +2,7 @@ import React, { useReducer } from "react";
 import isAuthenticatedReducer from "./isAuthenticated.reducer";
 import userReducer from "./user.reducer";
 
- export const AuthContext = React.createContext();
+const AuthContext = React.createContext();
 
 const AuthProvider = (props) => {
   //2 states of AuthProviders to store the state of authentication
@@ -27,4 +27,9 @@ const AuthProvider = (props) => {
 
 const useAuth = () => React.useContext(AuthContext);
 
-export { useAuth, AuthProvider };
+export {
+    useAuth,
+    AuthContext,
+    AuthProvider
+}
+
