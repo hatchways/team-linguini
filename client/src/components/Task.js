@@ -10,7 +10,8 @@ const useStyles = makeStyles(theme => ({
   card: {
     margin: "auto",
     width: "280px",
-    marginBottom: "10px"
+    marginBottom: "10px",
+    borderRadius: '8px'
   },
   cardTitle: {
     fontSize: 14,
@@ -28,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 const Task = ({ card, index }) => {
   const classes = useStyles();
   return (
-    <Draggable draggableId={card.id} index={index}>
+    <Draggable draggableId={card._id} index={index}>
       {provided => (
         <Card
           className={classes.card}
@@ -36,9 +37,9 @@ const Task = ({ card, index }) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <CardContent>
+          <CardContent onClick={()=> console.log('abdsjksdfkjsdfkj')}>
             <div className={classes.tag} />
-            <Typography className={classes.cardTitle} gutterBottom>
+            <Typography className={classes.cardTitle} gutterBottom >
               {card.title}
             </Typography>
             <Typography color="textSecondary">{card.deadline}</Typography>

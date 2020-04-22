@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, {useState, useEffect, useContext} from "react";
 import initialData from "../context/InitialData";
+import NavigationBar from "../components/NavigationBar"
 import BoardBar from "../components/BoardBar";
 import Column from "../components/Column";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import { makeStyles } from "@material-ui/core/styles";
+import {DashboardContext} from "../context/dashboard/dashboard.provider";
+import {authFetch} from "../helpers/authFetch";
 
 const useStyles = makeStyles(theme => ({
   grid: {
@@ -27,7 +30,32 @@ const useStyles = makeStyles(theme => ({
 
 const Board = () => {
   const classes = useStyles();
-  const [data, setData] = useState(initialData);
+  // const [data, setData] = useState(initialData);
+
+  const [switchBoard, setSwitchBoard] = useState(false);
+
+  //Access the states from Dashboard Provider
+  const {
+    isFetching, setIsFetching,
+    error, setError,
+    boards, setBoards,
+    selectedBoard, setSelectedBoard,
+    columns, setColumns,
+    cards, setCards
+  } = useContext(DashboardContext);
+
+
+
+  if (error!== null || isFetching || boards.length ===0) {
+    return (
+        <BoardBar/>
+    )
+  }
+
+  console.log(boards);
+  console.log('selectedBoard', selectedBoard);
+  console.log('columns', columns);
+  console.log(cards);
 
   const onDragEnd = result => {
     const { destination, source, draggableId, type } = result;
@@ -44,65 +72,60 @@ const Board = () => {
     }
 
     if (type === "column") {
-      const newColumnOrder = Array.from(data.columnOrder);
+      const newColumnOrder = Array.from(selectedBoard.columns);
       newColumnOrder.splice(source.index, 1);
       newColumnOrder.splice(destination.index, 0, draggableId);
 
-      setData({
-        ...data,
-        columnOrder: newColumnOrder
+      setSelectedBoard({
+        ...selectedBoard,
+        columns: newColumnOrder
       });
       return;
     }
 
-    const start = data.columns[source.droppableId];
-    const finish = data.columns[destination.droppableId];
+    const start = columns[source.droppableId];
+    const finish = columns[destination.droppableId];
     //Moving withing the same column
     if (start === finish) {
-      const newCardIds = Array.from(start.cardIds);
+      const newCardIds = Array.from(start.cards);
       newCardIds.splice(source.index, 1);
       newCardIds.splice(destination.index, 0, draggableId);
       const newColumn = {
         ...start,
-        cardIds: newCardIds
+        cards: newCardIds
       };
 
-      setData({
-        ...data,
-        columns: {
-          ...data.columns,
-          [newColumn.id]: newColumn
-        }
+      setColumns({
+        ...columns,
+        [newColumn._id]: newColumn
       });
       return;
     }
     //Moving from one column to another
-    const startCardIds = Array.from(start.cardIds);
+    const startCardIds = Array.from(start.cards);
     startCardIds.splice(source.index, 1);
     const newStart = {
       ...start,
-      cardIds: startCardIds
+      cards: startCardIds
     };
 
-    const finishCardIds = Array.from(finish.cardIds);
+    const finishCardIds = Array.from(finish.cards);
     finishCardIds.splice(destination.index, 0, draggableId);
     const newFinish = {
       ...finish,
-      cardIds: finishCardIds
+      cards: finishCardIds
     };
 
-    setData({
-      ...data,
-      columns: {
-        ...data.columns,
-        [newStart.id]: newStart,
-        [newFinish.id]: newFinish
-      }
+    setColumns({
+      ...columns,
+      [newStart._id]: newStart,
+      [newFinish._id]: newFinish
     });
   };
 
   return (
     <div>
+      <NavigationBar />
       <BoardBar />
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable
@@ -117,17 +140,17 @@ const Board = () => {
               ref={provided.innerRef}
             >
               <div className={classes.grid}>
-                {data.columnOrder.map((columnId, index) => {
-                  const column = data.columns[columnId];
-                  const cards = column.cardIds.map(
-                    cardId => data.cards[cardId]
+                {selectedBoard.columns.map((columnId, index) => {
+                  const column = columns[columnId];
+                  const cardsArr = column.cards.map(
+                    cardId => cards[cardId]
                   );
 
                   return (
                     <Column
-                      key={column.id}
+                      key={column._id}
                       column={column}
-                      cards={cards}
+                      cards={cardsArr}
                       index={index}
                     />
                   );
