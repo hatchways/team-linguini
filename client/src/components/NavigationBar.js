@@ -133,7 +133,7 @@ const NavigationBar = () => {
     const formData = new FormData();
     formData.append("title", data.board);
     const url = "/api/v1/boards/";
-
+    //const newBoardData
     authFetch(url, {
       method: "POST",
       body: formData,
@@ -143,7 +143,14 @@ const NavigationBar = () => {
         setSelectedBoard({
           ...data,
         });
+        setSelectedBoard({
+          ...data,
+        });
+        console.log("response data", data);
+        console.log("selectedBoard in response", selectedBoard);
       });
+    console.log("data", data.board);
+    console.log("selectedBoard", selectedBoard);
   };
 
   const classes = useStyles();
