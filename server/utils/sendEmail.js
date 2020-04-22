@@ -10,8 +10,6 @@ const send = async (message) => {
 };
 
 const sendWelcomeEmail = async (to) => {
-  console.log('Email Sent')
-  console.log(process.env.FROM_EMAIL)
   await send({
     to,
     from: process.env.FROM_EMAIL,
