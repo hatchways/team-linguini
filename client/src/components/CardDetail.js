@@ -24,7 +24,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import DateFnsUtils from "@date-io/date-fns";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { authFetch } from '../helpers/authFetch'
+import { authFetch, authJSONFetch } from '../helpers/authFetch'
 import {useDashboard} from '../context/dashboard/dashboard.provider'
 
 const DialogTitle = (props) => {
@@ -321,7 +321,7 @@ const CardDetail = (props) => {
 
     setIsFetching(true);
 
-    authFetch(url, {
+    authJSONFetch(url, {
       method: 'PUT',
       body: JSON.stringify(content)
     }).then(res => res.json())
