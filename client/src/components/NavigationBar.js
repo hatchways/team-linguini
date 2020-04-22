@@ -80,6 +80,7 @@ const NavigationBar = () => {
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [avatar, setAvatar] = useState("/images/avatar.jpg");
   const [data, setData] = useState("Hello world");
 
   const handleClickAvatarMenu = (event) => {
@@ -128,6 +129,7 @@ const NavigationBar = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        setAvatar(data.avatarUrl);
         //setData(JSON.stringify(data));
       });
   };
@@ -176,7 +178,7 @@ const NavigationBar = () => {
             aria-haspopup="true"
             onClick={handleClickAvatarMenu}
           >
-            <Avatar alt="Wonderful Client" src="/images/avatar.jpg" />
+            <Avatar alt="nothing" src={avatar} />
           </IconButton>
           <Menu
             id="simple-menu"
