@@ -13,6 +13,7 @@ import { AuthForm, RedirectDiv } from "../components/auth";
 import { Grid, makeStyles } from "@material-ui/core";
 
 const Login = () => {
+
   const auth = useAuth();
   const { dispatchIsAuthenticated, dispatchUser } = auth;
   const [serverResponse, setServerResponse] = useState("");
@@ -55,7 +56,7 @@ const Login = () => {
           console.log("login successfully");
 
           //Redirect to dashboard
-          history.push("/");
+          window.location.replace("/");
         } else {
           throw Error(res.error);
         }
