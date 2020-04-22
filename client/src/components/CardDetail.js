@@ -354,18 +354,21 @@ const CardDetail = (props) => {
     authJSONFetch(url, {method: 'DELETE'})
       .then(res => res.json())
       .then(res => {
-        if (! res.error) {
+        if (res.error) {
           setError(res.error);
           return;
         }
 
-        const newCards = {...cards};
-        newCards[card._id] = undefined;
-        setCards(newCards);
-
-        const newColumns = {columns};
-        const newColumn = newColumns[card.columnId].filter(cardId => cardId !== card._id);
+        const newColumns = {...columns};
+        const cardItems = columns[card.columnId].cards.filter(cardId => cardId.toString() !== card._id.toString());
+        newColumns[card.columnId].cards = cardItems;
         setColumns(newColumns);
+
+        const newCards = {...cards};
+        console.log(newCards);
+        delete newCards[card._id];
+        console.log(newCards);
+        setCards(newCards);
 
         console.log('delete card successfully')
         handleClose();
