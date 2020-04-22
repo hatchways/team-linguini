@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -19,6 +19,7 @@ import { NavLink } from "react-router-dom";
 import { DropzoneDialog } from "material-ui-dropzone";
 import CreateModelByName from "./CreateModelByName";
 import { authFetch } from "../helpers/authFetch";
+import { DashboardContext } from "../context/dashboard/dashboard.provider";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -75,6 +76,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavigationBar = () => {
+  //Access the states from Dashboard Provider
+  const { selectedBoard, setSelectedBoard } = useContext(DashboardContext);
+
   const [openCreationBoardDialog, setCreationBoardDialog] = useState(false);
 
   const handleOpenCreationBoardDialog = () => {
@@ -126,12 +130,6 @@ const NavigationBar = () => {
   };
 
   const saveCreateBoardDialog = (data) => {
-    console.log(data);
-
-    /*const { board } = data;
-    const postData = {
-      title: board,
-    };*/
     const formData = new FormData();
     formData.append("title", data.board);
     const url = "/api/v1/boards/";
@@ -142,7 +140,9 @@ const NavigationBar = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        setSelectedBoard({
+          ...data,
+        });
       });
   };
 

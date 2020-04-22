@@ -69,11 +69,6 @@ const Board = () => {
     return <BoardBar />;
   }
 
-  console.log(boards);
-  console.log("selectedBoard", selectedBoard);
-  console.log("columns", columns);
-  console.log(cards);
-
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
 
@@ -147,7 +142,7 @@ const Board = () => {
   const handleCloseCreationBoardDialog = () => {
     setCreationBoardDialog(false);
   };
-  const saveCreateBoardDialog = (data) => {
+  /*const saveCreateBoardDialog = (data) => {
     console.log("data");
     console.log(selectedBoard._id);
 
@@ -168,14 +163,41 @@ const Board = () => {
         setColumns(updatedColumns);
         const newColumn = Array.from(columns);
         newColumn.push(data._id);
-        /*const newBoards = [...boards];
+        const newBoards = [...boards];
         newBoards.push({ _id: data._id, title: data.title });
-        setBoards(newBoards);*/
+        setBoards(newBoards);
         setSelectedBoard({
           ...selectedBoard,
           columns: newColumn,
         });
         console.log("new context columns", columns);
+      });
+  };*/
+  const saveCreateBoardDialog = (data) => {
+    const formData = new FormData();
+    formData.append("title", data.board);
+    formData.append("boardId", selectedBoard._id);
+    const url = "/api/v1/columns";
+    const updatedColumns = { ...columns };
+    authFetch(url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        //console.log("newcolumns", data);
+        updatedColumns[data._id] = data;
+        console.log("column before upate", updatedColumns);
+        setColumns(updatedColumns);
+        const newColumn = Object.keys(updatedColumns); //Array.from(columns._id);
+        console.log("column before", newColumn);
+        //newColumn.push(data._id);
+        console.log("columns after", newColumn);
+        //columns.push(data._id);
+        setSelectedBoard({
+          ...selectedBoard,
+          columns: newColumn,
+        });
       });
   };
   return (
