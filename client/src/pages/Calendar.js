@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DashboardContext } from "../context/dashboard/dashboard.provider";
 import { makeStyles } from "@material-ui/core/styles";
 import FullCalendar from "@fullcalendar/react";
@@ -6,6 +6,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { Box } from "@material-ui/core";
 import "./Calendar.css";
+import moment from 'moment'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -36,6 +37,37 @@ const Calendar = () => {
     cards,
     setCards,
   } = useContext(DashboardContext);
+  
+  const [cardData, setCardData] = useState([])
+  console.log(cardData)
+
+  //console.log(columns)
+  //console.log(Object.entries(columns))
+  //console.log(cards)
+  //console.log(Object.entries(cards))
+
+  useEffect(() => {
+    Object.entries(cards).map(card => {
+    //const title = card[1].title
+    const date = moment(card[1].deadline).format("YYYY-MM-DD")
+    //console.log(date)
+    setCardData(prevState => [...prevState, {...card[1], date}])
+    return
+  })
+
+  //console.log(cardData)
+  }, [cards])
+
+  /*
+  [
+            { title: "event 1", date: "2020-04-24" },
+            { title: "event 2", date: "2020-04-27" },
+            { title: "event 3", date: "2020-04-27" },
+            { title: "event 4", date: "2020-04-27" },
+            { title: "event 5", date: "2020-04-27" },
+            { title: "event 6", date: "2020-04-27" },
+          ]
+  */
 
   return (
     <div>
@@ -49,14 +81,7 @@ const Calendar = () => {
             center: "title",
             right: "today prevYear, prev, next, nextYear",
           }}
-          events={[
-            { title: "event 1", date: "2020-04-24" },
-            { title: "event 2", date: "2020-04-27" },
-            { title: "event 3", date: "2020-04-27" },
-            { title: "event 4", date: "2020-04-27" },
-            { title: "event 5", date: "2020-04-27" },
-            { title: "event 6", date: "2020-04-27" },
-          ]}
+          events={cardData}
           eventLimit={true}
           eventBackgroundColor="white"
           eventTextColor="black"
