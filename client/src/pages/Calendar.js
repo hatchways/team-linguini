@@ -52,7 +52,7 @@ const Calendar = () => {
     const date = moment(card[1].deadline).format("YYYY-MM-DD")
     //console.log(date)
     setCardData(prevState => [...prevState, {...card[1], date}])
-    return
+    return null
   })
 
   //console.log(cardData)
