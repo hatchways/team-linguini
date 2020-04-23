@@ -8,6 +8,7 @@ import { Box } from "@material-ui/core";
 import "./Calendar.css";
 import moment from 'moment'
 import {authJSONFetch} from "../helpers/authFetch"
+import CardDetail from "../components/CardDetail"
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -40,7 +41,10 @@ const Calendar = () => {
   } = useContext(DashboardContext);
   
   const [cardData, setCardData] = useState([])
+  const [card, setCard] = useState({})
+  const [open, setOpen] = useState(false);
   console.log(cardData)
+  console.log(card)
 
   //console.log(columns)
   //console.log(Object.entries(columns))
@@ -81,8 +85,18 @@ const Calendar = () => {
   }
 
   const eventClick = info => {
-    console.log(info)
+    //console.log(info.event.extendedProps._id)
+    //setCardId(info.event.extendedProps._id)
+    //console.log(cardData)
+    const search = cardData.filter(card => card._id === info.event.extendedProps._id)
+    //console.log(search)
+    setCard(...search)
+    setOpen(true)
   }
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <div>
