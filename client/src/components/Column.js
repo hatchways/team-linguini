@@ -9,6 +9,8 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import { Box, Card, CardContent } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField'
+import { authJSONFetch } from '../helpers/authFetch'
+import { useDashboard } from '../context/dashboard/dashboard.provider'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -151,6 +153,7 @@ const NewCardBox = (props) => {
         <CardContent >
           <TextField className={classes.cardTitle}
                      placeholder={'Add title ...'}
+                     defaultValue={props.cardTitle}
                      onChange={event => props.setCardTitle(event.target.value)}
           />
           <Box display="flex" flexDirection="row" justifyContent={'space-between'} mt={2}>
@@ -175,7 +178,9 @@ const Column = ({ column, cards, index }) => {
   const [displayNewCard, setDisplayNewCard] = useState('none');
   const [displayAddButton, setDisplayAddButton] = useState('block');
   const [cardTitle, setCardTitle] = useState(null);
-  const [cardColorCode, setCardColorCode] = useState(undefined);
+  const [cardColorCode, setCardColorCode] = useState('white');
+
+  const dashboard = useDashboard();
 
   const handleAddCardClick = () => {
     setDisplayNewCard('block');
@@ -185,6 +190,33 @@ const Column = ({ column, cards, index }) => {
   const handleSubmitAddingClick = () => {
     console.log(cardTitle);
     console.log(cardColorCode);
+    if (cardTitle) {
+      const url = '/api/v1/cards';
+      const bodyData = {
+        title: cardTitle,
+        colorCode: cardColorCode,
+        columnId: column._id
+      };
+      authJSONFetch(url, {method: 'POST', body: JSON.stringify(bodyData)})
+        .then(res => res.json())
+        .then(res => {
+          if (res.error) {
+            console.log(res.error);
+            return;
+          };
+
+          dashboard.setCards({...dashboard.cards, [res._id]:res});
+          const newColumns = {...dashboard.columns}
+          newColumns[res.columnId] = {...dashboard.columns[res.columnId]};
+          newColumns[res.columnId].cards.push(res._id);
+          dashboard.setColumns(newColumns);
+
+          setDisplayNewCard('none');
+          setDisplayAddButton('block');
+          setCardTitle(null);
+          setCardColorCode('white')
+        })
+    }
   }
   return (
     <Draggable draggableId={column._id} index={index}>
@@ -219,7 +251,9 @@ const Column = ({ column, cards, index }) => {
                   ))}
                   <NewCardBox displayNewCard={displayNewCard} setCardTitle={setCardTitle}
                               cardColorCode={cardColorCode}
-                              setCardColorCode={setCardColorCode}/>
+                              setCardColorCode={setCardColorCode}
+                              cardTitle={cardTitle}
+                  />
                   {provided.placeholder}
                 </div>
               )}
