@@ -48,10 +48,10 @@ const Board = () => {
     return null
   }
 
-  console.log(boards);
-  console.log('selectedBoard', selectedBoard);
-  console.log('columns', columns);
-  console.log(cards);
+  //console.log(boards);
+  //console.log('selectedBoard', selectedBoard);
+  //console.log('columns', columns);
+  //console.log(cards);
 
   const onDragEnd = result => {
     const { destination, source, draggableId, type } = result;

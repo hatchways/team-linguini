@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
+import { DashboardContext } from "../context/dashboard/dashboard.provider";
 import { makeStyles } from "@material-ui/core/styles";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction"
-import { Container, Box, Grid } from "@material-ui/core";
-import "./Calendar.css"
+import interactionPlugin from "@fullcalendar/interaction";
+import { Box } from "@material-ui/core";
+import "./Calendar.css";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -12,15 +13,30 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "20px",
     marginLeft: "70px",
     marginRight: "70px",
-    paddingBottom: "80px"
+    paddingBottom: "80px",
   },
   calendar: {
-      background: "blue"
-  }
+    background: "blue",
+  },
 }));
 
 const Calendar = () => {
   const classes = useStyles();
+  const {
+    isFetching,
+    setIsFetching,
+    error,
+    setError,
+    boards,
+    setBoards,
+    selectedBoard,
+    setSelectedBoard,
+    columns,
+    setColumns,
+    cards,
+    setCards,
+  } = useContext(DashboardContext);
+
   return (
     <div>
       <Box className={classes.container}>
@@ -34,20 +50,20 @@ const Calendar = () => {
             right: "today prevYear, prev, next, nextYear",
           }}
           events={[
-            { title: 'event 1', date: '2020-04-24' },
-            { title: 'event 2', date: '2020-04-27' },
-            { title: 'event 3', date: '2020-04-27' },
-            { title: 'event 4', date: '2020-04-27' },
-            { title: 'event 5', date: '2020-04-27' },
-            { title: 'event 6', date: '2020-04-27' },
+            { title: "event 1", date: "2020-04-24" },
+            { title: "event 2", date: "2020-04-27" },
+            { title: "event 3", date: "2020-04-27" },
+            { title: "event 4", date: "2020-04-27" },
+            { title: "event 5", date: "2020-04-27" },
+            { title: "event 6", date: "2020-04-27" },
           ]}
           eventLimit={true}
-          eventBackgroundColor='white'
-          eventTextColor='black'
-          eventBorderColor='white'
+          eventBackgroundColor="white"
+          eventTextColor="black"
+          eventBorderColor="white"
           fixedWeekCount={false}
           editable={true}
-          eventDrop={info => console.log(info)}
+          eventDrop={(info) => console.log(info)}
         />
       </Box>
     </div>
