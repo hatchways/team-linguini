@@ -67,17 +67,6 @@ const Calendar = () => {
   //console.log(cardData)
   }, [cards])
 
-  /*
-  [
-            { title: "event 1", date: "2020-04-24" },
-            { title: "event 2", date: "2020-04-27" },
-            { title: "event 3", date: "2020-04-27" },
-            { title: "event 4", date: "2020-04-27" },
-            { title: "event 5", date: "2020-04-27" },
-            { title: "event 6", date: "2020-04-27" },
-          ]
-  */
-
   const eventDrop = info => {
     const cardId = info.event.extendedProps._id
     const deadline = moment(info.event._instance.range.end).format("YYYY-MM-DD")
