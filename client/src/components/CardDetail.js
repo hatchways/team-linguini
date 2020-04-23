@@ -85,6 +85,9 @@ const DialogTitle = (props) => {
         <MenuItem onClick={handleClose('blue')}>
           <Box className={classes.colorLine} bgcolor={"cardColor.blue"} />
         </MenuItem>
+        <MenuItem onClick={handleClose('white')}>
+          <Box className={classes.colorLine} bgcolor={"cardColor.white"} />
+        </MenuItem>
         <MenuItem onClick={handleClose('red')}>
           <Box className={classes.colorLine} bgcolor={"cardColor.red"} />
         </MenuItem>
@@ -444,9 +447,9 @@ const CardDetail = (props) => {
                     />
                   </MuiPickersUtilsProvider>
                 </Box>
-                <Box component={'form'} mb={3} display={showAttachment || "none"} onSubmit={handleFileUpload}>
+                <Box component={'div'} mb={3} display={showAttachment || "none"} onSubmit={handleFileUpload}>
                   <Typography className={classes.label}>Attachment</Typography>
-                  <Box component={'form'} variant={"outlined"}>
+                  <Box component={'div'} variant={"outlined"}>
                     <InputBase type={'file'} name={'file'}/>
                     <Button type={'submit'} variant={'contained'} size={'small'} color={"secondary"}>Upload</Button>
                   </Box>
