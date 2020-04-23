@@ -86,7 +86,7 @@ const BoardBar = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [boardTitles, setBoardTitles] = useState({});
+  // const [boardTitles, setBoardTitles] = useState({});
   const {
     isFetching,
     setIsFetching,
@@ -135,6 +135,7 @@ const BoardBar = () => {
               setBoards(res.boards);
               //setAvatarUrl(res.avatarUrl);
               console.log("selectedBoard", selectedBoard);
+              console.log('columns', columns);
             } else {
               throw Error(res.error);
             }
@@ -154,7 +155,7 @@ const BoardBar = () => {
           //titles.push(data.boards[i].title);
           titles[data.boards[i]._id] = data.boards[i].title;
         }
-        setBoardTitles(titles);
+        // setBoardTitles(titles);
         setOpen(true);
       });
   };
@@ -173,7 +174,7 @@ const BoardBar = () => {
       >
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            My School Board
+            {selectedBoard.title}
           </Typography>
           <IconButton
             color="inherit"
@@ -206,14 +207,14 @@ const BoardBar = () => {
         </div>
         <Divider />
         <List>
-          {Object.keys(boardTitles).map((id) => (
+          {boards.map((board) => (
             <ListItem
               button
-              key={id.toString()}
-              idvalue={id}
-              onClick={selectBoard.bind(this, id)}
+              key={board.title.toString()}
+              idvalue={board._id}
+              onClick={selectBoard.bind(this, board._id)}
             >
-              <ListItemText primary={boardTitles[id]} />
+              <ListItemText primary={board.title} />
             </ListItem>
           ))}
         </List>
