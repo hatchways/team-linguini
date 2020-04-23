@@ -54,5 +54,5 @@ const DashboardProvider = (props) => {
     )
 }
 
-export {DashboardProvider, DashboardContext};
+export {DashboardProvider, DashboardContext, useDashboard};
 

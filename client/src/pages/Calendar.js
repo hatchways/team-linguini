@@ -7,7 +7,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { Box } from "@material-ui/core";
 import "./Calendar.css";
 import moment from 'moment'
-import {authFetch} from "../helpers/authFetch"
+import {authJSONFetch} from "../helpers/authFetch"
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -74,7 +74,7 @@ const Calendar = () => {
     const cardId = info.event.extendedProps._id
     const deadline = moment(info.event._instance.range.end).format("YYYY-MM-DD")
     
-    authFetch(`/api/v1/cards/${cardId}`, {
+    authJSONFetch(`/api/v1/cards/${cardId}`, {
       method: "PUT",
       body: JSON.stringify({deadline})
     })

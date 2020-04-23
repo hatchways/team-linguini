@@ -1,10 +1,9 @@
-import React from "react";
+import React, { Fragment, useState } from 'react'
 import { Draggable } from "react-beautiful-dnd";
 
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
+import { makeStyles} from "@material-ui/core/styles";
+import {Card, Box, Button, Typography, CardContent} from "@material-ui/core";
+import CardDetail from './CardDetail'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -15,20 +14,33 @@ const useStyles = makeStyles(theme => ({
   },
   cardTitle: {
     fontSize: 14,
-    fontWeight: 700
+    fontWeight: 700,
+    paddingLeft: 0
   },
   tag: {
     height: "7px",
     width: "45px",
-    background: "#5ACD76",
     borderRadius: "5px",
     marginBottom: "10px"
   }
 }));
 
 const Task = ({ card, index }) => {
+
   const classes = useStyles();
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
   return (
+    <Fragment>
     <Draggable draggableId={card._id} index={index}>
       {provided => (
         <Card
@@ -37,16 +49,18 @@ const Task = ({ card, index }) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <CardContent onClick={()=> console.log('abdsjksdfkjsdfkj')}>
-            <div className={classes.tag} />
-            <Typography className={classes.cardTitle} gutterBottom >
+          <CardContent >
+            <Box className={classes.tag} bgcolor={"cardColor." + card.colorCode}/>
+            <Button className={classes.cardTitle} onClick={handleClickOpen} pl={0}>
               {card.title}
-            </Typography>
+            </Button>
             <Typography color="textSecondary">{card.deadline}</Typography>
           </CardContent>
         </Card>
       )}
     </Draggable>
+    <CardDetail open={open} handleClose={handleClose} card={card}></CardDetail>
+</Fragment>
   );
 };
 

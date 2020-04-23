@@ -9,8 +9,18 @@ const CardSchema = new mongoose.Schema({
     tags: [String],
     comments: [String],
     description: String,
-    attachment: String,
-
+    checklist: [ {
+        content: String,
+        active: Boolean
+    }],
+    attachment: [ {
+            fileName: String,
+            url: String
+    }],
+    colorCode: {
+        type: String,
+        default: 'green'
+    },
     columnId : {
         type: mongoose.Schema.ObjectId,
         require: true
