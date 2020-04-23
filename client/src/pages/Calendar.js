@@ -72,11 +72,8 @@ const Calendar = () => {
 
   const eventDrop = info => {
     const cardId = info.event.extendedProps._id
-    //console.log(info.event)
-    //console.log(info.event._instance.range.end)
     const deadline = moment(info.event._instance.range.end).format("YYYY-MM-DD")
-    console.log(deadline)
-    //const url = `/api/v1/cards/${cardId}`
+    
     authFetch(`/api/v1/cards/${cardId}`, {
       method: "PUT",
       body: JSON.stringify({deadline})
