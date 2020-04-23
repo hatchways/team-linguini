@@ -8,11 +8,20 @@ export const theme = createMuiTheme({
       // could customize the h1 variant as well
     },
     button: {
-      textTransform: "none",
-    },
+      textTransform: 'none'
+    }
   },
   palette: {
     primary: { main: "#DF1B1B" },
+    secondary: {
+      main: "#759CFC",
+    },
+    cardColor: {
+      blue: "#15A1F7",
+      green: '#5ACD76',
+      red: '#C70039',
+      yellow: '#F7F315',
+    }
   },
   overrides: {
     MuiLink: {
