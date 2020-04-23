@@ -80,6 +80,10 @@ const Calendar = () => {
     })
   }
 
+  const eventClick = info => {
+    console.log(info)
+  }
+
   return (
     <div>
       <Box className={classes.container}>
@@ -100,6 +104,7 @@ const Calendar = () => {
           fixedWeekCount={false}
           editable={true}
           eventDrop={info => eventDrop(info)}
+          eventClick={info => eventClick(info)}
         />
       </Box>
     </div>
