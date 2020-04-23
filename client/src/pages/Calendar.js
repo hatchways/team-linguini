@@ -32,28 +32,15 @@ const Calendar = () => {
   const [cardData, setCardData] = useState([])
   const [card, setCard] = useState(null)
   const [open, setOpen] = useState(false);
-  console.log(cardData)
-  console.log(card)
-
-  //console.log(columns)
-  //console.log(Object.entries(columns))
-  //console.log(cards)
-  //console.log(Object.entries(cards))
 
   useEffect(() => {
-    console.log(cards)
     const newCardData = []
     Object.entries(cards).map(card => {
-    //const title = card[1].title
-    console.log(card)
     const date = moment(card[1].deadline).format("YYYY-MM-DD")
-    //console.log(date)
-    //setCardData(prevState => [...prevState, {...card[1], date}])
     newCardData.push({...card[1], date})
     return null
   })
   setCardData(newCardData)
-  //console.log(cardData)
   }, [cards])
 
   const eventDrop = info => {
@@ -69,7 +56,6 @@ const Calendar = () => {
       if (res.error) {
         throw new Error(res.error);
       }else{
-        console.log(res)
         const newCards = {...cards, [res._id]: res}
         setCards(newCards)
       }
@@ -77,11 +63,7 @@ const Calendar = () => {
   }
 
   const eventClick = info => {
-    //console.log(info.event.extendedProps._id)
-    //setCardId(info.event.extendedProps._id)
-    //console.log(cardData)
     const search = cardData.filter(card => card._id === info.event.extendedProps._id)
-    //console.log(search)
     setCard(...search)
     setOpen(true)
   }
