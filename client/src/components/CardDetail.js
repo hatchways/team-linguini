@@ -294,7 +294,6 @@ const CardStyle = (theme) => ({
 const CardDetail = (props) => {
   const { handleClose, open } = props;
   const card = props.card;
-  console.log(card)
   const {cards, setCards, columns, setColumns} = useDashboard();
 
   //States for showing the elements
