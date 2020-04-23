@@ -208,6 +208,7 @@ const Board = () => {
                 <div className={classes.grid}>
                   {selectedBoard.columns.map((columnId, index) => {
                     const column = columns[columnId];
+                    console.log("columns.lcards", column.cards);
                     const cardsArr = column.cards.map(
                       (cardId) => cards[cardId]
                     );

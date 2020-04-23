@@ -124,8 +124,10 @@ const BoardBar = () => {
           .then((res) => res.json())
           .then((res) => {
             setIsFetching(false);
+            console.log("response", res);
             if (!res.error) {
               console.log("board selected from list", res.selectedBoard);
+              console.log("cards", res.cards);
               setError(null);
               setSelectedBoard(res.selectedBoard);
               setCards(res.cards);

@@ -17,7 +17,9 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
     if (value) newData[field] = value;
   });
   user = await User.findByIdAndUpdate(req.user._id, newData, { new: true });
-  res.status(200).json(user);
+  console.log("theuser on update", user);
+  userData = await User.findById(req.user._id);
+  res.status(200).json(userData);
 });
 
 //@desc upload image file and save it to S3

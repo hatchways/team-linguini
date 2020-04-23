@@ -7,34 +7,43 @@ const { ErrorResponse } = require("../utils/errorResponse");
 
 /*Create new board for the new account*/
 const initializeFirstBoard = async (userObjectId) => {
+  try {
+    //Create a new board
+    const board = await Board.create({
+      title: "My board",
+      owner: userObjectId,
+    });
 
-    try {
-        //Create a new board
-        const board = await Board.create({title: 'My board', owner: userObjectId})
+    //Create new columns 'in progress' and 'completed'
+    const column1 = await Column.create({
+      title: "In progress",
+      boardId: board._id,
+      owner: userObjectId,
+    });
+    const column2 = await Column.create({
+      title: "Completed",
+      boardId: board._id,
+      owner: userObjectId,
+    });
 
-        //Create new columns 'in progress' and 'completed'
-        const column1 = await Column.create({title: "In progress", boardId: board._id, owner: userObjectId});
-        const column2 = await Column.create({title: "Completed", boardId: board._id, owner: userObjectId});
+    board.columns = [column1._id, column2._id];
+    await board.save();
 
-        board.columns = [column1._id, column2._id];
-        await board.save();
+    const user = await User.findById(userObjectId);
+    user.selectedBoard = board._id;
+    user.boards = [board._id];
 
-        const user = await User.findById(userObjectId);
-        user.selectedBoard = board._id;
-        user.boards = [board._id];
+    await user.save();
 
-        await user.save();
+    //Return
+    return board._id;
+  } catch (e) {
+    // return new ErrorResponse(e.message, 500)
+    return;
+  }
+};
 
-        //Return
-        return board._id;
-    } catch (e) {
-        // return new ErrorResponse(e.message, 500)
-        return ;
-    }
-}
-
-exports.initializeFirstBoard = initializeFirstBoard
-
+exports.initializeFirstBoard = initializeFirstBoard;
 
 //Return User Id from the req object
 const getUserId = (req) => req.user._id;
@@ -56,42 +65,51 @@ exports.createBoard = asyncHandler(async (req, res, next) => {
 //@Route GET /api/v1/boards/init
 //@Access private
 exports.getInit = asyncHandler(async (req, res, next) => {
+  const output = {};
+  let user = await User.findById(req.user._id).populate({
+    path: "boards",
+    select: "_id title",
+  });
+  output.avatarUrl = user.avatarUrl ? req.user.avatarUrl : "";
 
-    const output = {};
-    let user = await User.findById(req.user._id).populate({path: 'boards', select:'_id title'});
-    output.avatarUrl = user.avatarUrl ? req.user.avatarUrl : '';
+  if (user.boards.length === 0) {
+    const boardId = await initializeFirstBoard(req.user._id);
+    user = await User.findById(req.user._id).populate({
+      path: "boards",
+      select: "_id title",
+    });
+  }
 
-    if (user.boards.length === 0) {
-        const boardId = await initializeFirstBoard(req.user._id);
-        user = await User.findById(req.user._id).populate({path: 'boards', select:'_id title'});
-    }
+  output.boards = user.boards;
+  output.selectedBoard = await Board.findById(user.selectedBoard);
 
-    output.boards = user.boards;
-    output.selectedBoard = await Board.findById(user.selectedBoard);
+  //Get columns of the selected board
+  const board = output.selectedBoard;
 
-    //Get columns of the selected board
-    const board = output.selectedBoard;
+  const outputCards = (output.cards = {});
+  const outputColumns = (output.columns = {});
 
-    const outputCards = output.cards = {};
-    const outputColumns = output.columns = {};
+  for (let i = 0; i < board.columns.length; i++) {
+    const column = await Column.findById(board.columns[i]);
+    column.owner = undefined;
+    column.__v = undefined;
+    column.createAt = undefined;
+    console.log("column._id", column._id.toString());
+    //Save column to output
+    const columnId = column._id.toString();
+    console.log("columnId", columnId);
 
-    for (let i=0; i< board.columns.length; i++) {
-        const column = await Column.findById(board.columns[i]);
-        column.owner = undefined;
-        column.__v = undefined;
-        column.createAt = undefined;
-
-        //Save column to output
-        const columnId = column._id.toString();
-
-        outputColumns[columnId] = column;
-
-        //Get all cards of the column and save to output
-        const cards = await Card.find({columnId: column._id}).select('-__v -owner -createAt');
-        cards.forEach(card => outputCards[(card._id)] = card);
-    }
-
-    res.status(200).json(output);
+    outputColumns[columnId] = column;
+    console.log("column", column);
+    //Get all cards of the column and save to output
+    const cards = await Card.find({ columnId: column._id }).select(
+      "-__v -owner -createAt"
+    );
+    console.log("whats in cards", cards);
+    cards.forEach((card) => (outputCards[card._id] = card));
+  }
+  console.log("output", output);
+  res.status(200).json(output);
 });
 
 //@Desc get all boards of the user

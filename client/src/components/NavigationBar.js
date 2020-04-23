@@ -166,14 +166,15 @@ const NavigationBar = () => {
               "updatedUserSelectedBoard",
               dataOfUserUpdateSelectedBoard
             );
-            const url = "/api/v1/boards/init";
-
-            authFetch(url)
+            const urlInit = "/api/v1/boards/init";
+            //useEffect(() => {
+            setIsFetching(true);
+            authFetch(urlInit)
               .then((res) => res.json())
               .then((res) => {
                 setIsFetching(false);
                 if (!res.error) {
-                  console.log(res.selectedBoard);
+                  console.log("response in create", res.selectedBoard);
                   setError(null);
                   setSelectedBoard(res.selectedBoard);
                   setCards(res.cards);
@@ -185,6 +186,7 @@ const NavigationBar = () => {
                   throw Error(res.error);
                 }
               });
+            //});
           });
       });
     console.log("data", data.board);
