@@ -17,13 +17,13 @@ const DashboardProvider = (props) => {
   //Initialize data from server
   const url = "/api/v1/boards/init";
   useEffect(() => {
+    console.log("using effect");
     setIsFetching(true);
     authFetch(url)
       .then((res) => res.json())
       .then((res) => {
         setIsFetching(false);
         if (!res.error) {
-          console.log("initialized response", res.selectedBoard);
           setError(null);
           setSelectedBoard(res.selectedBoard);
           setCards(res.cards);

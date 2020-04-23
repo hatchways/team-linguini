@@ -86,7 +86,6 @@ const BoardBar = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  // const [boardTitles, setBoardTitles] = useState({});
   const {
     isFetching,
     setIsFetching,
@@ -103,11 +102,6 @@ const BoardBar = () => {
     setAvatarUrl,
   } = useContext(DashboardContext);
   const selectBoard = (id) => {
-    //event.target.key;
-    //console.log("the key", event.target.getAttribute("key"));
-    //const selectedIndex = event.target.options.selectedIndex;
-    //console.log(event.target.options[selectedIndex].getAttribute("idValue"));
-    console.log(id);
     const idOfNewlySelectedBoard = new FormData();
     idOfNewlySelectedBoard.append("selectedBoard", id);
     const urlUpdatingUserSelectedBoard = "/api/v1/user/update";
@@ -117,29 +111,7 @@ const BoardBar = () => {
     })
       .then((res) => res.json())
       .then((dataOfUserUpdateSelectedBoard) => {
-        console.log("updatedUserSelectedBoard", dataOfUserUpdateSelectedBoard);
-        const url = "/api/v1/boards/init";
-
-        authFetch(url)
-          .then((res) => res.json())
-          .then((res) => {
-            setIsFetching(false);
-            console.log("response", res);
-            if (!res.error) {
-              console.log("board selected from list", res.selectedBoard);
-              console.log("cards", res.cards);
-              setError(null);
-              setSelectedBoard(res.selectedBoard);
-              setCards(res.cards);
-              setColumns(res.columns);
-              setBoards(res.boards);
-              //setAvatarUrl(res.avatarUrl);
-              console.log("selectedBoard", selectedBoard);
-              console.log('columns', columns);
-            } else {
-              throw Error(res.error);
-            }
-          });
+        window.location.replace("/");
       });
   };
   const handleDrawerOpen = () => {
@@ -152,10 +124,8 @@ const BoardBar = () => {
       .then((data) => {
         const titles = {};
         for (let i = 0; i < data.boards.length; i += 1) {
-          //titles.push(data.boards[i].title);
           titles[data.boards[i]._id] = data.boards[i].title;
         }
-        // setBoardTitles(titles);
         setOpen(true);
       });
   };

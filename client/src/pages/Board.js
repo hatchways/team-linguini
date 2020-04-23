@@ -47,7 +47,7 @@ const Board = () => {
   // const [data, setData] = useState(initialData);
 
   const [switchBoard, setSwitchBoard] = useState(false);
-  const [openCreationBoardDialog, setCreationBoardDialog] = useState(false);
+  const [openCreationCardDialog, setCreationBoardDialog] = useState(false);
 
   //Access the states from Dashboard Provider
   const {
@@ -139,11 +139,11 @@ const Board = () => {
     setCreationBoardDialog(true);
   };
 
-  const handleCloseCreationBoardDialog = () => {
+  const handleCloseCreationColumnDialog = () => {
     setCreationBoardDialog(false);
   };
 
-  const saveCreateBoardDialog = (data) => {
+  const saveCreateColumn = (data) => {
     const formData = new FormData();
     formData.append("title", data.board);
     formData.append("boardId", selectedBoard._id);
@@ -155,15 +155,9 @@ const Board = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        //console.log("newcolumns", data);
         updatedColumns[data._id] = data;
-        console.log("column before upate", updatedColumns);
         setColumns(updatedColumns);
-        const newColumn = Object.keys(updatedColumns); //Array.from(columns._id);
-        console.log("column before", newColumn);
-        //newColumn.push(data._id);
-        console.log("columns after", newColumn);
-        //columns.push(data._id);
+        const newColumn = Object.keys(updatedColumns);
         setSelectedBoard({
           ...selectedBoard,
           columns: newColumn,
@@ -187,10 +181,10 @@ const Board = () => {
           <CreateModelByName
             title="Create a new board"
             description="Add Title"
-            onCloseModal={handleCloseCreationBoardDialog}
-            openModal={openCreationBoardDialog}
+            onCloseModal={handleCloseCreationColumnDialog}
+            openModal={openCreationCardDialog}
             name="board"
-            saveValue={(event) => saveCreateBoardDialog(event)}
+            saveValue={(event) => saveCreateColumn(event)}
           />
         </Box>
         <DragDropContext onDragEnd={onDragEnd}>
@@ -208,7 +202,6 @@ const Board = () => {
                 <div className={classes.grid}>
                   {selectedBoard.columns.map((columnId, index) => {
                     const column = columns[columnId];
-                    console.log("columns.lcards", column.cards);
                     const cardsArr = column.cards.map(
                       (cardId) => cards[cardId]
                     );
