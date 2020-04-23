@@ -98,7 +98,10 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     width: "280px",
     marginBottom: "10px",
-    borderRadius: '8px'
+    borderRadius: '8px',
+    borderColor: "#759CFC",
+    borderStyle: 'solid',
+    borderWidth: '1px'
   },
   cardTitle: {
     fontSize: 14,
