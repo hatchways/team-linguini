@@ -58,6 +58,10 @@ exports.createBoard = asyncHandler(async (req, res, next) => {
   console.log(req.body);
   const board = await Board.create({ title, owner });
 
+  const user = await User.findById(req.user._id);
+  user.boards.push(board._id);
+  await user.save();
+
   res.status(200).json(board);
 });
 
