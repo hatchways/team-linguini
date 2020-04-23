@@ -77,8 +77,21 @@ const useStyles = makeStyles((theme) => ({
 
 const NavigationBar = () => {
   //Access the states from Dashboard Provider
-  const { selectedBoard, setSelectedBoard } = useContext(DashboardContext);
-
+  const {
+    isFetching,
+    setIsFetching,
+    error,
+    setError,
+    boards,
+    setBoards,
+    selectedBoard,
+    setSelectedBoard,
+    columns,
+    setColumns,
+    cards,
+    setCards,
+    setAvatarUrl,
+  } = useContext(DashboardContext);
   const [openCreationBoardDialog, setCreationBoardDialog] = useState(false);
 
   const handleOpenCreationBoardDialog = () => {
@@ -140,17 +153,41 @@ const NavigationBar = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setSelectedBoard({
-          ...data,
-        });
-        setSelectedBoard({
-          ...data,
-        });
-        console.log("response data", data);
-        console.log("selectedBoard in response", selectedBoard);
+        const idOfNewlySelectedBoard = new FormData();
+        idOfNewlySelectedBoard.append("selectedBoard", data._id);
+        const urlUpdatingUserSelectedBoard = "/api/v1/user/update";
+        authFetch(urlUpdatingUserSelectedBoard, {
+          method: "PUT",
+          body: idOfNewlySelectedBoard,
+        })
+          .then((res) => res.json())
+          .then((dataOfUserUpdateSelectedBoard) => {
+            console.log(
+              "updatedUserSelectedBoard",
+              dataOfUserUpdateSelectedBoard
+            );
+            const url = "/api/v1/boards/init";
+
+            authFetch(url)
+              .then((res) => res.json())
+              .then((res) => {
+                setIsFetching(false);
+                if (!res.error) {
+                  console.log(res.selectedBoard);
+                  setError(null);
+                  setSelectedBoard(res.selectedBoard);
+                  setCards(res.cards);
+                  setColumns(res.columns);
+                  setBoards(res.boards);
+                  //setAvatarUrl(res.avatarUrl);
+                  console.log("selectedBoard", selectedBoard);
+                } else {
+                  throw Error(res.error);
+                }
+              });
+          });
       });
     console.log("data", data.board);
-    console.log("selectedBoard", selectedBoard);
   };
 
   const classes = useStyles();
