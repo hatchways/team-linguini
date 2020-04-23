@@ -41,7 +41,7 @@ const Calendar = () => {
   } = useContext(DashboardContext);
   
   const [cardData, setCardData] = useState([])
-  const [card, setCard] = useState({})
+  const [card, setCard] = useState(null)
   const [open, setOpen] = useState(false);
   console.log(cardData)
   console.log(card)
@@ -52,14 +52,18 @@ const Calendar = () => {
   //console.log(Object.entries(cards))
 
   useEffect(() => {
+    console.log(cards)
+    const newCardData = []
     Object.entries(cards).map(card => {
     //const title = card[1].title
+    console.log(card)
     const date = moment(card[1].deadline).format("YYYY-MM-DD")
     //console.log(date)
-    setCardData(prevState => [...prevState, {...card[1], date}])
+    //setCardData(prevState => [...prevState, {...card[1], date}])
+    newCardData.push({...card[1], date})
     return null
   })
-
+  setCardData(newCardData)
   //console.log(cardData)
   }, [cards])
 
@@ -82,6 +86,16 @@ const Calendar = () => {
       method: "PUT",
       body: JSON.stringify({deadline})
     })
+    .then(res => res.json())
+    .then(res => {
+      if (res.error) {
+        throw new Error(res.error);
+      }else{
+        console.log(res)
+        const newCards = {...cards, [res._id]: res}
+        setCards(newCards)
+      }
+    })
   }
 
   const eventClick = info => {
@@ -97,6 +111,14 @@ const Calendar = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const CardBox = props => {
+    if(props.card === null){
+      return null
+    }else{
+      return <CardDetail open={props.open} handleClose={props.handleClose} card={props.card} />
+    }
+  }
 
   return (
     <div>
@@ -121,6 +143,7 @@ const Calendar = () => {
           eventClick={info => eventClick(info)}
         />
       </Box>
+      <CardBox open={open} handleClose={handleClose} card={card} />
     </div>
   );
 };
