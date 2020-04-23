@@ -51,7 +51,7 @@ const Task = ({ card, index }) => {
         >
           <CardContent >
             <Box className={classes.tag} bgcolor={"cardColor." + card.colorCode}/>
-            <Button className={classes.cardTitle} onClick={handleClickOpen}>
+            <Button className={classes.cardTitle} onClick={handleClickOpen} pl={0}>
               {card.title}
             </Button>
             <Typography color="textSecondary">{card.deadline}</Typography>

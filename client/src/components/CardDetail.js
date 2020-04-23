@@ -7,12 +7,9 @@ import {
   Grid,
   TextField,
   InputBase,
-  DialogActions,
-  Select,
   MenuItem,
   Menu,
   Checkbox,
-  Paper,
   FormHelperText
 } from "@material-ui/core";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
@@ -24,7 +21,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import DateFnsUtils from "@date-io/date-fns";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { authFetch, authJSONFetch } from '../helpers/authFetch'
+import { authJSONFetch } from '../helpers/authFetch'
 import {useDashboard} from '../context/dashboard/dashboard.provider'
 
 const DialogTitle = (props) => {
@@ -52,12 +49,13 @@ const DialogTitle = (props) => {
       borderRadius: "5px",
       padding: "auto",
       marginLeft: 10,
+      cursor: 'pointer'
     },
   }))();
 
   const { children, onClose, colorCode, setColorCode, ...other } = props;
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -76,7 +74,7 @@ const DialogTitle = (props) => {
         onClick={handleClick}
         className={classes.colorLine}
         bgcolor={"cardColor." + colorCode}
-      ></Box>
+      />
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
@@ -226,6 +224,7 @@ const ChecklistItems = (props) => {
     <FormGroup>
       {checklistItems.map((item, index) => (
         <FormControlLabel
+          key={index}
           control={
             <Checkbox
               checked={item.active}
@@ -281,6 +280,7 @@ const CardStyle = (theme) => ({
     width: 100,
     marginRight: theme.spacing(4),
     marginTop: 20,
+    color: '#ffffff'
   },
   datePicker: {
     textColor: "#759CFC",
@@ -341,7 +341,7 @@ const CardDetail = (props) => {
         setCards(newCards);
 
         //Close the dialog
-        // handleClose();
+        handleClose();
       })
       .catch(error => {
         setError(error.message);
