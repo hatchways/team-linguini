@@ -25,18 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Calendar = () => {
   const classes = useStyles();
-  const {
-    isFetching,
-    setIsFetching,
-    error,
-    setError,
-    boards,
-    setBoards,
-    selectedBoard,
-    setSelectedBoard,
-    columns,
-    setColumns,
-    cards,
+  const { cards,
     setCards,
   } = useContext(DashboardContext);
   
