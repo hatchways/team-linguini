@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -16,6 +16,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { authFetch } from "../helpers/authFetch";
+import { DashboardContext } from "../context/dashboard/dashboard.provider";
 
 const drawerWidth = 240;
 
@@ -85,8 +86,59 @@ const BoardBar = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [boardTitles, setBoardTitles] = useState([]);
+  const [boardTitles, setBoardTitles] = useState({});
+  const {
+    isFetching,
+    setIsFetching,
+    error,
+    setError,
+    boards,
+    setBoards,
+    selectedBoard,
+    setSelectedBoard,
+    columns,
+    setColumns,
+    cards,
+    setCards,
+    setAvatarUrl,
+  } = useContext(DashboardContext);
+  const selectBoard = (id) => {
+    //event.target.key;
+    //console.log("the key", event.target.getAttribute("key"));
+    //const selectedIndex = event.target.options.selectedIndex;
+    //console.log(event.target.options[selectedIndex].getAttribute("idValue"));
+    console.log(id);
+    const idOfNewlySelectedBoard = new FormData();
+    idOfNewlySelectedBoard.append("selectedBoard", id);
+    const urlUpdatingUserSelectedBoard = "/api/v1/user/update";
+    authFetch(urlUpdatingUserSelectedBoard, {
+      method: "PUT",
+      body: idOfNewlySelectedBoard,
+    })
+      .then((res) => res.json())
+      .then((dataOfUserUpdateSelectedBoard) => {
+        console.log("updatedUserSelectedBoard", dataOfUserUpdateSelectedBoard);
+        const url = "/api/v1/boards/init";
 
+        authFetch(url)
+          .then((res) => res.json())
+          .then((res) => {
+            setIsFetching(false);
+            if (!res.error) {
+              console.log("board selected from list", res.selectedBoard);
+              setError(null);
+              setSelectedBoard(res.selectedBoard);
+              setCards(res.cards);
+              setColumns(res.columns);
+              setBoards(res.boards);
+              //setAvatarUrl(res.avatarUrl);
+              console.log("selectedBoard", selectedBoard);
+            } else {
+              throw Error(res.error);
+            }
+          });
+      });
+  };
   const handleDrawerOpen = () => {
     const url = "/api/v1/boards/";
 
@@ -95,9 +147,10 @@ const BoardBar = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        const titles = [];
+        const titles = {};
         for (let i = 0; i < data.boards.length; i += 1) {
-          titles.push(data.boards[i].title);
+          //titles.push(data.boards[i].title);
+          titles[data.boards[i]._id] = data.boards[i].title;
         }
         setBoardTitles(titles);
         setOpen(true);
@@ -151,9 +204,14 @@ const BoardBar = () => {
         </div>
         <Divider />
         <List>
-          {boardTitles.map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemText primary={text} />
+          {Object.keys(boardTitles).map((id) => (
+            <ListItem
+              button
+              key={id.toString()}
+              idvalue={id}
+              onClick={selectBoard.bind(this, id)}
+            >
+              <ListItemText primary={boardTitles[id]} />
             </ListItem>
           ))}
         </List>
