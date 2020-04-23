@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react'
 import Task from "./Task";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -7,6 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import { Box, Card, CardContent } from '@material-ui/core'
+import TextField from '@material-ui/core/TextField'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -67,20 +69,123 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   addCard: {
-    background: "#759CFC",
-    color: "white",
+    // background: "#759CFC",
+    color: "#759CFC",
     boxShadow: "none",
     position: "absolute",
     bottom: 10,
     left: 20,
     "&:hover": {
       background: "#759CFC",
+      color: "#ffffff"
     },
   },
+  addBoldCard: {
+    background: "#759CFC",
+    color: "#ffffff",
+    boxShadow: "none",
+    position: "absolute",
+    bottom: 10,
+    left: 20,
+    "&:hover": {
+      background: "#759CFC",
+      color: "#ffffff"
+    },
+  },
+  card: {
+    margin: "auto",
+    width: "280px",
+    marginBottom: "10px",
+    borderRadius: '8px'
+  },
+  cardTitle: {
+    fontSize: 14,
+    fontWeight: 700,
+    paddingLeft: 0
+  },
+  tag: {
+    height: "7px",
+    width: "45px",
+    borderRadius: "5px",
+    marginBottom: "10px"
+  },
+  colorCodeCircle: {
+    width: 15,
+    height: 15,
+    margin: 4
+  },
+  colorCodeBigCircle: {
+    width: 15,
+    height: 15,
+    border: 'solid 2px',
+    margin: 4
+  }
 }));
+
+const NewCardBox = (props) => {
+  const classes = useStyles();
+
+  const handleColorClick = (colorCode) => () => {
+    props.setCardColorCode(colorCode);
+  }
+
+  const ColorCode = ({colorCode}) => {
+    if (props.cardColorCode === colorCode) {
+      return (
+        <Box component={'div'} className={classes.colorCodeBigCircle} borderRadius="50%" bgcolor={"cardColor." + colorCode}
+             onClick={handleColorClick(colorCode)}/>
+      )
+    } else {
+      return (
+        <Box component={'div'} className={classes.colorCodeCircle} borderRadius="50%" bgcolor={"cardColor." + colorCode}
+             onClick={handleColorClick(colorCode)}/>
+      )
+    }
+  }
+
+  return (
+    <Box display={props.displayNewCard}>
+      <Card
+        className={classes.card}
+      >
+        <CardContent >
+          <TextField className={classes.cardTitle}
+                     placeholder={'Add title ...'}
+                     onChange={event => props.setCardTitle(event.target.value)}
+          />
+          <Box display="flex" flexDirection="row" justifyContent={'space-between'} mt={2}>
+            <Typography component={'span'} color={'secondary'}>Select color:</Typography>
+            <Box component={'div'} display="flex" flexDirection="row">
+              <ColorCode colorCode={'green'}/>
+              <ColorCode colorCode={'red'}/>
+              <ColorCode colorCode={'yellow'}/>
+              <ColorCode colorCode={'blue'}/>
+              <ColorCode colorCode={'purple'}/>
+              <ColorCode colorCode={'white'}/>
+            </Box>
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
+  )
+}
 
 const Column = ({ column, cards, index }) => {
   const classes = useStyles();
+  const [displayNewCard, setDisplayNewCard] = useState('none');
+  const [displayAddButton, setDisplayAddButton] = useState('block');
+  const [cardTitle, setCardTitle] = useState(null);
+  const [cardColorCode, setCardColorCode] = useState(undefined);
+
+  const handleAddCardClick = () => {
+    setDisplayNewCard('block');
+    setDisplayAddButton('none')
+  }
+
+  const handleSubmitAddingClick = () => {
+    console.log(cardTitle);
+    console.log(cardColorCode);
+  }
   return (
     <Draggable draggableId={column._id} index={index}>
       {provided => (
@@ -112,13 +217,23 @@ const Column = ({ column, cards, index }) => {
                   {cards.map((card, index) => (
                     <Task key={card._id} card={card} index={index} />
                   ))}
+                  <NewCardBox displayNewCard={displayNewCard} setCardTitle={setCardTitle}
+                              cardColorCode={cardColorCode}
+                              setCardColorCode={setCardColorCode}/>
                   {provided.placeholder}
                 </div>
               )}
             </Droppable>
-            <Button variant="contained" className={classes.addCard}>
-              Add Card
-            </Button>
+            <Box display={displayNewCard}>
+              <Button  className={classes.addBoldCard} onClick={handleSubmitAddingClick}>
+                Add a card
+              </Button>
+            </Box>
+            <Box display={displayAddButton}>
+              <Button  className={classes.addCard} onClick={handleAddCardClick}>
+                Add a card ...
+              </Button>
+            </Box>
           </Paper>
         </Grid>
       )}
