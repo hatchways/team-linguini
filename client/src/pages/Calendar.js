@@ -7,6 +7,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { Box } from "@material-ui/core";
 import "./Calendar.css";
 import moment from 'moment'
+import {authFetch} from "../helpers/authFetch"
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -69,6 +70,19 @@ const Calendar = () => {
           ]
   */
 
+  const eventDrop = info => {
+    const cardId = info.event.extendedProps._id
+    //console.log(info.event)
+    //console.log(info.event._instance.range.end)
+    const deadline = moment(info.event._instance.range.end).format("YYYY-MM-DD")
+    console.log(deadline)
+    //const url = `/api/v1/cards/${cardId}`
+    authFetch(`/api/v1/cards/${cardId}`, {
+      method: "PUT",
+      body: JSON.stringify({deadline})
+    })
+  }
+
   return (
     <div>
       <Box className={classes.container}>
@@ -88,7 +102,7 @@ const Calendar = () => {
           eventBorderColor="white"
           fixedWeekCount={false}
           editable={true}
-          eventDrop={(info) => console.log(info)}
+          eventDrop={info => eventDrop(info)}
         />
       </Box>
     </div>

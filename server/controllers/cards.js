@@ -66,14 +66,13 @@ exports.getCards= asyncHandler(async (req, res, next) => {
 //@Route PUT /api/v1/cards/id
 //@Access private
 exports.updateCard= asyncHandler(async (req, res, next) => {
-
     let card = await Card.findOne({_id: req.params.id});
-
+    
     if (!card) {
         return next(new ErrorResponse ('Invalid Card Id', 404));
     }
 
-    if (card.owner.toString() !== req.user._id) {
+    if (card.owner.toString() !== req.user._id.toString()) {
         return next(new ErrorResponse('Not authorized to update card.', 401));
     }
 
@@ -84,7 +83,7 @@ exports.updateCard= asyncHandler(async (req, res, next) => {
         if (value) newData[field] = value;
     })
     card = await Card.findByIdAndUpdate(req.params.id, newData, {new: true});
-
+    
     res.status(200).json(card);
 });
 

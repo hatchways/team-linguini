@@ -7,7 +7,7 @@ export const authFetch = async (url, config={}) => {
     if(token) {
         config.headers = {
             'authorization': 'Bearer ' + token.toString(),
-            // 'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         };
         // config.body = JSON.stringify(data);
     }
