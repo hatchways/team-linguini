@@ -68,7 +68,7 @@ exports.getCards= asyncHandler(async (req, res, next) => {
 exports.updateCard= asyncHandler(async (req, res, next) => {
     console.log(req.body);
     let card = await Card.findOne({_id: req.params.id});
-
+    
     if (!card) {
         return next(new ErrorResponse ('Invalid Card Id', 404));
     }
@@ -84,7 +84,7 @@ exports.updateCard= asyncHandler(async (req, res, next) => {
         if (value) newData[field] = value;
     })
     card = await Card.findByIdAndUpdate(req.params.id, newData, {new: true});
-
+    
     res.status(200).json(card);
 });
 
