@@ -143,7 +143,7 @@ const NavigationBar = () => {
   };
 
   const saveCreateBoardDialog = (data) => {
-    if (!data.board || data.board === ''){
+    if (!data.board || data.board === "") {
       return;
     }
     const formData = new FormData();
@@ -190,7 +190,7 @@ const NavigationBar = () => {
                 }
               });
             //});
-          handleCloseCreationBoardDialog();
+            handleCloseCreationBoardDialog();
           });
       });
     console.log("data", data.board);
@@ -202,7 +202,7 @@ const NavigationBar = () => {
     <AppBar position="static" className={classes.appBar}>
       <Toolbar className={classes.toolBar}>
         <Box>
-          <Button>
+          <Button component={NavLink} to="/">
             <Typography>
               <img src="/images/logo.png" alt="bug" />
             </Typography>
