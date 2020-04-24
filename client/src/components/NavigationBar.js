@@ -78,17 +78,12 @@ const useStyles = makeStyles((theme) => ({
 const NavigationBar = () => {
   //Access the states from Dashboard Provider
   const {
-    isFetching,
     setIsFetching,
-    error,
     setError,
-    boards,
     setBoards,
     selectedBoard,
     setSelectedBoard,
-    columns,
     setColumns,
-    cards,
     setCards,
     setAvatarUrl,
   } = useContext(DashboardContext);
