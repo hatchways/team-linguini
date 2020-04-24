@@ -257,7 +257,7 @@ const ChecklistItems = (props) => {
 
 const CardStyle = (theme) => ({
   root: {
-    height: 700,
+    maxHeight: 700,
     width: 840,
   },
   leftGrid: {
