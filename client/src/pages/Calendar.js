@@ -30,8 +30,6 @@ const Calendar = () => {
   const [cardData, setCardData] = useState([]);
   const [card, setCard] = useState(null);
   const [open, setOpen] = useState(false);
-  console.log(cardData)
-  console.log(card)
 
   useEffect(() => {
     const newCardData = [];
@@ -45,19 +43,13 @@ const Calendar = () => {
 
   const eventDrop = (info) => {
     const cardId = info.event.extendedProps._id;
-    console.log(info.event.extendedProps.deadline)
     const search = cardData.filter(
       (card) => card._id === info.event.extendedProps._id
     );
-      console.log(search)
     let newMoment = moment(info.event._instance.range.end).format()
-    console.log(typeof newMoment)
     newMoment = new Date(newMoment)
-    console.log(typeof newMoment)
     const oldDeadline = new Date(search[0].deadline)
-    console.log(typeof search[0].deadline)
     const deadline = oldDeadline.setDate(newMoment.getDate())
-    console.log(deadline)
 
     authJSONFetch(`/api/v1/cards/${cardId}`, {
       method: "PUT",
@@ -68,11 +60,8 @@ const Calendar = () => {
         if (res.error) {
           throw new Error(res.error);
         } else {
-          console.log(res)
-          console.log(deadline)
           const newCards = { ...cards, [res._id]: res };
           setCards(newCards);
-          console.log(cards)
           const newCardData = cardData.map(card => {
             if(card._id === res._id){
               card.date = res.deadline
