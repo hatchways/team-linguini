@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import { Box, Card, CardContent } from '@material-ui/core'
+import { Box, Card, CardContent} from '@material-ui/core'
 import { authJSONFetch } from '../helpers/authFetch'
 import { useDashboard } from '../context/dashboard/dashboard.provider'
 import Input from '@material-ui/core/Input'
@@ -162,11 +162,12 @@ const NewCardBox = (props) => {
         className={classes.card}
       >
         <CardContent >
-          <Input className={classes.cardTitle}
-                     placeholder={'Add title ...'}
-                     value={props.cardTitle}
-                     onChange={event => props.setCardTitle(event.target.value)}
-          />
+            <Input className={classes.cardTitle}
+                   placeholder={'Add title ...'}
+                   type={'text'}
+                   value={props.cardTitle}
+                   onChange={event => props.setCardTitle(event.target.value)}
+            />
           <Box display="flex" flexDirection="row" justifyContent={'space-between'} mt={1}>
             <Typography component={'span'} color={'secondary'}>Select color:</Typography>
             <Box component={'div'} display="flex" flexDirection="row">
@@ -189,7 +190,7 @@ const Column = ({ column, cards, index }) => {
   const classes = useStyles();
   const [displayNewCard, setDisplayNewCard] = useState('none');
   const [displayAddButton, setDisplayAddButton] = useState('block');
-  const [cardTitle, setCardTitle] = useState(undefined);
+  const [cardTitle, setCardTitle] = useState('');
   const [cardColorCode, setCardColorCode] = useState('white');
 
   const dashboard = useDashboard();
