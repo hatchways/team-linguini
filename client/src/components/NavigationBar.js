@@ -143,7 +143,6 @@ const NavigationBar = () => {
     formData.append("avatar", files[0]);
 
     const url = "/api/v1/user/uploadAvatar";
-    const token = JSON.parse(localStorage.getItem("token")) || null;
     authFetch(url, {
       method: "POST",
       body: formData,
