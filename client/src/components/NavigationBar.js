@@ -130,6 +130,7 @@ const NavigationBar = () => {
             className={classes.buttonNotSelected}
             component={NavLink}
             to="/"
+            exact={true}
             activeClassName={classes.selectedButton}
           >
             <DashboardRoundedIcon className={classes.buttonIcons} />
@@ -139,6 +140,7 @@ const NavigationBar = () => {
             className={classes.buttonNotSelected}
             component={NavLink}
             to="/calendar"
+            exact={true}
             activeClassName={classes.selectedButton}
           >
             <CalendarTodayOutlinedIcon className={classes.buttonIcons} />
