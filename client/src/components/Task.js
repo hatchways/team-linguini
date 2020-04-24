@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { Draggable } from "react-beautiful-dnd";
+import moment from 'moment'
 
 import { makeStyles} from "@material-ui/core/styles";
 import {Card, Box, Button, Typography, CardContent} from "@material-ui/core";
@@ -54,7 +55,7 @@ const Task = ({ card, index }) => {
             <Button className={classes.cardTitle} onClick={handleClickOpen} pl={0}>
               {card.title}
             </Button>
-            <Typography color="textSecondary">{card.deadline}</Typography>
+            <Typography color="textSecondary">{!card.deadline ? '' : moment(card.deadline).format("YYYY-MM-DD")}</Typography>
           </CardContent>
         </Card>
       )}
