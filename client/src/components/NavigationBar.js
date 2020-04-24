@@ -143,6 +143,9 @@ const NavigationBar = () => {
   };
 
   const saveCreateBoardDialog = (data) => {
+    if (!data.board || data.board === ''){
+      return;
+    }
     const formData = new FormData();
     formData.append("title", data.board);
     const url = "/api/v1/boards/";
@@ -187,6 +190,7 @@ const NavigationBar = () => {
                 }
               });
             //});
+          handleCloseCreationBoardDialog();
           });
       });
     console.log("data", data.board);
