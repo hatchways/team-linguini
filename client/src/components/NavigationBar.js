@@ -90,6 +90,7 @@ const NavigationBar = () => {
     setColumns,
     cards,
     setCards,
+    avatarUrl,
     setAvatarUrl,
   } = useContext(DashboardContext);
   const [openCreationBoardDialog, setCreationBoardDialog] = useState(false);
@@ -135,11 +136,30 @@ const NavigationBar = () => {
   };
 
   const handleSaveDropFile = (files) => {
+    console.log("saving file");
+    console.log(files);
     setStateDropFile({
       ...stateDropFile,
       files: files,
       open: false,
     });
+
+    const formData = new FormData();
+    formData.append("avatar", files[0]);
+
+    const url = "/api/v1/user/uploadAvatar";
+    const token = JSON.parse(localStorage.getItem("token")) || null;
+    authFetch(url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setAvatarUrl(data.avatarUrl);
+        console.log(avatarUrl);
+        //setData(JSON.stringify(data));
+      });
   };
 
   const saveCreateBoardDialog = (data) => {
@@ -254,7 +274,7 @@ const NavigationBar = () => {
             aria-haspopup="true"
             onClick={handleClickAvatarMenu}
           >
-            <Avatar alt="Wonderful Client" src="/images/avatar.jpg" />
+            <Avatar alt="/images/avatar.jpg" src={avatarUrl} />
           </IconButton>
           <Menu
             id="simple-menu"
