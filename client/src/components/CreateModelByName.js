@@ -104,7 +104,6 @@ const CreateModelByName = ({
         <div className={classes.dialogstyle}>
           <TextField
             id="nameCreateItemInDialog"
-            label="Outlined"
             variant="outlined"
             label={description}
             width={"200px"}
