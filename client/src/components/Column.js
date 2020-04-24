@@ -200,8 +200,6 @@ const Column = ({ column, cards, index }) => {
   }
 
   const handleSubmitAddingClick = () => {
-    console.log(cardTitle);
-    console.log(cardColorCode);
     if (cardTitle) {
       const url = '/api/v1/cards';
       const bodyData = {
