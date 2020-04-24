@@ -20,7 +20,9 @@ export const theme = createMuiTheme({
       blue: "#15A1F7",
       green: '#5ACD76',
       red: '#C70039',
-      yellow: '#F7F315',
+      yellow: '#EA7829',
+      purple: "#D057F0",
+      white: "#E8E7E3"
     }
   },
   overrides: {
@@ -39,6 +41,6 @@ export const theme = createMuiTheme({
         color: "black",
         fontWeight: "500",
       }
-    }
+    },
   },
 });

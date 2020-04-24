@@ -86,7 +86,7 @@ const DialogTitle = (props) => {
           <Box className={classes.colorLine} bgcolor={"cardColor.blue"} />
         </MenuItem>
         <MenuItem onClick={handleClose('white')}>
-          <Box className={classes.colorLine} bgcolor={"cardColor.white"} />
+          <Box className={classes.colorLine} bgcolor={"cardColor.purple"} />
         </MenuItem>
         <MenuItem onClick={handleClose('red')}>
           <Box className={classes.colorLine} bgcolor={"cardColor.red"} />
@@ -96,6 +96,9 @@ const DialogTitle = (props) => {
         </MenuItem>
         <MenuItem onClick={handleClose('yellow')}>
           <Box className={classes.colorLine} bgcolor={"cardColor.yellow"} />
+        </MenuItem>
+        <MenuItem onClick={handleClose('white')}>
+          <Box className={classes.colorLine} bgcolor={"cardColor.white"} />
         </MenuItem>
       </Menu>
       {onClose ? (

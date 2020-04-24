@@ -16,7 +16,10 @@ const useStyles = makeStyles(theme => ({
   cardTitle: {
     fontSize: 14,
     fontWeight: 700,
-    paddingLeft: 0
+    "&:hover": {
+      cursor: 'pointer'
+    },
+    // paddingLeft: 0
   },
   tag: {
     height: "7px",
@@ -52,9 +55,9 @@ const Task = ({ card, index }) => {
         >
           <CardContent >
             <Box className={classes.tag} bgcolor={"cardColor." + card.colorCode}/>
-            <Button className={classes.cardTitle} onClick={handleClickOpen} pl={0}>
+            <Typography className={classes.cardTitle} onClick={handleClickOpen}>
               {card.title}
-            </Button>
+            </Typography>
             <Typography color="textSecondary">{!card.deadline ? '' : moment(card.deadline).format("YYYY-MM-DD")}</Typography>
           </CardContent>
         </Card>
