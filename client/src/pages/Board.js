@@ -134,6 +134,7 @@ const Board = () => {
 
       return;
     }
+
     //Moving from one column to another
     const startCardIds = Array.from(start.cards);
     startCardIds.splice(source.index, 1);
@@ -142,6 +143,9 @@ const Board = () => {
       cards: startCardIds,
     };
 
+    console.log('xxx',source.index)
+    console.log(startCardIds)
+
     const finishCardIds = Array.from(finish.cards);
     finishCardIds.splice(destination.index, 0, draggableId);
     const newFinish = {
@@ -149,11 +153,50 @@ const Board = () => {
       cards: finishCardIds,
     };
 
+    console.log(destination.index)
+    console.log(finishCardIds)
+
     setColumns({
       ...columns,
       [newStart._id]: newStart,
       [newFinish._id]: newFinish,
     });
+
+    let newUrl = '/api/v1/columns/' + newStart._id;
+    authJSONFetch(newUrl, {method: 'PUT', body: JSON.stringify({cards: newStart.cards})})
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          // throw new Error(data.error);
+          console.log("update cards order", data.error);
+          return;
+        }
+        return;
+      });
+
+    newUrl = '/api/v1/columns/' + newFinish._id;
+    authJSONFetch(newUrl, {method: 'PUT', body: JSON.stringify({cards: newFinish.cards})})
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          // throw new Error(data.error);
+          console.log("update cards order", data.error);
+          return;
+        }
+        return;
+      });
+
+    newUrl = '/api/v1/cards/' + finishCardIds[destination.index].toString();
+    authJSONFetch(newUrl, {method: 'PUT', body: JSON.stringify({columnId: newFinish._id})})
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          // throw new Error(data.error);
+          console.log("update columnId of the card", data.error);
+          return;
+        }
+        return;
+      });
   };
 
   const handleOpenCreationBoardDialog = () => {
