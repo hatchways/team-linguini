@@ -8,13 +8,11 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import { Box, Card, CardContent } from '@material-ui/core'
-import TextField from '@material-ui/core/TextField'
 import { authJSONFetch } from '../helpers/authFetch'
 import { useDashboard } from '../context/dashboard/dashboard.provider'
 import Input from '@material-ui/core/Input'
 
 const useStyles = makeStyles((theme) => {
-  console.log('aaaaaaaaa', theme);
   return ({
     paper: {
       height: 550,
@@ -127,7 +125,13 @@ const useStyles = makeStyles((theme) => {
       height: 15,
       border: 'solid 2px',
       margin: 4
-    }
+    },
+    closeButton: {
+      position: "absolute",
+      right: theme.spacing(1),
+      top: theme.spacing(1),
+      color: theme.palette.grey[500],
+    },
   })
 });
 
@@ -185,7 +189,7 @@ const Column = ({ column, cards, index }) => {
   const classes = useStyles();
   const [displayNewCard, setDisplayNewCard] = useState('none');
   const [displayAddButton, setDisplayAddButton] = useState('block');
-  const [cardTitle, setCardTitle] = useState(null);
+  const [cardTitle, setCardTitle] = useState(undefined);
   const [cardColorCode, setCardColorCode] = useState('white');
 
   const dashboard = useDashboard();

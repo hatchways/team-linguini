@@ -17,7 +17,6 @@ import {DashboardProvider} from "./context/dashboard/dashboard.provider";
 import Test from './pages/Test'
 
 function App() {
-  console.log(theme)
   return (
     <MuiThemeProvider theme={theme}>
       <AuthProvider>
