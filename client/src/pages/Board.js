@@ -119,6 +119,19 @@ const Board = () => {
         ...columns,
         [newColumn._id]: newColumn,
       });
+
+      const url = "/api/v1/columns/" + newColumn._id;
+      authJSONFetch(url, { method: 'PUT', body: JSON.stringify({ cards: newCardIds }) })
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            throw new Error(data.error);
+            console.log('update cards order', data.error)
+            return;
+          }
+          return;
+        })
+
       return;
     }
     //Moving from one column to another
