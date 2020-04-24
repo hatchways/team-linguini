@@ -86,7 +86,7 @@ const CreateModelByName = ({
 
   const addItem = () => {
     saveValue(value);
-    onCloseModal();
+    //onCloseModal();
   };
 
   return (

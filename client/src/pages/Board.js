@@ -137,6 +137,9 @@ const Board = () => {
   };
 
   const saveCreateColumn = (data) => {
+    if (!data.board || data.board === ''){
+      return;
+    }
     const formData = new FormData();
     formData.append("title", data.board);
     formData.append("boardId", selectedBoard._id);
@@ -155,6 +158,8 @@ const Board = () => {
           ...selectedBoard,
           columns: newColumn,
         });
+      
+      handleCloseCreationColumnDialog();
       });
   };
   return (
