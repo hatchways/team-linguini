@@ -41,6 +41,6 @@ export const theme = createMuiTheme({
         color: "black",
         fontWeight: "500",
       }
-    }
+    },
   },
 });

@@ -12,120 +12,123 @@ import TextField from '@material-ui/core/TextField'
 import { authJSONFetch } from '../helpers/authFetch'
 import { useDashboard } from '../context/dashboard/dashboard.provider'
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    height: 550,
-    width: 320,
-    background: "#F4F6FF",
-    boxShadow: "none",
-    position: "relative",
-    marginRight: "20px",
-  },
-  column: {
-    marginLeft: "25px",
-    paddingTop: "20px",
-  },
-  columnTitle: {
-    display: "flex",
-    alignItems: "center",
-  },
-  icon: {
-    marginLeft: "150px",
-    marginTop: "20px",
-    padding: "20px",
-    cursor: "pointer",
-  },
-  cardSection: {
-    height: 410,
-    zIndex: 0,
-    "&:before": {
-      zIndex: 1,
-      background:
-        "linear-gradient(180deg, rgb(245, 246, 254) 0%, rgba(9,9,121,0) 31%)",
-      top: "13%",
-      content: '""',
-      display: "block",
-      height: "60px",
-      left: "0",
-      pointerEvents: "none",
-      position: "absolute",
-      width: "100%",
+const useStyles = makeStyles((theme) => {
+  console.log('aaaaaaaaa', theme);
+  return ({
+    paper: {
+      height: 550,
+      width: 320,
+      background: "#F4F6FF",
+      boxShadow: "none",
+      position: "relative",
+      marginRight: "20px",
     },
-    "&:after": {
-      zIndex: 1,
-      background:
-        "linear-gradient(0deg, rgb(245, 246, 254) 0%, rgba(9,9,121,0) 31%)",
-      bottom: "10%",
-      content: '""',
-      display: "block",
-      height: "60px",
-      left: "0",
-      pointerEvents: "none",
-      position: "absolute",
-      width: "100%",
+    column: {
+      marginLeft: "25px",
+      paddingTop: "20px",
     },
-    overflow: "auto",
-    overflowY: "scroll",
-    "&::-webkit-scrollbar": {
-      display: "none",
+    columnTitle: {
+      display: "flex",
+      alignItems: "center",
+    },
+    icon: {
+      marginLeft: "150px",
+      marginTop: "20px",
+      padding: "20px",
+      cursor: "pointer",
+    },
+    cardSection: {
+      height: 410,
+      zIndex: 0,
+      "&:before": {
+        zIndex: 1,
+        background:
+          "linear-gradient(180deg, rgb(245, 246, 254) 0%, rgba(9,9,121,0) 31%)",
+        top: "13%",
+        content: '""',
+        display: "block",
+        height: "60px",
+        left: "0",
+        pointerEvents: "none",
+        position: "absolute",
+        width: "100%",
+      },
+      "&:after": {
+        zIndex: 1,
+        background:
+          "linear-gradient(0deg, rgb(245, 246, 254) 0%, rgba(9,9,121,0) 31%)",
+        bottom: "10%",
+        content: '""',
+        display: "block",
+        height: "60px",
+        left: "0",
+        pointerEvents: "none",
+        position: "absolute",
+        width: "100%",
+      },
+      overflow: "auto",
+      overflowY: "scroll",
+      "&::-webkit-scrollbar": {
+        display: "none",
+      }
+    },
+    addCard: {
+      // background: "#759CFC",
+      color: "#759CFC",
+      boxShadow: "none",
+      position: "absolute",
+      bottom: 10,
+      left: 20,
+      "&:hover": {
+        background: "#759CFC",
+        color: "#ffffff"
+      },
+    },
+    addBoldCard: {
+      background: "#759CFC",
+      color: "#ffffff",
+      boxShadow: "none",
+      position: "absolute",
+      bottom: 10,
+      left: 20,
+      "&:hover": {
+        background: "#759CFC",
+        color: "#ffffff"
+      },
+    },
+    card: {
+      margin: "auto",
+      width: "280px",
+      marginBottom: "10px",
+      borderRadius: '8px',
+      borderColor: "#759CFC",
+      borderStyle: 'solid',
+      borderWidth: '1px'
+    },
+    cardTitle: {
+      fontSize: 14,
+      fontWeight: 700,
+      paddingLeft: 0
+    },
+    tag: {
+      height: "7px",
+      width: "45px",
+      borderRadius: "5px",
+      marginBottom: "10px"
+    },
+    colorCodeCircle: {
+      width: 15,
+      height: 15,
+      margin: 4
+    },
+    colorCodeBigCircle: {
+      width: 15,
+      height: 15,
+      border: 'solid 2px',
+      margin: 4
     }
-  },
-  addCard: {
-    // background: "#759CFC",
-    color: "#759CFC",
-    boxShadow: "none",
-    position: "absolute",
-    bottom: 10,
-    left: 20,
-    "&:hover": {
-      background: "#759CFC",
-      color: "#ffffff"
-    },
-  },
-  addBoldCard: {
-    background: "#759CFC",
-    color: "#ffffff",
-    boxShadow: "none",
-    position: "absolute",
-    bottom: 10,
-    left: 20,
-    "&:hover": {
-      background: "#759CFC",
-      color: "#ffffff"
-    },
-  },
-  card: {
-    margin: "auto",
-    width: "280px",
-    marginBottom: "10px",
-    borderRadius: '8px',
-    borderColor: "#759CFC",
-    borderStyle: 'solid',
-    borderWidth: '1px'
-  },
-  cardTitle: {
-    fontSize: 14,
-    fontWeight: 700,
-    paddingLeft: 0
-  },
-  tag: {
-    height: "7px",
-    width: "45px",
-    borderRadius: "5px",
-    marginBottom: "10px"
-  },
-  colorCodeCircle: {
-    width: 15,
-    height: 15,
-    margin: 4
-  },
-  colorCodeBigCircle: {
-    width: 15,
-    height: 15,
-    border: 'solid 2px',
-    margin: 4
-  }
-}));
+  })
+});
 
 const NewCardBox = (props) => {
   const classes = useStyles();
@@ -155,8 +158,8 @@ const NewCardBox = (props) => {
       >
         <CardContent >
           <TextField className={classes.cardTitle}
-                     placeholder={'Add title ...'}
-                     defaultValue={props.cardTitle}
+                     label={'Add title ...'}
+                     value={props.cardTitle}
                      onChange={event => props.setCardTitle(event.target.value)}
           />
           <Box display="flex" flexDirection="row" justifyContent={'space-between'} mt={2}>
@@ -177,6 +180,7 @@ const NewCardBox = (props) => {
 }
 
 const Column = ({ column, cards, index }) => {
+
   const classes = useStyles();
   const [displayNewCard, setDisplayNewCard] = useState('none');
   const [displayAddButton, setDisplayAddButton] = useState('block');
@@ -216,7 +220,7 @@ const Column = ({ column, cards, index }) => {
 
           setDisplayNewCard('none');
           setDisplayAddButton('block');
-          setCardTitle(null);
+          setCardTitle('');
           setCardColorCode('white')
         })
     }
