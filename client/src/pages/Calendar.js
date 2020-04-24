@@ -33,6 +33,9 @@ const Calendar = () => {
   useEffect(() => {
     const newCardData = [];
     Object.entries(cards).map((card) => {
+      if(!card[1].deadline){
+        return null
+      }
       const date = moment(card[1].deadline).format("YYYY-MM-DD");
       newCardData.push({ ...card[1], date });
       return null;
