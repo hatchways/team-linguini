@@ -57,4 +57,4 @@ const DashboardProvider = (props) => {
   return <DashboardContext.Provider value={defaultValue} {...props} />;
 };
 
-export { DashboardProvider, DashboardContext };
+export { DashboardProvider, DashboardContext, useDashboard};
