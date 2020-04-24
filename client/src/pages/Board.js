@@ -1,17 +1,32 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import initialData from "../context/InitialData";
+
 import Column from "../components/Column";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-
+import { Box, Button, Typography } from "@material-ui/core";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
-import {DashboardContext} from "../context/dashboard/dashboard.provider";
-import {authFetch} from "../helpers/authFetch";
+import { DashboardContext } from "../context/dashboard/dashboard.provider";
+import { authFetch } from "../helpers/authFetch";
+import CreateModelByName from "../components/CreateModelByName";
 
-const useStyles = makeStyles(theme => ({
-  grid: {
+const useStyles = makeStyles((theme) => ({
+  horizontalCollection: {
     marginTop: "40px",
-    marginLeft: "20px",
-    display: "flex"
+    display: "flex",
+    justifycontent: "flex-start",
+    flexwrap: "nowrap",
+  },
+  addColumn: {
+    height: 550,
+    //marginRight: 40,
+    //boxShadow: "none",
+    //position: "fixed",
+    //boder: 20,
+  },
+  grid: {
+    marginLeft: "60px",
+    display: "flex",
   },
   container: {
     width: "100%",
@@ -21,28 +36,27 @@ const useStyles = makeStyles(theme => ({
     margin: "0 auto",
     paddingBottom: "17px",
     "&::-webkit-scrollbar": {
-      display: "none"
-    }
-  }
+      display: "none",
+    },
+  },
 }));
 
 const Board = () => {
   const classes = useStyles();
-  // const [data, setData] = useState(initialData);
 
-  const [switchBoard, setSwitchBoard] = useState(false);
+  const [openCreationCardDialog, setCreationBoardDialog] = useState(false);
 
   //Access the states from Dashboard Provider
   const {
-    isFetching, setIsFetching,
-    error, setError,
-    boards, setBoards,
-    selectedBoard, setSelectedBoard,
-    columns, setColumns,
-    cards, setCards
+    isFetching,
+    error,
+    boards,
+    selectedBoard,
+    setSelectedBoard,
+    columns,
+    setColumns,
+    cards,
   } = useContext(DashboardContext);
-
-
 
   if (error!== null || isFetching || boards.length ===0) {
     return null
@@ -69,7 +83,7 @@ const Board = () => {
 
       setSelectedBoard({
         ...selectedBoard,
-        columns: newColumnOrder
+        columns: newColumnOrder,
       });
       return;
     }
@@ -83,12 +97,12 @@ const Board = () => {
       newCardIds.splice(destination.index, 0, draggableId);
       const newColumn = {
         ...start,
-        cards: newCardIds
+        cards: newCardIds,
       };
 
       setColumns({
         ...columns,
-        [newColumn._id]: newColumn
+        [newColumn._id]: newColumn,
       });
       return;
     }
@@ -97,59 +111,112 @@ const Board = () => {
     startCardIds.splice(source.index, 1);
     const newStart = {
       ...start,
-      cards: startCardIds
+      cards: startCardIds,
     };
 
     const finishCardIds = Array.from(finish.cards);
     finishCardIds.splice(destination.index, 0, draggableId);
     const newFinish = {
       ...finish,
-      cards: finishCardIds
+      cards: finishCardIds,
     };
 
     setColumns({
       ...columns,
       [newStart._id]: newStart,
-      [newFinish._id]: newFinish
+      [newFinish._id]: newFinish,
     });
   };
 
+  const handleOpenCreationBoardDialog = () => {
+    setCreationBoardDialog(true);
+  };
+
+  const handleCloseCreationColumnDialog = () => {
+    setCreationBoardDialog(false);
+  };
+
+  const saveCreateColumn = (data) => {
+    if (!data.board || data.board === ''){
+      return;
+    }
+    const formData = new FormData();
+    formData.append("title", data.board);
+    formData.append("boardId", selectedBoard._id);
+    const url = "/api/v1/columns";
+    const updatedColumns = { ...columns };
+    authFetch(url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        updatedColumns[data._id] = data;
+        setColumns(updatedColumns);
+        const newColumn = Object.keys(updatedColumns);
+        setSelectedBoard({
+          ...selectedBoard,
+          columns: newColumn,
+        });
+      
+      handleCloseCreationColumnDialog();
+      });
+  };
   return (
     <div>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable
-          droppableId="all-columns"
-          direction="horizontal"
-          type="column"
-        >
-          {provided => (
-            <div
-              className={classes.container}
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              <div className={classes.grid}>
-                {selectedBoard.columns.map((columnId, index) => {
-                  const column = columns[columnId];
-                  const cardsArr = column.cards.map(
-                    cardId => cards[cardId]
-                  );
-
-                  return (
-                    <Column
-                      key={column._id}
-                      column={column}
-                      cards={cardsArr}
-                      index={index}
-                    />
-                  );
-                })}
+      <div className={classes.horizontalCollection}>
+        <Box>
+          <Button
+            variant="contained"
+            className={classes.addColumn}
+            onClick={handleOpenCreationBoardDialog}
+            position="fixed"
+          >
+            <AddCircleOutlineIcon className={classes.createButtonIcon} />
+          </Button>
+          <CreateModelByName
+            title="Create a new column"
+            description="Add Title"
+            onCloseModal={handleCloseCreationColumnDialog}
+            openModal={openCreationCardDialog}
+            name="board"
+            saveValue={(event) => saveCreateColumn(event)}
+          />
+        </Box>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable
+            droppableId="all-columns"
+            direction="horizontal"
+            type="column"
+          >
+            {(provided) => (
+              <div
+                className={classes.container}
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                <div className={classes.grid}>
+                  {selectedBoard.columns.map((columnId, index) => {
+                    const column = columns[columnId];
+                    const cardsArr = column.cards.map(
+                      (cardId) => cards[cardId]
+                    );
+                    return (
+                      <Column
+                        key={column._id}
+                        column={column}
+                        cards={cardsArr}
+                        index={index}
+                      />
+                    );
+                  })}
+                </div>
+                {provided.placeholder}
               </div>
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </div>
     </div>
   );
 };

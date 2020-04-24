@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const {uploadAvatar} = require('../controllers/users')
-const {isAuthenticated} = require('../middlewares/authorization')
+const { uploadAvatar, updateUser } = require("../controllers/users");
+const { isAuthenticated } = require("../middlewares/authorization");
 
+router.use(isAuthenticated);
 
-router.post('/api/v1/users/uploadAvatar', isAuthenticated, uploadAvatar)
+router.post("/uploadAvatar", uploadAvatar).put("/update", updateUser);
 
 module.exports = router;

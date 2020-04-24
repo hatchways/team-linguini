@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -17,6 +17,9 @@ import CalendarTodayOutlinedIcon from "@material-ui/icons/CalendarTodayOutlined"
 import AddIcon from "@material-ui/icons/Add";
 import { NavLink } from "react-router-dom";
 import { DropzoneDialog } from "material-ui-dropzone";
+import CreateModelByName from "./CreateModelByName";
+import { authFetch } from "../helpers/authFetch";
+import { DashboardContext } from "../context/dashboard/dashboard.provider";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -73,6 +76,32 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavigationBar = () => {
+  //Access the states from Dashboard Provider
+  const {
+    isFetching,
+    setIsFetching,
+    error,
+    setError,
+    boards,
+    setBoards,
+    selectedBoard,
+    setSelectedBoard,
+    columns,
+    setColumns,
+    cards,
+    setCards,
+    setAvatarUrl,
+  } = useContext(DashboardContext);
+  const [openCreationBoardDialog, setCreationBoardDialog] = useState(false);
+
+  const handleOpenCreationBoardDialog = () => {
+    setCreationBoardDialog(true);
+  };
+
+  const handleCloseCreationBoardDialog = () => {
+    setCreationBoardDialog(false);
+  };
+
   const initialStateDropFile = {
     open: false,
     files: [],
@@ -113,13 +142,67 @@ const NavigationBar = () => {
     });
   };
 
+  const saveCreateBoardDialog = (data) => {
+    if (!data.board || data.board === "") {
+      return;
+    }
+    const formData = new FormData();
+    formData.append("title", data.board);
+    const url = "/api/v1/boards/";
+    //const newBoardData
+    authFetch(url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const idOfNewlySelectedBoard = new FormData();
+        idOfNewlySelectedBoard.append("selectedBoard", data._id);
+        const urlUpdatingUserSelectedBoard = "/api/v1/user/update";
+        authFetch(urlUpdatingUserSelectedBoard, {
+          method: "PUT",
+          body: idOfNewlySelectedBoard,
+        })
+          .then((res) => res.json())
+          .then((dataOfUserUpdateSelectedBoard) => {
+            console.log(
+              "updatedUserSelectedBoard",
+              dataOfUserUpdateSelectedBoard
+            );
+            const urlInit = "/api/v1/boards/init";
+            //useEffect(() => {
+            setIsFetching(true);
+            authFetch(urlInit)
+              .then((res) => res.json())
+              .then((res) => {
+                setIsFetching(false);
+                if (!res.error) {
+                  console.log("response in create", res.selectedBoard);
+                  setError(null);
+                  setSelectedBoard(res.selectedBoard);
+                  setCards(res.cards);
+                  setColumns(res.columns);
+                  setBoards(res.boards);
+                  //setAvatarUrl(res.avatarUrl);
+                  console.log("selectedBoard", selectedBoard);
+                } else {
+                  throw Error(res.error);
+                }
+              });
+            //});
+            handleCloseCreationBoardDialog();
+          });
+      });
+    console.log("data", data.board);
+  };
+
   const classes = useStyles();
 
   return (
     <AppBar position="static" className={classes.appBar}>
       <Toolbar className={classes.toolBar}>
         <Box>
-          <Button>
+          <Button component={NavLink} to="/">
             <Typography>
               <img src="/images/logo.png" alt="bug" />
             </Typography>
@@ -148,12 +231,24 @@ const NavigationBar = () => {
           </Button>
         </Box>
         <Box>
-          <Button variant="contained" className={classes.createButton}>
+          <Button
+            variant="contained"
+            className={classes.createButton}
+            onClick={handleOpenCreationBoardDialog}
+          >
             <AddIcon className={classes.createButtonIcon} />
             <Typography className={classes.createButtonText}>
               Create board
             </Typography>
           </Button>
+          <CreateModelByName
+            title="Create a new board"
+            description="Add Title"
+            onCloseModal={handleCloseCreationBoardDialog}
+            openModal={openCreationBoardDialog}
+            name="board"
+            saveValue={(event) => saveCreateBoardDialog(event)}
+          />
           <IconButton
             aria-controls="simple-menu"
             aria-haspopup="true"
