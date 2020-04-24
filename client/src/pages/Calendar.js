@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
 const Calendar = () => {
   const classes = useStyles();
   const { cards, setCards } = useContext(DashboardContext);
-
   const [cardData, setCardData] = useState([]);
   const [card, setCard] = useState(null);
   const [open, setOpen] = useState(false);
@@ -46,10 +45,10 @@ const Calendar = () => {
     const search = cardData.filter(
       (card) => card._id === info.event.extendedProps._id
     );
-    let newMoment = moment(info.event._instance.range.end).format()
-    newMoment = new Date(newMoment)
-    const oldDeadline = new Date(search[0].deadline)
-    const deadline = oldDeadline.setDate(newMoment.getDate())
+    let newMoment = moment(info.event._instance.range.end).format();
+    newMoment = new Date(newMoment);
+    const oldDeadline = new Date(search[0].deadline);
+    const deadline = oldDeadline.setDate(newMoment.getDate());
 
     authJSONFetch(`/api/v1/cards/${cardId}`, {
       method: "PUT",
@@ -62,14 +61,14 @@ const Calendar = () => {
         } else {
           const newCards = { ...cards, [res._id]: res };
           setCards(newCards);
-          const newCardData = cardData.map(card => {
-            if(card._id === res._id){
-              card.date = res.deadline
-              card.deadline = res.deadline
+          const newCardData = cardData.map((card) => {
+            if (card._id === res._id) {
+              card.date = res.deadline;
+              card.deadline = res.deadline;
             }
-            return card
-          })
-          setCardData(newCardData)
+            return card;
+          });
+          setCardData(newCardData);
         }
       });
   };
