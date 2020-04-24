@@ -143,9 +143,6 @@ const Board = () => {
       cards: startCardIds,
     };
 
-    console.log('xxx',source.index)
-    console.log(startCardIds)
-
     const finishCardIds = Array.from(finish.cards);
     finishCardIds.splice(destination.index, 0, draggableId);
     const newFinish = {
@@ -153,8 +150,6 @@ const Board = () => {
       cards: finishCardIds,
     };
 
-    console.log(destination.index)
-    console.log(finishCardIds)
 
     setColumns({
       ...columns,
