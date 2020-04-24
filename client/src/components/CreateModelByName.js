@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
   Dialog,
@@ -48,6 +48,8 @@ const useStyles = makeStyles((theme) => ({
   inputCenter: {
     textAlign: "center",
     color: "red",
+    width: "200px",
+    marginTop: "40px"
   },
   addModel: {
     background: "#759CFC",
@@ -97,21 +99,16 @@ const CreateModelByName = ({
       aria-labelledby="customized-dialog-title"
       //aria-describedby="alert-dialog-description"
     >
-      <DialogTitle className={classes.dialogtitle} id="alert-dialog-title">
-        <Typography variant={"h4"}>{title}</Typography>
-      </DialogTitle>
+      
+      <Typography variant={"h4"} className={classes.dialogtitle}>{title}</Typography>
       <DialogContent>
         <div className={classes.dialogstyle}>
           <TextField
             id="nameCreateItemInDialog"
             variant="outlined"
             label={description}
-            width={"200px"}
-            marginTop={"40px"}
             onChange={(event) => handleInputChange(event)}
-            classes={{
-              input: classes.inputCenter,
-            }}
+            className={classes.inputCenter}
           />
         </div>
         <div className={classes.dialogButtonStyle}>
