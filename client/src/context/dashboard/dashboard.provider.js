@@ -51,9 +51,11 @@ const DashboardProvider = (props) => {
     setColumns,
     cards,
     setCards,
+    avatarUrl,
+    setAvatarUrl,
   };
 
   return <DashboardContext.Provider value={defaultValue} {...props} />;
 };
 
-export { DashboardProvider, DashboardContext, useDashboard};
+export { DashboardProvider, DashboardContext, useDashboard };
