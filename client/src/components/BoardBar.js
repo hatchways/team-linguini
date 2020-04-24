@@ -190,8 +190,8 @@ const BoardBar = () => {
         </List>
         <Divider />
         <List>
-          {["Settings", "Log Out"].map((text, index) => (
-            <ListItem button key={text}>
+          {["Log Out"].map((text, index) => (
+            <ListItem button key={text} onClick={()=> {window.location.replace('/logout')}}>
               <ListItemText primary={text} />
             </ListItem>
           ))}
