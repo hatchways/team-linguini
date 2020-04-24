@@ -55,7 +55,7 @@ const Task = ({ card, index }) => {
             <Button className={classes.cardTitle} onClick={handleClickOpen} pl={0}>
               {card.title}
             </Button>
-            <Typography color="textSecondary">{moment(card.deadline).format("YYYY-MM-DD")}</Typography>
+            <Typography color="textSecondary">{!card.deadline ? '' : moment(card.deadline).format("YYYY-MM-DD")}</Typography>
           </CardContent>
         </Card>
       )}
