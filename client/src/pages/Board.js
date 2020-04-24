@@ -6,7 +6,7 @@ import { Box, Button } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
 import { DashboardContext } from "../context/dashboard/dashboard.provider";
-import { authFetch } from "../helpers/authFetch";
+import { authFetch, authJSONFetch } from '../helpers/authFetch'
 import CreateModelByName from "../components/CreateModelByName";
 
 const useStyles = makeStyles((theme) => ({
@@ -84,6 +84,22 @@ const Board = () => {
         ...selectedBoard,
         columns: newColumnOrder,
       });
+
+      const url = "/api/v1/boards/" + selectedBoard._id;
+      authJSONFetch(url, {
+        method: "PUT",
+        body: JSON.stringify({ columns: newColumnOrder }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.error) {
+            // throw new Error(data.error);
+            console.log("update columns order", data.error);
+            return;
+          }
+          return;
+        });
+
       return;
     }
 

@@ -46,7 +46,7 @@ const initializeFirstBoard = async (userObjectId) => {
 exports.initializeFirstBoard = initializeFirstBoard;
 
 //Return User Id from the req object
-const getUserId = (req) => req.user._id;
+const getUserId = (req) => req.user._id.toString();
 
 //@Desc create a new board
 //@Route POST /api/v1/boards
