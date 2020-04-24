@@ -1,10 +1,11 @@
-const Column = require("../models/Column");
-const Board = require("../models/Board");
-const { ErrorResponse } = require("../utils/errorResponse");
-const asyncHandler = require("../middlewares/asyncHandler");
+const Column = require('../models/Column');
+const Board = require('../models/Board')
+const Card = require('../models/Card')
+const {ErrorResponse} = require('../utils/errorResponse');
+const asyncHandler = require('../middlewares/asyncHandler');
 
 //Return User Id from the req object
-const getUserId = (req) => req.user._id;
+const getUserId = req => req.user._id.toString();
 
 //@Desc create a new board without cards
 //@Route POST /api/v1/columns
@@ -26,7 +27,7 @@ exports.createColumn = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Invalid board Id", 403));
   }
 
-  const column = await Column.create({ title, owner, boardId, cards });
+    const column = await Column.create({title, owner, boardId, cards});
 
   //Update the field columns[] on the board
   board.columns.push(column._id);
@@ -105,7 +106,13 @@ exports.deleteColumn = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Not authorized to delete column.", 401));
   }
 
-  await Column.findByIdAndDelete(req.params.id);
+    const board = await Board.findById(column.boardId);
+    board.columns = board.columns.filter(columnId => columnId.toString() !== column._id.toString());
+    await board.save();
+
+    column.cards.forEach(card => Card.findByIdAndDelete(card.toString()))
+
+    await Column.findByIdAndDelete(req.params.id)
 
   //delete column on the field "columns" of the belonged board
 

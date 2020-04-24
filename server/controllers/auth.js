@@ -3,6 +3,7 @@ const {initializeFirstBoard} = require('../controllers/boards');
 const { ErrorResponse, errorFormater } = require('../utils/errorResponse');
 const { accessToken } = require('../utils/tokens');
 const { validationResult } = require("express-validator")
+const sendWelcomeEmail = require('../utils/sendEmail');
 
 /* @desc: registerController takes a request and validates email and password.
  * As well, determines if user already exists via email and if one does not exists
@@ -44,7 +45,7 @@ module.exports.registerController = async (req, res, next) => {
                         return next(error);
                     } else if(data) {
                         initializeFirstBoard(data._id);
-
+                        sendWelcomeEmail(email)
                         data.password = undefined
                         token = accessToken(data.id)
                         return res.json({ 

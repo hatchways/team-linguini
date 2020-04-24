@@ -66,25 +66,25 @@ exports.getCards= asyncHandler(async (req, res, next) => {
 //@Route PUT /api/v1/cards/id
 //@Access private
 exports.updateCard= asyncHandler(async (req, res, next) => {
-
+    console.log(req.body);
     let card = await Card.findOne({_id: req.params.id});
-
+    
     if (!card) {
         return next(new ErrorResponse ('Invalid Card Id', 404));
     }
 
-    if (card.owner.toString() !== req.user._id) {
+    if (card.owner.toString() !== req.user._id.toString()) {
         return next(new ErrorResponse('Not authorized to update card.', 401));
     }
 
     const newData = {};
     //Limit for the fields could be update
-    ['title', 'columnId', 'deadline', 'tags', 'comments', 'description', 'attachment'].forEach(field => {
+    ['title', 'columnId', 'deadline', 'tags', 'comments', 'description', 'attachment', 'colorCode', 'checklist'].forEach(field => {
         const value = req.body[field];
         if (value) newData[field] = value;
     })
     card = await Card.findByIdAndUpdate(req.params.id, newData, {new: true});
-
+    
     res.status(200).json(card);
 });
 
@@ -98,9 +98,13 @@ exports.deleteCard= asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse ('Invalid Card Id', 404));
     }
 
-    if (card.owner.toString() !== req.user._id) {
+    if (card.owner.toString() !== req.user._id.toString()) {
         return next(new ErrorResponse('Not authorized to delete card.', 401));
     }
+
+    const column = await Column.findById(card.columnId);
+    column.cards = column.cards.filter(cardId => cardId.toString() !== card._id.toString());
+    await column.save();
 
     await Card.findByIdAndDelete(req.params.id)
 
