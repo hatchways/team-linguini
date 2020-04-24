@@ -11,6 +11,7 @@ import { Box, Card, CardContent } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField'
 import { authJSONFetch } from '../helpers/authFetch'
 import { useDashboard } from '../context/dashboard/dashboard.provider'
+import Input from '@material-ui/core/Input'
 
 const useStyles = makeStyles((theme) => {
   console.log('aaaaaaaaa', theme);
@@ -157,12 +158,12 @@ const NewCardBox = (props) => {
         className={classes.card}
       >
         <CardContent >
-          <TextField className={classes.cardTitle}
-                     label={'Add title ...'}
+          <Input className={classes.cardTitle}
+                     placeholder={'Add title ...'}
                      value={props.cardTitle}
                      onChange={event => props.setCardTitle(event.target.value)}
           />
-          <Box display="flex" flexDirection="row" justifyContent={'space-between'} mt={2}>
+          <Box display="flex" flexDirection="row" justifyContent={'space-between'} mt={1}>
             <Typography component={'span'} color={'secondary'}>Select color:</Typography>
             <Box component={'div'} display="flex" flexDirection="row">
               <ColorCode colorCode={'green'}/>
