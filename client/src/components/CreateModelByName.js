@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import {
   Button,
   Dialog,
@@ -7,7 +8,62 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  Typography,
+  FormHelperText,
 } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+  dialogtitle: {
+    marginTop: "60px",
+    textAlign: "center",
+  },
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    alignContent: "center",
+    justifyContent: "center",
+    "& .MuiPaper-root": {
+      width: "490px",
+      height: "400px",
+    },
+    "& .MuiDialogContent-root": {
+      justifyContent: "center",
+      height: "100px",
+    },
+  },
+  dialogstyle: {
+    display: "flex",
+    alignSelf: "center",
+    alignContent: "center",
+    alignItems: "stretch",
+    justifyContent: "center",
+  },
+  dialogButtonStyle: {
+    display: "flex",
+    alignSelf: "center",
+    alignContent: "center",
+    alignItems: "stretch",
+    justifyContent: "center",
+  },
+  inputCenter: {
+    textAlign: "center",
+    color: "red",
+  },
+  addModel: {
+    background: "#759CFC",
+    color: "white",
+    boxShadow: "none",
+    marginTop: "40px",
+    width: "150px",
+    "&:hover": {
+      background: "#759CFC",
+    },
+  },
+  dialogAction: {
+    display: "flex",
+    width: "150px",
+  },
+}));
 
 const CreateModelByName = ({
   description,
@@ -17,6 +73,8 @@ const CreateModelByName = ({
   name,
   saveValue,
 }) => {
+  const classes = useStyles();
+
   const [value, setValue] = useState({ name: "" });
 
   const handleInputChange = (event) => {
@@ -31,24 +89,40 @@ const CreateModelByName = ({
 
   return (
     <Dialog
+      maxWidth={false}
+      className={classes.root}
+      width={500}
       open={openModal}
       onClose={onCloseModal}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
+      aria-labelledby="customized-dialog-title"
+      //aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+      <DialogTitle className={classes.dialogtitle} id="alert-dialog-title">
+        <Typography variant={"h4"}>{title}</Typography>
+      </DialogTitle>
       <DialogContent>
-        <TextField
-          id="nameCreateItemInDialog"
-          label={description}
-          onChange={(event) => handleInputChange(event)}
-        />
+        <div className={classes.dialogstyle}>
+          <TextField
+            id="nameCreateItemInDialog"
+            label="Outlined"
+            variant="outlined"
+            label={description}
+            width={"200px"}
+            marginTop={"40px"}
+            onChange={(event) => handleInputChange(event)}
+            classes={{
+              input: classes.inputCenter,
+            }}
+          />
+        </div>
+        <div className={classes.dialogButtonStyle}>
+          <DialogActions className={classes.dialogAction}>
+            <Button onClick={addItem} className={classes.addModel}>
+              Create
+            </Button>
+          </DialogActions>
+        </div>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={addItem} color="primary">
-          Okay
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 };

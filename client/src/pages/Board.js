@@ -44,25 +44,19 @@ const useStyles = makeStyles((theme) => ({
 
 const Board = () => {
   const classes = useStyles();
-  // const [data, setData] = useState(initialData);
 
-  const [switchBoard, setSwitchBoard] = useState(false);
   const [openCreationCardDialog, setCreationBoardDialog] = useState(false);
 
   //Access the states from Dashboard Provider
   const {
     isFetching,
-    setIsFetching,
     error,
-    setError,
     boards,
-    setBoards,
     selectedBoard,
     setSelectedBoard,
     columns,
     setColumns,
     cards,
-    setCards,
   } = useContext(DashboardContext);
 
   if (error !== null || isFetching || boards.length === 0) {
