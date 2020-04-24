@@ -173,7 +173,7 @@ const Board = () => {
             <AddCircleOutlineIcon className={classes.createButtonIcon} />
           </Button>
           <CreateModelByName
-            title="Create a new board"
+            title="Create a new column"
             description="Add Title"
             onCloseModal={handleCloseCreationColumnDialog}
             openModal={openCreationCardDialog}
@@ -199,7 +199,6 @@ const Board = () => {
                     const cardsArr = column.cards.map(
                       (cardId) => cards[cardId]
                     );
-
                     return (
                       <Column
                         key={column._id}
