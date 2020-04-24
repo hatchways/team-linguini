@@ -73,6 +73,10 @@ const useStyles = makeStyles((theme) => ({
     height: "68px",
     flexShrink: 3,
   },
+  avatar: {
+    width: theme.spacing(7),
+    height: theme.spacing(7),
+  }
 }));
 
 const NavigationBar = () => {
@@ -268,7 +272,7 @@ const NavigationBar = () => {
             aria-haspopup="true"
             onClick={handleClickAvatarMenu}
           >
-            <Avatar alt="/images/avatar.jpg" src={avatarUrl} />
+            <Avatar alt="/images/avatar.jpg" src={avatarUrl} className={classes.avatar} />
           </IconButton>
           <Menu
             id="simple-menu"
