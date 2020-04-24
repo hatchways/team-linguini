@@ -159,8 +159,6 @@ const Board = () => {
   };
   return (
     <div>
-      <NavigationBar />
-      <BoardBar />
       <div className={classes.horizontalCollection}>
         <Box>
           <Button
