@@ -3,7 +3,7 @@ import { Draggable } from "react-beautiful-dnd";
 import moment from 'moment'
 
 import { makeStyles} from "@material-ui/core/styles";
-import {Card, Box, Button, Typography, CardContent} from "@material-ui/core";
+import {Card, Box, Typography, CardContent} from "@material-ui/core";
 import CardDetail from './CardDetail'
 
 const useStyles = makeStyles(theme => ({

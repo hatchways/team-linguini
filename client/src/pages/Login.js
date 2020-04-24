@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useAuth } from "../context/auth/auth.provider";
 import { authStyle } from "../themes/signup.style";
 import {
@@ -17,8 +16,6 @@ const Login = () => {
   const auth = useAuth();
   const { dispatchIsAuthenticated, dispatchUser } = auth;
   const [serverResponse, setServerResponse] = useState("");
-
-  const history = useHistory();
 
   //Classes of CSS style
   const classes = makeStyles(authStyle)();

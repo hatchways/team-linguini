@@ -17,7 +17,6 @@ const DashboardProvider = (props) => {
   //Initialize data from server
   const url = "/api/v1/boards/init";
   useEffect(() => {
-    console.log("using effect");
     setIsFetching(true);
     authFetch(url)
       .then((res) => res.json())

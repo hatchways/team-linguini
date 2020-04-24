@@ -337,7 +337,6 @@ const CardDetail = (props) => {
 
         if (data.error) {
           throw new Error(data.error);
-          return;
         }
         setError(undefined);
 

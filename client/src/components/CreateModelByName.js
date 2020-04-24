@@ -6,10 +6,8 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   TextField,
   Typography,
-  FormHelperText,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: "red",
     width: "200px",
-    marginTop: "40px"
+    marginTop: "40px",
   },
   addModel: {
     background: "#759CFC",
@@ -99,8 +97,9 @@ const CreateModelByName = ({
       aria-labelledby="customized-dialog-title"
       //aria-describedby="alert-dialog-description"
     >
-      
-      <Typography variant={"h4"} className={classes.dialogtitle}>{title}</Typography>
+      <Typography variant={"h4"} className={classes.dialogtitle}>
+        {title}
+      </Typography>
       <DialogContent>
         <div className={classes.dialogstyle}>
           <TextField

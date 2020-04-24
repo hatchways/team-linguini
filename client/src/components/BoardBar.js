@@ -86,21 +86,7 @@ const BoardBar = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const {
-    isFetching,
-    setIsFetching,
-    error,
-    setError,
-    boards,
-    setBoards,
-    selectedBoard,
-    setSelectedBoard,
-    columns,
-    setColumns,
-    cards,
-    setCards,
-    setAvatarUrl,
-  } = useContext(DashboardContext);
+  const { boards, selectedBoard } = useContext(DashboardContext);
   const selectBoard = (id) => {
     const idOfNewlySelectedBoard = new FormData();
     idOfNewlySelectedBoard.append("selectedBoard", id);
@@ -190,9 +176,14 @@ const BoardBar = () => {
         </List>
         <Divider />
         <List>
-            <ListItem button onClick={()=> {window.location.replace('/logout')}}>
-              <ListItemText primary={"Logout"} />
-            </ListItem>
+          <ListItem
+            button
+            onClick={() => {
+              window.location.replace("/logout");
+            }}
+          >
+            <ListItemText primary={"Logout"} />
+          </ListItem>
         </List>
       </Drawer>
     </div>

@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
-import initialData from "../context/InitialData";
+import React, { useState, useContext } from "react";
 
 import Column from "../components/Column";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { Box, Button, Typography } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
 import { DashboardContext } from "../context/dashboard/dashboard.provider";
