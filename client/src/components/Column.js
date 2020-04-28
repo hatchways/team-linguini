@@ -25,13 +25,13 @@ const useStyles = makeStyles((theme) => {
     column: {
       marginLeft: "25px",
       paddingTop: "20px",
+      width: '90%'
     },
     columnTitle: {
       display: "flex",
       alignItems: "center",
     },
     icon: {
-      marginLeft: "150px",
       marginTop: "20px",
       padding: "20px",
       cursor: "pointer",

@@ -17,7 +17,6 @@ const DashboardProvider = (props) => {
   //Initialize data from server
   const url = "/api/v1/boards/init";
   useEffect(() => {
-    console.log("using effect");
     setIsFetching(true);
     authFetch(url)
       .then((res) => res.json())
@@ -52,9 +51,11 @@ const DashboardProvider = (props) => {
     setColumns,
     cards,
     setCards,
+    avatarUrl,
+    setAvatarUrl,
   };
 
   return <DashboardContext.Provider value={defaultValue} {...props} />;
 };
 
-export { DashboardProvider, DashboardContext, useDashboard};
+export { DashboardProvider, DashboardContext, useDashboard };

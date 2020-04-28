@@ -73,23 +73,23 @@ const useStyles = makeStyles((theme) => ({
     height: "68px",
     flexShrink: 3,
   },
+  avatar: {
+    width: theme.spacing(7),
+    height: theme.spacing(7),
+  }
 }));
 
 const NavigationBar = () => {
   //Access the states from Dashboard Provider
   const {
-    isFetching,
     setIsFetching,
-    error,
     setError,
-    boards,
     setBoards,
     selectedBoard,
     setSelectedBoard,
-    columns,
     setColumns,
-    cards,
     setCards,
+    avatarUrl,
     setAvatarUrl,
   } = useContext(DashboardContext);
   const [openCreationBoardDialog, setCreationBoardDialog] = useState(false);
@@ -135,11 +135,29 @@ const NavigationBar = () => {
   };
 
   const handleSaveDropFile = (files) => {
+    console.log("saving file");
+    console.log(files);
     setStateDropFile({
       ...stateDropFile,
       files: files,
       open: false,
     });
+
+    const formData = new FormData();
+    formData.append("avatar", files[0]);
+
+    const url = "/api/v1/user/uploadAvatar";
+    authFetch(url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setAvatarUrl(data.avatarUrl);
+        console.log(avatarUrl);
+        //setData(JSON.stringify(data));
+      });
   };
 
   const saveCreateBoardDialog = (data) => {
@@ -254,7 +272,7 @@ const NavigationBar = () => {
             aria-haspopup="true"
             onClick={handleClickAvatarMenu}
           >
-            <Avatar alt="Wonderful Client" src="/images/avatar.jpg" />
+            <Avatar alt="/images/avatar.jpg" src={avatarUrl} className={classes.avatar} />
           </IconButton>
           <Menu
             id="simple-menu"

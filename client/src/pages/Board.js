@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
-import initialData from "../context/InitialData";
+import React, { useState, useContext } from "react";
 
 import Column from "../components/Column";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { Box, Button, Typography } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
 import { DashboardContext } from "../context/dashboard/dashboard.provider";
-import { authFetch } from "../helpers/authFetch";
+import { authFetch, authJSONFetch } from '../helpers/authFetch'
 import CreateModelByName from "../components/CreateModelByName";
 
 const useStyles = makeStyles((theme) => ({
@@ -85,6 +84,22 @@ const Board = () => {
         ...selectedBoard,
         columns: newColumnOrder,
       });
+
+      const url = "/api/v1/boards/" + selectedBoard._id;
+      authJSONFetch(url, {
+        method: "PUT",
+        body: JSON.stringify({ columns: newColumnOrder }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.error) {
+            // throw new Error(data.error);
+            console.log("update columns order", data.error);
+            return;
+          }
+          return;
+        });
+
       return;
     }
 
@@ -104,8 +119,22 @@ const Board = () => {
         ...columns,
         [newColumn._id]: newColumn,
       });
+
+      const url = "/api/v1/columns/" + newColumn._id;
+      authJSONFetch(url, { method: 'PUT', body: JSON.stringify({ cards: newCardIds }) })
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            throw new Error(data.error);
+            console.log('update cards order', data.error)
+            return;
+          }
+          return;
+        })
+
       return;
     }
+
     //Moving from one column to another
     const startCardIds = Array.from(start.cards);
     startCardIds.splice(source.index, 1);
@@ -121,11 +150,48 @@ const Board = () => {
       cards: finishCardIds,
     };
 
+
     setColumns({
       ...columns,
       [newStart._id]: newStart,
       [newFinish._id]: newFinish,
     });
+
+    let newUrl = '/api/v1/columns/' + newStart._id;
+    authJSONFetch(newUrl, {method: 'PUT', body: JSON.stringify({cards: newStart.cards})})
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          // throw new Error(data.error);
+          console.log("update cards order", data.error);
+          return;
+        }
+        return;
+      });
+
+    newUrl = '/api/v1/columns/' + newFinish._id;
+    authJSONFetch(newUrl, {method: 'PUT', body: JSON.stringify({cards: newFinish.cards})})
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          // throw new Error(data.error);
+          console.log("update cards order", data.error);
+          return;
+        }
+        return;
+      });
+
+    newUrl = '/api/v1/cards/' + finishCardIds[destination.index].toString();
+    authJSONFetch(newUrl, {method: 'PUT', body: JSON.stringify({columnId: newFinish._id})})
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          // throw new Error(data.error);
+          console.log("update columnId of the card", data.error);
+          return;
+        }
+        return;
+      });
   };
 
   const handleOpenCreationBoardDialog = () => {
