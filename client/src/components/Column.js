@@ -1,19 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import Task from "./Task";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import { Box, Card, CardContent} from '@material-ui/core'
-import { authJSONFetch } from '../helpers/authFetch'
-import { useDashboard } from '../context/dashboard/dashboard.provider'
-import Input from '@material-ui/core/Input'
+import {
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  Paper,
+  Button,
+  Input,
+  Menu,
+  MenuItem,
+} from "@material-ui/core";
+import { authJSONFetch } from "../helpers/authFetch";
+import { useDashboard } from "../context/dashboard/dashboard.provider";
 
 const useStyles = makeStyles((theme) => {
-  return ({
+  return {
     paper: {
       height: 550,
       width: 320,
@@ -25,7 +31,7 @@ const useStyles = makeStyles((theme) => {
     column: {
       marginLeft: "25px",
       paddingTop: "20px",
-      width: '90%'
+      width: "90%",
     },
     columnTitle: {
       display: "flex",
@@ -69,7 +75,7 @@ const useStyles = makeStyles((theme) => {
       overflowY: "scroll",
       "&::-webkit-scrollbar": {
         display: "none",
-      }
+      },
     },
     addCard: {
       // background: "#759CFC",
@@ -80,7 +86,7 @@ const useStyles = makeStyles((theme) => {
       left: 20,
       "&:hover": {
         background: "#759CFC",
-        color: "#ffffff"
+        color: "#ffffff",
       },
     },
     addBoldCard: {
@@ -92,39 +98,39 @@ const useStyles = makeStyles((theme) => {
       left: 20,
       "&:hover": {
         background: "#759CFC",
-        color: "#ffffff"
+        color: "#ffffff",
       },
     },
     card: {
       margin: "auto",
       width: "280px",
       marginBottom: "10px",
-      borderRadius: '8px',
+      borderRadius: "8px",
       borderColor: "#759CFC",
-      borderStyle: 'solid',
-      borderWidth: '1px'
+      borderStyle: "solid",
+      borderWidth: "1px",
     },
     cardTitle: {
       fontSize: 14,
       fontWeight: 700,
-      paddingLeft: 0
+      paddingLeft: 0,
     },
     tag: {
       height: "7px",
       width: "45px",
       borderRadius: "5px",
-      marginBottom: "10px"
+      marginBottom: "10px",
     },
     colorCodeCircle: {
       width: 15,
       height: 15,
-      margin: 4
+      margin: 4,
     },
     colorCodeBigCircle: {
       width: 15,
       height: 15,
-      border: 'solid 2px',
-      margin: 4
+      border: "solid 2px",
+      margin: 4,
     },
     closeButton: {
       position: "absolute",
@@ -132,7 +138,7 @@ const useStyles = makeStyles((theme) => {
       top: theme.spacing(1),
       color: theme.palette.grey[500],
     },
-  })
+  };
 });
 
 const NewCardBox = (props) => {
@@ -140,98 +146,114 @@ const NewCardBox = (props) => {
 
   const handleColorClick = (colorCode) => () => {
     props.setCardColorCode(colorCode);
-  }
+  };
 
-  const ColorCode = ({colorCode}) => {
+  const ColorCode = ({ colorCode }) => {
     if (props.cardColorCode === colorCode) {
       return (
-        <Box component={'div'} className={classes.colorCodeBigCircle} borderRadius="50%" bgcolor={"cardColor." + colorCode}
-             onClick={handleColorClick(colorCode)}/>
-      )
+        <Box
+          component={"div"}
+          className={classes.colorCodeBigCircle}
+          borderRadius="50%"
+          bgcolor={"cardColor." + colorCode}
+          onClick={handleColorClick(colorCode)}
+        />
+      );
     } else {
       return (
-        <Box component={'div'} className={classes.colorCodeCircle} borderRadius="50%" bgcolor={"cardColor." + colorCode}
-             onClick={handleColorClick(colorCode)}/>
-      )
+        <Box
+          component={"div"}
+          className={classes.colorCodeCircle}
+          borderRadius="50%"
+          bgcolor={"cardColor." + colorCode}
+          onClick={handleColorClick(colorCode)}
+        />
+      );
     }
-  }
+  };
 
   return (
     <Box display={props.displayNewCard}>
-      <Card
-        className={classes.card}
-      >
-        <CardContent >
-            <Input className={classes.cardTitle}
-                   placeholder={'Add title ...'}
-                   type={'text'}
-                   value={props.cardTitle}
-                   onChange={event => props.setCardTitle(event.target.value)}
-            />
-          <Box display="flex" flexDirection="row" justifyContent={'space-between'} mt={1}>
-            <Typography component={'span'} color={'secondary'}>Select color:</Typography>
-            <Box component={'div'} display="flex" flexDirection="row">
-              <ColorCode colorCode={'green'}/>
-              <ColorCode colorCode={'red'}/>
-              <ColorCode colorCode={'yellow'}/>
-              <ColorCode colorCode={'blue'}/>
-              <ColorCode colorCode={'purple'}/>
-              <ColorCode colorCode={'white'}/>
+      <Card className={classes.card}>
+        <CardContent>
+          <Input
+            className={classes.cardTitle}
+            placeholder={"Add title ..."}
+            type={"text"}
+            value={props.cardTitle}
+            onChange={(event) => props.setCardTitle(event.target.value)}
+          />
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent={"space-between"}
+            mt={1}
+          >
+            <Typography component={"span"} color={"secondary"}>
+              Select color:
+            </Typography>
+            <Box component={"div"} display="flex" flexDirection="row">
+              <ColorCode colorCode={"green"} />
+              <ColorCode colorCode={"red"} />
+              <ColorCode colorCode={"yellow"} />
+              <ColorCode colorCode={"blue"} />
+              <ColorCode colorCode={"purple"} />
+              <ColorCode colorCode={"white"} />
             </Box>
           </Box>
         </CardContent>
       </Card>
     </Box>
-  )
-}
+  );
+};
 
 const Column = ({ column, cards, index }) => {
-
   const classes = useStyles();
-  const [displayNewCard, setDisplayNewCard] = useState('none');
-  const [displayAddButton, setDisplayAddButton] = useState('block');
-  const [cardTitle, setCardTitle] = useState('');
-  const [cardColorCode, setCardColorCode] = useState('white');
+  const [displayNewCard, setDisplayNewCard] = useState("none");
+  const [displayAddButton, setDisplayAddButton] = useState("block");
+  const [cardTitle, setCardTitle] = useState("");
+  const [cardColorCode, setCardColorCode] = useState("white");
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const dashboard = useDashboard();
 
   const handleAddCardClick = () => {
-    setDisplayNewCard('block');
-    setDisplayAddButton('none')
-  }
+    setDisplayNewCard("block");
+    setDisplayAddButton("none");
+  };
 
   const handleSubmitAddingClick = () => {
     if (cardTitle) {
-      const url = '/api/v1/cards';
+      const url = "/api/v1/cards";
       const bodyData = {
         title: cardTitle,
         colorCode: cardColorCode,
-        columnId: column._id
+        columnId: column._id,
       };
-      authJSONFetch(url, {method: 'POST', body: JSON.stringify(bodyData)})
-        .then(res => res.json())
-        .then(res => {
+      authJSONFetch(url, { method: "POST", body: JSON.stringify(bodyData) })
+        .then((res) => res.json())
+        .then((res) => {
           if (res.error) {
             console.log(res.error);
             return;
-          };
+          }
 
-          dashboard.setCards({...dashboard.cards, [res._id]:res});
-          const newColumns = {...dashboard.columns}
-          newColumns[res.columnId] = {...dashboard.columns[res.columnId]};
+          dashboard.setCards({ ...dashboard.cards, [res._id]: res });
+          const newColumns = { ...dashboard.columns };
+          newColumns[res.columnId] = { ...dashboard.columns[res.columnId] };
           newColumns[res.columnId].cards.push(res._id);
           dashboard.setColumns(newColumns);
 
-          setDisplayNewCard('none');
-          setDisplayAddButton('block');
-          setCardTitle('');
-          setCardColorCode('white')
-        })
+          setDisplayNewCard("none");
+          setDisplayAddButton("block");
+          setCardTitle("");
+          setCardColorCode("white");
+        });
     }
-  }
+  };
   return (
     <Draggable draggableId={column._id} index={index}>
-      {provided => (
+      {(provided) => (
         <Grid
           key={column._id}
           item
@@ -243,15 +265,25 @@ const Column = ({ column, cards, index }) => {
               <Typography variant="h6" className={classes.column}>
                 {column.title}
               </Typography>
-              <div className={classes.icon}>
+              <div className={classes.icon} aria-controls="simple-menu" aria-haspopup="true" onClick={(event) => setAnchorEl(event.currentTarget)}>
                 <i
                   className="fas fa-ellipsis-h"
                   style={{ color: "#D7DDF8" }}
                 ></i>
               </div>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={() => setAnchorEl(null)}
+              >
+                <MenuItem>Edit Column</MenuItem>
+                <MenuItem>Delete Column</MenuItem>
+              </Menu>
             </div>
             <Droppable droppableId={column._id} type="card">
-              {provided => (
+              {(provided) => (
                 <div
                   className={classes.cardSection}
                   {...provided.droppableProps}
@@ -260,22 +292,27 @@ const Column = ({ column, cards, index }) => {
                   {cards.map((card, index) => (
                     <Task key={card._id} card={card} index={index} />
                   ))}
-                  <NewCardBox displayNewCard={displayNewCard} setCardTitle={setCardTitle}
-                              cardColorCode={cardColorCode}
-                              setCardColorCode={setCardColorCode}
-                              cardTitle={cardTitle}
+                  <NewCardBox
+                    displayNewCard={displayNewCard}
+                    setCardTitle={setCardTitle}
+                    cardColorCode={cardColorCode}
+                    setCardColorCode={setCardColorCode}
+                    cardTitle={cardTitle}
                   />
                   {provided.placeholder}
                 </div>
               )}
             </Droppable>
             <Box display={displayNewCard}>
-              <Button  className={classes.addBoldCard} onClick={handleSubmitAddingClick}>
+              <Button
+                className={classes.addBoldCard}
+                onClick={handleSubmitAddingClick}
+              >
                 Add a card
               </Button>
             </Box>
             <Box display={displayAddButton}>
-              <Button  className={classes.addCard} onClick={handleAddCardClick}>
+              <Button className={classes.addCard} onClick={handleAddCardClick}>
                 Add a card ...
               </Button>
             </Box>
