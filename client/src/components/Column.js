@@ -264,20 +264,16 @@ const Column = ({ column, cards, index }) => {
         return
       }
 
-      // need to modify selectedboard, columns, cards
+      // removes column from the selectedboard context
       const newSelectedColumns = dashboard.selectedBoard.columns
       newSelectedColumns.splice(newSelectedColumns.indexOf(column._id), 1)
-      console.log(newSelectedColumns)
       dashboard.setSelectedBoard({...dashboard.selectedBoard, columns: newSelectedColumns})
-      console.log(dashboard)
-      const cards = dashboard.columns[column._id].cards
-      cards.forEach(cardId => delete dashboard.cards[cardId])
-       
+      //removes cards from under the column
+      dashboard.columns[column._id].cards.forEach(cardId => delete dashboard.cards[cardId])
+      // removes the column from the context
       const newColumns = { ...dashboard.columns }
-      console.log(newColumns)
       delete newColumns[column._id]
       dashboard.setColumns(newColumns)
-      console.log(dashboard)
     })
 
   }
