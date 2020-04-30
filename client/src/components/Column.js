@@ -134,6 +134,9 @@ const useStyles = makeStyles((theme) => {
       top: theme.spacing(1),
       color: theme.palette.grey[500],
     },
+    cardContent: {
+      position: 'relative'
+    }
   };
 });
 
@@ -171,7 +174,7 @@ const NewCardBox = (props) => {
   return (
     <Box display={props.displayNewCard}>
       <Card className={classes.card}>
-        <CardContent>
+        <CardContent className={classes.cardContent}>
           <Input
             className={classes.cardTitle}
             placeholder={"Add title ..."}
