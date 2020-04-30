@@ -216,6 +216,7 @@ const Column = ({ column, cards, index }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const dashboard = useDashboard();
+  console.log(dashboard)
 
   const handleAddCardClick = () => {
     setDisplayNewCard("block");
@@ -257,7 +258,27 @@ const Column = ({ column, cards, index }) => {
     const url = `/api/v1/columns/${column._id}`
     authJSONFetch(url, {method: "DELETE"})
     .then(res => res.json())
-    .then(res => console.log(res))
+    .then(res => {
+      if(res.error){
+        console.log(res.error)
+        return
+      }
+
+      // need to modify selectedboard, columns, cards
+      const newSelectedColumns = dashboard.selectedBoard.columns
+      newSelectedColumns.splice(newSelectedColumns.indexOf(column._id), 1)
+      console.log(newSelectedColumns)
+      dashboard.setSelectedBoard({...dashboard.selectedBoard, columns: newSelectedColumns})
+      console.log(dashboard)
+      const cards = dashboard.columns[column._id].cards
+      cards.forEach(cardId => delete dashboard.cards[cardId])
+       
+      const newColumns = { ...dashboard.columns }
+      console.log(newColumns)
+      delete newColumns[column._id]
+      dashboard.setColumns(newColumns)
+      console.log(dashboard)
+    })
 
   }
 
