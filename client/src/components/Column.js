@@ -251,6 +251,16 @@ const Column = ({ column, cards, index }) => {
         });
     }
   };
+
+  const handleDeleteColumn = (event) => {
+    console.log(column._id)
+    const url = `/api/v1/columns/${column._id}`
+    authJSONFetch(url, {method: "DELETE"})
+    .then(res => res.json())
+    .then(res => console.log(res))
+
+  }
+
   return (
     <Draggable draggableId={column._id} index={index}>
       {(provided) => (
@@ -279,7 +289,7 @@ const Column = ({ column, cards, index }) => {
                 onClose={() => setAnchorEl(null)}
               >
                 <MenuItem>Edit Column</MenuItem>
-                <MenuItem>Delete Column</MenuItem>
+                <MenuItem onClick={handleDeleteColumn}>Delete Column</MenuItem>
               </Menu>
             </div>
             <Droppable droppableId={column._id} type="card">
