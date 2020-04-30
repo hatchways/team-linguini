@@ -268,8 +268,10 @@ const Column = ({ column, cards, index }) => {
       const newSelectedColumns = dashboard.selectedBoard.columns
       newSelectedColumns.splice(newSelectedColumns.indexOf(column._id), 1)
       dashboard.setSelectedBoard({...dashboard.selectedBoard, columns: newSelectedColumns})
+      
       //removes cards from under the column
       dashboard.columns[column._id].cards.forEach(cardId => delete dashboard.cards[cardId])
+
       // removes the column from the context
       const newColumns = { ...dashboard.columns }
       delete newColumns[column._id]
