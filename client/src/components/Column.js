@@ -14,6 +14,7 @@ import {
   Input,
   Menu,
   MenuItem,
+  TextField
 } from "@material-ui/core";
 import { authJSONFetch } from "../helpers/authFetch";
 import { useDashboard } from "../context/dashboard/dashboard.provider";
@@ -32,6 +33,13 @@ const useStyles = makeStyles((theme) => {
       marginLeft: "25px",
       paddingTop: "20px",
       width: "90%",
+    },
+    editColumnTitle:{
+      marginLeft: "25px",
+      paddingTop: "20px",
+      //borderRadius: "5px",
+      width: "90%",
+      //background: "white",
     },
     columnTitle: {
       display: "flex",
@@ -214,9 +222,10 @@ const Column = ({ column, cards, index }) => {
   const [cardTitle, setCardTitle] = useState("");
   const [cardColorCode, setCardColorCode] = useState("white");
   const [anchorEl, setAnchorEl] = useState(null);
+  const [columnInputEdit, setColumnInputEdit] = useState(false)
 
   const dashboard = useDashboard();
-  console.log(dashboard)
+  console.log(dashboard);
 
   const handleAddCardClick = () => {
     setDisplayNewCard("block");
@@ -254,31 +263,35 @@ const Column = ({ column, cards, index }) => {
   };
 
   const handleDeleteColumn = (event) => {
-    console.log(column._id)
-    const url = `/api/v1/columns/${column._id}`
-    authJSONFetch(url, {method: "DELETE"})
-    .then(res => res.json())
-    .then(res => {
-      if(res.error){
-        console.log(res.error)
-        return
-      }
+    console.log(column._id);
+    const url = `/api/v1/columns/${column._id}`;
+    authJSONFetch(url, { method: "DELETE" })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.error) {
+          console.log(res.error);
+          return;
+        }
 
-      // removes column from the selectedboard context
-      const newSelectedColumns = dashboard.selectedBoard.columns
-      newSelectedColumns.splice(newSelectedColumns.indexOf(column._id), 1)
-      dashboard.setSelectedBoard({...dashboard.selectedBoard, columns: newSelectedColumns})
-      
-      //removes cards from under the column
-      dashboard.columns[column._id].cards.forEach(cardId => delete dashboard.cards[cardId])
+        // removes column from the selectedboard context
+        const newSelectedColumns = dashboard.selectedBoard.columns;
+        newSelectedColumns.splice(newSelectedColumns.indexOf(column._id), 1);
+        dashboard.setSelectedBoard({
+          ...dashboard.selectedBoard,
+          columns: newSelectedColumns,
+        });
 
-      // removes the column from the context
-      const newColumns = { ...dashboard.columns }
-      delete newColumns[column._id]
-      dashboard.setColumns(newColumns)
-    })
+        //removes cards from under the column
+        dashboard.columns[column._id].cards.forEach(
+          (cardId) => delete dashboard.cards[cardId]
+        );
 
-  }
+        // removes the column from the context
+        const newColumns = { ...dashboard.columns };
+        delete newColumns[column._id];
+        dashboard.setColumns(newColumns);
+      });
+  };
 
   return (
     <Draggable draggableId={column._id} index={index}>
@@ -291,10 +304,16 @@ const Column = ({ column, cards, index }) => {
         >
           <Paper className={classes.paper}>
             <div className={classes.columnTitle} {...provided.dragHandleProps}>
-              <Typography variant="h6" className={classes.column}>
+              {console.log(columnInputEdit)}
+              {columnInputEdit ? <Typography variant="h6" className={classes.column}>
                 {column.title}
-              </Typography>
-              <div className={classes.icon} aria-controls="simple-menu" aria-haspopup="true" onClick={(event) => setAnchorEl(event.currentTarget)}>
+              </Typography> : <form><TextField className={classes.editColumnTitle} defaultValue={column.title} /></form>}
+              <div
+                className={classes.icon}
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={(event) => setAnchorEl(event.currentTarget)}
+              >
                 <i
                   className="fas fa-ellipsis-h"
                   style={{ color: "#D7DDF8" }}
@@ -307,7 +326,7 @@ const Column = ({ column, cards, index }) => {
                 open={Boolean(anchorEl)}
                 onClose={() => setAnchorEl(null)}
               >
-                <MenuItem>Edit Column</MenuItem>
+                <MenuItem onClick={() => setColumnInputEdit(true)}>Edit Column</MenuItem>
                 <MenuItem onClick={handleDeleteColumn}>Delete Column</MenuItem>
               </Menu>
             </div>
