@@ -72,6 +72,7 @@ const CreateModelByName = ({
   title,
   name,
   saveValue,
+  defaultValue
 }) => {
   const classes = useStyles();
 
@@ -106,6 +107,7 @@ const CreateModelByName = ({
             id="nameCreateItemInDialog"
             variant="outlined"
             label={description}
+            defaultValue={defaultValue}
             onChange={(event) => handleInputChange(event)}
             className={classes.inputCenter}
           />

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Task from "./Task";
+import CreateModelByName from "./CreateModelByName";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -14,7 +15,6 @@ import {
   Input,
   Menu,
   MenuItem,
-  TextField
 } from "@material-ui/core";
 import { authJSONFetch } from "../helpers/authFetch";
 import { useDashboard } from "../context/dashboard/dashboard.provider";
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => {
       paddingTop: "20px",
       width: "90%",
     },
-    editColumnTitle:{
+    editColumnTitle: {
       marginLeft: "25px",
       paddingTop: "20px",
       //borderRadius: "5px",
@@ -222,7 +222,7 @@ const Column = ({ column, cards, index }) => {
   const [cardTitle, setCardTitle] = useState("");
   const [cardColorCode, setCardColorCode] = useState("white");
   const [anchorEl, setAnchorEl] = useState(null);
-  const [columnInputEdit, setColumnInputEdit] = useState(false)
+  const [editColumnTitleDialog, setEditColumnTitleDialog] = useState(false);
 
   const dashboard = useDashboard();
   console.log(dashboard);
@@ -293,6 +293,10 @@ const Column = ({ column, cards, index }) => {
       });
   };
 
+  const handleEditColumnTitle = (updatedTitle) => {
+    console.log(updatedTitle)
+  }
+
   return (
     <Draggable draggableId={column._id} index={index}>
       {(provided) => (
@@ -304,10 +308,9 @@ const Column = ({ column, cards, index }) => {
         >
           <Paper className={classes.paper}>
             <div className={classes.columnTitle} {...provided.dragHandleProps}>
-              {console.log(columnInputEdit)}
-              {columnInputEdit ? <Typography variant="h6" className={classes.column}>
+              <Typography variant="h6" className={classes.column}>
                 {column.title}
-              </Typography> : <form><TextField className={classes.editColumnTitle} defaultValue={column.title} /></form>}
+              </Typography>
               <div
                 className={classes.icon}
                 aria-controls="simple-menu"
@@ -326,9 +329,23 @@ const Column = ({ column, cards, index }) => {
                 open={Boolean(anchorEl)}
                 onClose={() => setAnchorEl(null)}
               >
-                <MenuItem onClick={() => setColumnInputEdit(true)}>Edit Column</MenuItem>
+                <MenuItem onClick={() => setEditColumnTitleDialog(true)}>
+                  Edit Column
+                </MenuItem>
                 <MenuItem onClick={handleDeleteColumn}>Delete Column</MenuItem>
               </Menu>
+              <CreateModelByName
+                title="Edit Column Title"
+                description="Edit Title"
+                defaultValue={column.title}
+                onCloseModal={() => {
+                  setEditColumnTitleDialog(false);
+                  setAnchorEl(null);
+                }}
+                openModal={editColumnTitleDialog}
+                name="EditColumnTitle"
+                saveValue={(event) => handleEditColumnTitle(event)}
+              />
             </div>
             <Droppable droppableId={column._id} type="card">
               {(provided) => (
