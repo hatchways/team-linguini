@@ -263,7 +263,6 @@ const Column = ({ column, cards, index }) => {
   };
 
   const handleDeleteColumn = (event) => {
-    console.log(column._id);
     const url = `/api/v1/columns/${column._id}`;
     authJSONFetch(url, { method: "DELETE" })
       .then((res) => res.json())
@@ -295,6 +294,9 @@ const Column = ({ column, cards, index }) => {
 
   const handleEditColumnTitle = (updatedTitle) => {
     console.log(updatedTitle)
+    console.log(column._id);
+    
+    //authJSONFetch(``)
   }
 
   return (
@@ -339,11 +341,12 @@ const Column = ({ column, cards, index }) => {
                 description="Edit Title"
                 defaultValue={column.title}
                 onCloseModal={() => {
-                  setEditColumnTitleDialog(false);
                   setAnchorEl(null);
+                  setEditColumnTitleDialog(false);
                 }}
                 openModal={editColumnTitleDialog}
                 name="EditColumnTitle"
+                buttonName="Update Title"
                 saveValue={(event) => handleEditColumnTitle(event)}
               />
             </div>

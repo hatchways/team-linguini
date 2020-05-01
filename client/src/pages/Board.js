@@ -245,7 +245,8 @@ const Board = () => {
             description="Add Title"
             onCloseModal={handleCloseCreationColumnDialog}
             openModal={openCreationCardDialog}
-            name="board"
+            name="column"
+            buttonName="Create Column"
             saveValue={(event) => saveCreateColumn(event)}
           />
         </Box>

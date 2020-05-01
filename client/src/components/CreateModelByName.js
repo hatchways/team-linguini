@@ -72,7 +72,8 @@ const CreateModelByName = ({
   title,
   name,
   saveValue,
-  defaultValue
+  defaultValue,
+  buttonName
 }) => {
   const classes = useStyles();
 
@@ -115,7 +116,7 @@ const CreateModelByName = ({
         <div className={classes.dialogButtonStyle}>
           <DialogActions className={classes.dialogAction}>
             <Button onClick={addItem} className={classes.addModel}>
-              Create
+              {buttonName}
             </Button>
           </DialogActions>
         </div>

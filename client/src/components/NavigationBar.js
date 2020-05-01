@@ -265,6 +265,7 @@ const NavigationBar = () => {
             onCloseModal={handleCloseCreationBoardDialog}
             openModal={openCreationBoardDialog}
             name="board"
+            buttonName="Create Board"
             saveValue={(event) => saveCreateBoardDialog(event)}
           />
           <IconButton
