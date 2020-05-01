@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "none",
     flexDirection: "row",
     alignItems: "center",
-    height: "85px",
+    height: "50px",
   },
   toolBar: {
     justifyContent: "space-between",
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   createButtonText: {
     color: "#FFFFFF",
     fontWeight: "bold",
-    padding: "10px",
+    //padding: "10px",
   },
   createButtonIcon: {
     color: "#FFFFFF",
@@ -75,8 +75,8 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 3,
   },
   avatar: {
-    width: theme.spacing(7),
-    height: theme.spacing(7),
+    width: theme.spacing(5),
+    height: theme.spacing(5),
   },
 }));
 
@@ -222,9 +222,7 @@ const NavigationBar = () => {
       <Toolbar className={classes.toolBar}>
         <Box display={{ xs: "none", sm: "block" }}>
           <Button component={NavLink} to="/">
-            <Typography>
-              <img src="/images/logo.png" alt="bug" />
-            </Typography>
+            <img src="/images/logo.png" alt="bug" />
           </Button>
         </Box>
         <Box>
