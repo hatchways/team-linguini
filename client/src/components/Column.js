@@ -171,6 +171,12 @@ const NewCardBox = (props) => {
     }
   };
 
+  const handleOnKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      props.onAddingCard();
+    }
+  }
+
   return (
     <Box display={props.displayNewCard}>
       <Card className={classes.card}>
@@ -180,7 +186,8 @@ const NewCardBox = (props) => {
             placeholder={"Add title ..."}
             type={"text"}
             value={props.cardTitle}
-            onChange={(event) => props.setCardTitle(event.target.value)}
+            onChange={event => props.setCardTitle(event.target.value)}
+            onKeyDown={handleOnKeyDown}
           />
           <IconButton
             aria-label="close"
@@ -299,6 +306,7 @@ const Column = ({ column, cards, index }) => {
                     setCardColorCode={setCardColorCode}
                     cardTitle={cardTitle}
                     onClose={handleCloseAddingCard}
+                    onAddingCard={handleSubmitAddingClick}
                   />
                   {provided.placeholder}
                 </div>
