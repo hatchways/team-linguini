@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
   buttonText: {
     fontSize: 14,
     fontWeight: "bold",
+    display: { xs: "none", sm: "block" },
   },
   buttonIcons: {
     marginRight: "8px",
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   createButton: {
     backgroundColor: "#759DFD",
     marginRight: "40px",
-    width: "175px",
+    //width: "175px",
     "&:hover": {
       backgroundColor: "#759DFD",
     },
@@ -76,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     width: theme.spacing(7),
     height: theme.spacing(7),
-  }
+  },
 }));
 
 const NavigationBar = () => {
@@ -219,7 +220,7 @@ const NavigationBar = () => {
   return (
     <AppBar position="static" className={classes.appBar}>
       <Toolbar className={classes.toolBar}>
-        <Box>
+        <Box display={{ xs: "none", sm: "block" }}>
           <Button component={NavLink} to="/">
             <Typography>
               <img src="/images/logo.png" alt="bug" />
@@ -235,8 +236,12 @@ const NavigationBar = () => {
             activeClassName={classes.selectedButton}
           >
             <DashboardRoundedIcon className={classes.buttonIcons} />
-            <Typography className={classes.buttonText}>Dashboard</Typography>
+            <Box display={{ xs: "none", lg: "block", xl: "none" }}>
+              <Typography className={classes.buttonText}>Dashboard</Typography>
+            </Box>
           </Button>
+        </Box>
+        <Box>
           <Button
             className={classes.buttonNotSelected}
             component={NavLink}
@@ -245,7 +250,9 @@ const NavigationBar = () => {
             activeClassName={classes.selectedButton}
           >
             <CalendarTodayOutlinedIcon className={classes.buttonIcons} />
-            <Typography className={classes.buttonText}>Calendar</Typography>
+            <Box display={{ xs: "none", lg: "block", xl: "none" }}>
+              <Typography className={classes.buttonText}>Calendar</Typography>
+            </Box>
           </Button>
         </Box>
         <Box>
@@ -255,10 +262,14 @@ const NavigationBar = () => {
             onClick={handleOpenCreationBoardDialog}
           >
             <AddIcon className={classes.createButtonIcon} />
-            <Typography className={classes.createButtonText}>
-              Create board
-            </Typography>
+            <Box display={{ xs: "none", lg: "block", xl: "none" }}>
+              <Typography className={classes.createButtonText}>
+                Create board
+              </Typography>
+            </Box>
           </Button>
+        </Box>
+        <Box>
           <CreateModelByName
             title="Create a new board"
             description="Add Title"
@@ -272,7 +283,11 @@ const NavigationBar = () => {
             aria-haspopup="true"
             onClick={handleClickAvatarMenu}
           >
-            <Avatar alt="/images/avatar.jpg" src={avatarUrl} className={classes.avatar} />
+            <Avatar
+              alt="/images/avatar.jpg"
+              src={avatarUrl}
+              className={classes.avatar}
+            />
           </IconButton>
           <Menu
             id="simple-menu"
