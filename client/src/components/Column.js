@@ -292,25 +292,29 @@ const Column = ({ column, cards, index }) => {
   };
 
   const handleEditColumnTitle = (updatedTitle) => {
-    if (!updatedTitle.editColumnTitle || updatedTitle.editColumnTitle === ''){
+    if (!updatedTitle.editColumnTitle || updatedTitle.editColumnTitle === "") {
       return;
     }
-      const url = `/api/v1/columns/${column._id}`
-      authJSONFetch(url, { method: "PUT", body: JSON.stringify({title: updatedTitle.editColumnTitle}) })
-      .then(res => res.json())
-      .then(res => {
-        if(res.error){
-          console.log(res.error)
-          return
+    const url = `/api/v1/columns/${column._id}`;
+    authJSONFetch(url, {
+      method: "PUT",
+      body: JSON.stringify({ title: updatedTitle.editColumnTitle }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.error) {
+          console.log(res.error);
+          return;
         }
+
         //updating the context state of column with updated title
-        const newColumns = { ...dashboard.columns }
-        newColumns[column._id].title = res.title
-        dashboard.setColumns(newColumns)
-        setAnchorEl(null)
-        setEditColumnTitleDialog(false) 
-      })
-  }
+        const newColumns = { ...dashboard.columns };
+        newColumns[column._id].title = res.title;
+        dashboard.setColumns(newColumns);
+        setAnchorEl(null);
+        setEditColumnTitleDialog(false);
+      });
+  };
 
   return (
     <Draggable draggableId={column._id} index={index}>
