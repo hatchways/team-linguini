@@ -226,11 +226,11 @@ const Board = () => {
   };
 
   const saveCreateColumn = (data) => {
-    if (!data.board || data.board === "") {
+    if (!data.column || data.column === ''){
       return;
     }
     const formData = new FormData();
-    formData.append("title", data.board);
+    formData.append("title", data.column);
     formData.append("boardId", selectedBoard._id);
     const url = "/api/v1/columns";
     const updatedColumns = { ...columns };
@@ -268,7 +268,8 @@ const Board = () => {
             description="Add Title"
             onCloseModal={handleCloseCreationColumnDialog}
             openModal={openCreationCardDialog}
-            name="board"
+            name="column"
+            buttonName="Create Column"
             saveValue={(event) => saveCreateColumn(event)}
           />
         </Box>
