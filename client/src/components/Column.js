@@ -292,8 +292,6 @@ const Column = ({ column, cards, index }) => {
   };
 
   const handleEditColumnTitle = (updatedTitle) => {
-    console.log(updatedTitle.editColumnTitle)
-    console.log(column._id);
     if (!updatedTitle.editColumnTitle || updatedTitle.editColumnTitle === ''){
       return;
     }
@@ -305,19 +303,13 @@ const Column = ({ column, cards, index }) => {
           console.log(res.error)
           return
         }
-        console.log(res.title)
-        console.log(dashboard);
+        //updating the context state of column with updated title
         const newColumns = { ...dashboard.columns }
-        console.log(newColumns)
-        console.log(newColumns[column._id])
         newColumns[column._id].title = res.title
-        console.log(newColumns[column._id])
         dashboard.setColumns(newColumns)
         setAnchorEl(null)
-        setEditColumnTitleDialog(false)
-        
+        setEditColumnTitleDialog(false) 
       })
-
   }
 
   return (
