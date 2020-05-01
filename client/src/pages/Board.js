@@ -203,11 +203,11 @@ const Board = () => {
   };
 
   const saveCreateColumn = (data) => {
-    if (!data.board || data.board === ''){
+    if (!data.column || data.column === ''){
       return;
     }
     const formData = new FormData();
-    formData.append("title", data.board);
+    formData.append("title", data.column);
     formData.append("boardId", selectedBoard._id);
     const url = "/api/v1/columns";
     const updatedColumns = { ...columns };

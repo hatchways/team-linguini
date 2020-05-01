@@ -225,7 +225,6 @@ const Column = ({ column, cards, index }) => {
   const [editColumnTitleDialog, setEditColumnTitleDialog] = useState(false);
 
   const dashboard = useDashboard();
-  console.log(dashboard);
 
   const handleAddCardClick = () => {
     setDisplayNewCard("block");
@@ -293,10 +292,32 @@ const Column = ({ column, cards, index }) => {
   };
 
   const handleEditColumnTitle = (updatedTitle) => {
-    console.log(updatedTitle)
+    console.log(updatedTitle.editColumnTitle)
     console.log(column._id);
-    
-    //authJSONFetch(``)
+    if (!updatedTitle.editColumnTitle || updatedTitle.editColumnTitle === ''){
+      return;
+    }
+      const url = `/api/v1/columns/${column._id}`
+      authJSONFetch(url, { method: "PUT", body: JSON.stringify({title: updatedTitle.editColumnTitle}) })
+      .then(res => res.json())
+      .then(res => {
+        if(res.error){
+          console.log(res.error)
+          return
+        }
+        console.log(res.title)
+        console.log(dashboard);
+        const newColumns = { ...dashboard.columns }
+        console.log(newColumns)
+        console.log(newColumns[column._id])
+        newColumns[column._id].title = res.title
+        console.log(newColumns[column._id])
+        dashboard.setColumns(newColumns)
+        setAnchorEl(null)
+        setEditColumnTitleDialog(false)
+        
+      })
+
   }
 
   return (
@@ -345,7 +366,7 @@ const Column = ({ column, cards, index }) => {
                   setEditColumnTitleDialog(false);
                 }}
                 openModal={editColumnTitleDialog}
-                name="EditColumnTitle"
+                name="editColumnTitle"
                 buttonName="Update Title"
                 saveValue={(event) => handleEditColumnTitle(event)}
               />
