@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
   buttonText: {
     fontSize: 14,
     fontWeight: "bold",
-    display: { xs: "none", sm: "block" },
   },
   buttonIcons: {
     marginRight: "8px",
@@ -56,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
   createButton: {
     backgroundColor: "#759DFD",
     marginRight: "40px",
-    //width: "175px",
     "&:hover": {
       backgroundColor: "#759DFD",
     },
@@ -64,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
   createButtonText: {
     color: "#FFFFFF",
     fontWeight: "bold",
-    //padding: "10px",
   },
   createButtonIcon: {
     color: "#FFFFFF",
@@ -234,7 +231,7 @@ const NavigationBar = () => {
             activeClassName={classes.selectedButton}
           >
             <DashboardRoundedIcon className={classes.buttonIcons} />
-            <Box display={{ xs: "none", lg: "block", xl: "none" }}>
+            <Box display={{ xs: "none", sm: "block" }}>
               <Typography className={classes.buttonText}>Dashboard</Typography>
             </Box>
           </Button>
@@ -248,7 +245,7 @@ const NavigationBar = () => {
             activeClassName={classes.selectedButton}
           >
             <CalendarTodayOutlinedIcon className={classes.buttonIcons} />
-            <Box display={{ xs: "none", lg: "block", xl: "none" }}>
+            <Box display={{ xs: "none", sm: "block" }}>
               <Typography className={classes.buttonText}>Calendar</Typography>
             </Box>
           </Button>
@@ -260,7 +257,7 @@ const NavigationBar = () => {
             onClick={handleOpenCreationBoardDialog}
           >
             <AddIcon className={classes.createButtonIcon} />
-            <Box display={{ xs: "none", lg: "block", xl: "none" }}>
+            <Box display={{ xs: "none", sm: "block" }}>
               <Typography className={classes.createButtonText}>
                 Create board
               </Typography>
