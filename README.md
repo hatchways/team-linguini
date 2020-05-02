@@ -66,5 +66,5 @@ This application requires API keys from:
 * **Creating New Columns and Creating New Cards:** A user can create a new column and add a new Card under the column and can categorize it with a new color.
 <br />
 
-![Add Column & Card](./assets/Add Column & Card.gif)
+![Add Column & Card](./assets/Add_Column_Card.gif)
 <br />
