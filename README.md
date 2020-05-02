@@ -68,3 +68,11 @@ This application requires API keys from:
 
 ![Add Column & Card](./assets/Add_Column_Card.gif)
 <br />
+
+* **Calendar View of the Application:** A user can navigate to the calendar and update the details (deadline etc.) of the cards which will result in the date being updated accordingly. The user can also drag and drop cards to reset the deadlines.
+<br />
+
+![Calendar](./assets/Calendar.gif)
+<br />
+
+
