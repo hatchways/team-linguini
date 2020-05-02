@@ -53,6 +53,8 @@ This application requires API keys from:
 ### Feature Stories
 * **Logging into user account:** A user can login to their account which authenticates and redirects them to the dashboard page
 <br />
+
 ![Login](./assets/Login.gif)
 <br />
+
 * **Dragging and dropping columns and card and updating card details:** A user can drag and drop a column to a new position and can also drag and drop a card to a different column. The user can also update the details.
