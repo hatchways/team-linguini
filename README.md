@@ -27,3 +27,14 @@ This application requires API keys from:
     * Set up an account and create an API key in settings
     * Validate the account from which you will be sending emails in settings
 * Add a .env file in the `server` directory with the key-value pairs matching the `.env.example` file
+
+### Frontend
+* On your terminal navigate into the projects `client` directory
+* Install dependencies using `npm install`
+* Start the App using `npm start`
+* Application runs on port [3000](http://localhost:3000/)
+### Backend
+* On your terminal navigate into the project `server` directory
+* Install dependencies using `npm install`
+* Start the server using `npm run dev`
+* Server runs on port 3001
