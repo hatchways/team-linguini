@@ -22,7 +22,7 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    height: "45px",
+    height: "60px",
     flexDirection: "row",
     alignItems: "center",
     background: "#759CFC",
