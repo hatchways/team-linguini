@@ -25,5 +25,5 @@ Node.js, NPM/YARN and MongoDB
 This application requires API keys from:
 * [Twilio SendGrid](https://sendgrid.com/)
     * Set up an account and create an API key in settings
-    * Validate the from email sending id in settings
-* Add a .env file in the `server` directory with the key-value pairs matching the `.env.example`
+    * Validate the account from which you will be sending emails in settings
+* Add a .env file in the `server` directory with the key-value pairs matching the `.env.example` file
