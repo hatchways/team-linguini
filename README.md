@@ -38,3 +38,14 @@ This application requires API keys from:
 * Install dependencies using `npm install`
 * Start the server using `npm run dev`
 * Server runs on port 3001
+
+## Features
+* Login/sign up flow with e-mail address
+* Create boards
+* Create columns
+* Create cards under each column, which represent tasks
+* Add descriptions in cards (e.g. deadlines, descriptions, tags, attachments,  etc.)
+* Drag cards to different columns
+* Drag Columns to shift between column positions
+* Convert kanban board into a calendar view
+* Welcome email notification upon a new user registration
