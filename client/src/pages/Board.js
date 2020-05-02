@@ -27,14 +27,6 @@ const useStyles = makeStyles((theme) => ({
       color: "#ffffff",
     },
   },
-  "@keyframes moveAcross": {
-    "0%": {
-      left: "-300px",
-    },
-    "100%": {
-      left: "100%",
-    },
-  },
   grid: {
     marginLeft: "60px",
     display: "flex",

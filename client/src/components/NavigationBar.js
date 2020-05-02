@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "none",
     flexDirection: "row",
     alignItems: "center",
-    height: "45px",
+    height: "60px",
   },
   toolBar: {
     justifyContent: "space-between",
