@@ -6,6 +6,7 @@ A web app that helps users visualize their projects all in one place. You can cr
 ## Tech Stack
 ### Frontend
 * React.js - The frontend library used
+* Context/Reducer Hooks - Application state management
 * Material UI - Design components used for rapid prototyping with CSS-in-JS
 * React Beautiful DND - The library used for drag and drop functionality
 * Fullcalendar.io - The library used for the calendar component
@@ -13,9 +14,16 @@ A web app that helps users visualize their projects all in one place. You can cr
 * Express/Node.js - The backend framework and language
 * MongoDB - The database in action
 * JWT & Bcrypt - Authentication mechanism along with password salting and hashing
-* Twilio SendGrid - Sending Email notifications
+* Twilio SendGrid - Email Delivery Service
 * Amazon AWS S3 - Cloud data storage for photos and attachments
 
 ## Installations
 ### Prerequisites
 Node.js, NPM/YARN and MongoDB
+
+### Setting up API Keys and .env variables
+This application requires API keys from:
+* [Twilio SendGrid](https://sendgrid.com/)
+    * Set up an account and create an API key in settings
+    * Validate the from email sending id in settings
+* Add a .env file in the `server` directory with the key-value pairs matching the `.env.example`
