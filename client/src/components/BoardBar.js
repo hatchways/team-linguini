@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     alignItems: "center",
     background: "#759CFC",
+    color: "white",
     boxShadow: "none",
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 2,
+    fontSize: "1.1rem"
   },
   root: {
     display: "flex",
