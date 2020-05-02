@@ -15,3 +15,7 @@ A web app that helps users visualize their projects all in one place. You can cr
 * JWT & Bcrypt - Authentication mechanism along with password salting and hashing
 * Twilio SendGrid - Sending Email notifications
 * Amazon AWS S3 - Cloud data storage for photos and attachments
+
+## Installations
+### Prerequisites
+Node.js, NPM/YARN and MongoDB
