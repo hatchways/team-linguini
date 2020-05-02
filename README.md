@@ -5,13 +5,13 @@ A web app that helps users visualize their projects all in one place. You can cr
 
 ## Tech Stack
 ### Frontend
-* React.js
-* Material UI
-* React Beautiful DND
-* Fullcalendar.io
+* React.js - The frontend library used
+* Material UI - Design components used for rapid prototyping with CSS-in-JS
+* React Beautiful DND - The library used for drag and drop functionality
+* Fullcalendar.io - The library used for the calendar component
 ### Backend
-* Express/Node.js
-* MongoDB
-* JWT & Bcrypt
-* Twilio SendGrid
-* Amazon AWS S3
+* Express/Node.js - The backend framework and language
+* MongoDB - The database in action
+* JWT & Bcrypt - Authentication mechanism along with password salting and hashing
+* Twilio SendGrid - Sending Email notifications
+* Amazon AWS S3 - Cloud data storage for photos and attachments
