@@ -12,8 +12,8 @@ import { Signup } from "./pages/Signup";
 import { Login } from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LogOut from "./helpers/LogOut";
-import NavigationBar from "./components/NavigationBar"
-import BoardBar from "./components/BoardBar"
+import NavigationBar from "./components/NavigationBar";
+import BoardBar from "./components/BoardBar";
 
 import "./App.css";
 import { DashboardProvider } from "./context/dashboard/dashboard.provider";
