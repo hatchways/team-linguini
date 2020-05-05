@@ -22,18 +22,27 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
+    height: "45px",
+    flexDirection: "row",
+    alignItems: "center",
     background: "#759CFC",
+    color: "white",
     boxShadow: "none",
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
+  toolbar: {
+    alignItems: "center",
+    flexGrow: 2,
+  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 2,
+    fontSize: "1.1rem"
   },
   root: {
     display: "flex",
@@ -128,7 +137,7 @@ const BoardBar = () => {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar>
+        <Toolbar className={classes.toolbar}>
           <Typography variant="h6" className={classes.title}>
             {selectedBoard.title}
           </Typography>

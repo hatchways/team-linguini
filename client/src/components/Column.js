@@ -1,18 +1,26 @@
 import React, { useState } from "react";
 import Task from "./Task";
+import CreateModelByName from "./CreateModelByName";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import { Box, Card, CardContent } from "@material-ui/core";
-import { authJSONFetch } from "../helpers/authFetch";
-import { useDashboard } from "../context/dashboard/dashboard.provider";
 import Input from "@material-ui/core/Input";
 import CloseIcon from '@material-ui/icons/Close'
 import IconButton from '@material-ui/core/IconButton'
+import {
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  Paper,
+  Button,
+  Input,
+  Menu,
+  MenuItem,
+} from "@material-ui/core";
+import { authJSONFetch } from "../helpers/authFetch";
+import { useDashboard } from "../context/dashboard/dashboard.provider";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -28,6 +36,13 @@ const useStyles = makeStyles((theme) => {
       marginLeft: "25px",
       paddingTop: "20px",
       width: "90%",
+    },
+    editColumnTitle: {
+      marginLeft: "25px",
+      paddingTop: "20px",
+      //borderRadius: "5px",
+      width: "90%",
+      //background: "white",
     },
     columnTitle: {
       display: "flex",
@@ -175,7 +190,7 @@ const NewCardBox = (props) => {
     if (event.key === 'Enter') {
       props.onAddingCard();
     }
-  }
+  };
 
   return (
     <Box display={props.displayNewCard}>
@@ -227,6 +242,8 @@ const Column = ({ column, cards, index }) => {
   const [displayAddButton, setDisplayAddButton] = useState("block");
   const [cardTitle, setCardTitle] = useState("");
   const [cardColorCode, setCardColorCode] = useState("white");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [editColumnTitleDialog, setEditColumnTitleDialog] = useState(false);
 
   const dashboard = useDashboard();
 
@@ -268,6 +285,62 @@ const Column = ({ column, cards, index }) => {
         });
     }
   };
+
+  const handleDeleteColumn = (event) => {
+    const url = `/api/v1/columns/${column._id}`;
+    authJSONFetch(url, { method: "DELETE" })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.error) {
+          console.log(res.error);
+          return;
+        }
+
+        // removes column from the selectedboard context
+        const newSelectedColumns = dashboard.selectedBoard.columns;
+        newSelectedColumns.splice(newSelectedColumns.indexOf(column._id), 1);
+        dashboard.setSelectedBoard({
+          ...dashboard.selectedBoard,
+          columns: newSelectedColumns,
+        });
+
+        //removes cards from under the column
+        dashboard.columns[column._id].cards.forEach(
+          (cardId) => delete dashboard.cards[cardId]
+        );
+
+        // removes the column from the context
+        const newColumns = { ...dashboard.columns };
+        delete newColumns[column._id];
+        dashboard.setColumns(newColumns);
+      });
+  };
+
+  const handleEditColumnTitle = (updatedTitle) => {
+    if (!updatedTitle.editColumnTitle || updatedTitle.editColumnTitle === "") {
+      return;
+    }
+    const url = `/api/v1/columns/${column._id}`;
+    authJSONFetch(url, {
+      method: "PUT",
+      body: JSON.stringify({ title: updatedTitle.editColumnTitle }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.error) {
+          console.log(res.error);
+          return;
+        }
+
+        //updating the context state of column with updated title
+        const newColumns = { ...dashboard.columns };
+        newColumns[column._id].title = res.title;
+        dashboard.setColumns(newColumns);
+        setAnchorEl(null);
+        setEditColumnTitleDialog(false);
+      });
+  };
+
   return (
     <Draggable draggableId={column._id} index={index}>
       {(provided) => (
@@ -282,12 +355,42 @@ const Column = ({ column, cards, index }) => {
               <Typography variant="h6" className={classes.column}>
                 {column.title}
               </Typography>
-              <div className={classes.icon}>
+              <div
+                className={classes.icon}
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={(event) => setAnchorEl(event.currentTarget)}
+              >
                 <i
                   className="fas fa-ellipsis-h"
                   style={{ color: "#D7DDF8" }}
                 ></i>
               </div>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={() => setAnchorEl(null)}
+              >
+                <MenuItem onClick={() => setEditColumnTitleDialog(true)}>
+                  Edit Column
+                </MenuItem>
+                <MenuItem onClick={handleDeleteColumn}>Delete Column</MenuItem>
+              </Menu>
+              <CreateModelByName
+                title="Edit Column Title"
+                description="Edit Title"
+                defaultValue={column.title}
+                onCloseModal={() => {
+                  setAnchorEl(null);
+                  setEditColumnTitleDialog(false);
+                }}
+                openModal={editColumnTitleDialog}
+                name="editColumnTitle"
+                buttonName="Update Title"
+                saveValue={(event) => handleEditColumnTitle(event)}
+              />
             </div>
             <Droppable droppableId={column._id} type="card">
               {(provided) => (
