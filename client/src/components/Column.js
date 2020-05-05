@@ -5,7 +5,6 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Input from "@material-ui/core/Input";
 import CloseIcon from '@material-ui/icons/Close'
 import IconButton from '@material-ui/core/IconButton'
 import {
