@@ -52,4 +52,13 @@ exports.authStyle = {
     backgroundPosition: "center",
     backgroundSize: "cover",
   },
+  demoContainer: {
+    display: "flex",
+    //flexDirection: "column",
+    flexGrow: 2,
+    justifyContent: "center",
+  },
+  demoDescription: {
+    //flexGrow: 2
+  },
 };
