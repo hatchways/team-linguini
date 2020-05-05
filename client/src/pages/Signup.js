@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+<<<<<<< HEAD
 import { Grid, Button, Typography, Box } from "@material-ui/core";
+=======
+import { Grid, Button, Typography } from "@material-ui/core";
+>>>>>>> dev
 import { makeStyles } from "@material-ui/core/styles";
 import { AuthForm, RedirectDiv } from "../components/auth";
 import { authStyle } from "../themes/signup.style";
@@ -48,6 +52,7 @@ const Signup = () => {
 
           //Redirect to dashboard
           window.location.replace("/");
+<<<<<<< HEAD
         } else {
           throw Error(res.error);
         }
@@ -94,6 +99,8 @@ const Signup = () => {
 
           //Redirect to dashboard
           window.location.replace("/");
+=======
+>>>>>>> dev
         } else {
           throw Error(res.error);
         }

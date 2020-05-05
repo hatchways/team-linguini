@@ -6,7 +6,7 @@ import { Box, Button } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
 import { DashboardContext } from "../context/dashboard/dashboard.provider";
-import { authFetch, authJSONFetch } from '../helpers/authFetch'
+import { authFetch, authJSONFetch } from "../helpers/authFetch";
 import CreateModelByName from "../components/CreateModelByName";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,12 +16,16 @@ const useStyles = makeStyles((theme) => ({
     justifycontent: "flex-start",
     flexwrap: "nowrap",
   },
+  addIcon: {
+    color: "#ffffff",
+    fontSize: 40,
+  },
   addColumn: {
     height: 550,
-    //marginRight: 40,
-    //boxShadow: "none",
-    //position: "fixed",
-    //boder: 20,
+    "&:hover": {
+      background: "#759CFC",
+      color: "#ffffff",
+    },
   },
   grid: {
     marginLeft: "60px",
@@ -57,11 +61,11 @@ const Board = () => {
     cards,
   } = useContext(DashboardContext);
 
-  if (error!== null || isFetching || boards.length ===0) {
-    return null
+  if (error !== null || isFetching || boards.length === 0) {
+    return null;
   }
 
-  const onDragEnd = result => {
+  const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
 
     if (!destination) {
@@ -121,16 +125,19 @@ const Board = () => {
       });
 
       const url = "/api/v1/columns/" + newColumn._id;
-      authJSONFetch(url, { method: 'PUT', body: JSON.stringify({ cards: newCardIds }) })
-        .then(res => res.json())
-        .then(data => {
+      authJSONFetch(url, {
+        method: "PUT",
+        body: JSON.stringify({ cards: newCardIds }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
           if (data.error) {
             throw new Error(data.error);
-            console.log('update cards order', data.error)
+            console.log("update cards order", data.error);
             return;
           }
           return;
-        })
+        });
 
       return;
     }
@@ -150,15 +157,17 @@ const Board = () => {
       cards: finishCardIds,
     };
 
-
     setColumns({
       ...columns,
       [newStart._id]: newStart,
       [newFinish._id]: newFinish,
     });
 
-    let newUrl = '/api/v1/columns/' + newStart._id;
-    authJSONFetch(newUrl, {method: 'PUT', body: JSON.stringify({cards: newStart.cards})})
+    let newUrl = "/api/v1/columns/" + newStart._id;
+    authJSONFetch(newUrl, {
+      method: "PUT",
+      body: JSON.stringify({ cards: newStart.cards }),
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
@@ -169,8 +178,11 @@ const Board = () => {
         return;
       });
 
-    newUrl = '/api/v1/columns/' + newFinish._id;
-    authJSONFetch(newUrl, {method: 'PUT', body: JSON.stringify({cards: newFinish.cards})})
+    newUrl = "/api/v1/columns/" + newFinish._id;
+    authJSONFetch(newUrl, {
+      method: "PUT",
+      body: JSON.stringify({ cards: newFinish.cards }),
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
@@ -181,8 +193,11 @@ const Board = () => {
         return;
       });
 
-    newUrl = '/api/v1/cards/' + finishCardIds[destination.index].toString();
-    authJSONFetch(newUrl, {method: 'PUT', body: JSON.stringify({columnId: newFinish._id})})
+    newUrl = "/api/v1/cards/" + finishCardIds[destination.index].toString();
+    authJSONFetch(newUrl, {
+      method: "PUT",
+      body: JSON.stringify({ columnId: newFinish._id }),
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
@@ -224,8 +239,8 @@ const Board = () => {
           ...selectedBoard,
           columns: newColumn,
         });
-      
-      handleCloseCreationColumnDialog();
+
+        handleCloseCreationColumnDialog();
       });
   };
   return (
@@ -238,7 +253,7 @@ const Board = () => {
             onClick={handleOpenCreationBoardDialog}
             position="fixed"
           >
-            <AddCircleOutlineIcon className={classes.createButtonIcon} />
+            <AddCircleOutlineIcon className={classes.addIcon} />
           </Button>
           <CreateModelByName
             title="Create a new column"

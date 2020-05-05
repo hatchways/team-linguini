@@ -12,8 +12,8 @@ import { Signup } from "./pages/Signup";
 import { Login } from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LogOut from "./helpers/LogOut";
-import NavigationBar from "./components/NavigationBar"
-import BoardBar from "./components/BoardBar"
+import NavigationBar from "./components/NavigationBar";
+import BoardBar from "./components/BoardBar";
 
 import "./App.css";
 import { DashboardProvider } from "./context/dashboard/dashboard.provider";
@@ -27,8 +27,16 @@ function App() {
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
           <DashboardProvider>
-            <NavigationBar />
-            <BoardBar />
+            <ProtectedRoute
+              exact
+              path={["/", "/calendar"]}
+              component={NavigationBar}
+            />
+            <ProtectedRoute
+              exact
+              path={["/", "/calendar"]}
+              component={BoardBar}
+            />
             <ProtectedRoute exact path="/" component={Board} />
             <ProtectedRoute exact path="/calendar" component={Calendar} />
           </DashboardProvider>
