@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-<<<<<<< HEAD
 import { Grid, Button, Typography, Box } from "@material-ui/core";
-=======
-import { Grid, Button, Typography } from "@material-ui/core";
->>>>>>> dev
 import { makeStyles } from "@material-ui/core/styles";
 import { AuthForm, RedirectDiv } from "../components/auth";
 import { authStyle } from "../themes/signup.style";
@@ -52,7 +48,6 @@ const Signup = () => {
 
           //Redirect to dashboard
           window.location.replace("/");
-<<<<<<< HEAD
         } else {
           throw Error(res.error);
         }
@@ -99,8 +94,6 @@ const Signup = () => {
 
           //Redirect to dashboard
           window.location.replace("/");
-=======
->>>>>>> dev
         } else {
           throw Error(res.error);
         }
@@ -130,14 +123,20 @@ const Signup = () => {
           link={"/login"}
           desc={"Login"}
         />
-        <Box className={classes.demoContainer}>
+        <Box className={classes.demoContainer} mt={3} mb={2}>
           <Typography className={classes.demoDescription}>
-            Do not want to make an account, try our demo! Click Below:
+            Do not want to create an account. Click Below:
           </Typography>
         </Box>
         <Box className={classes.demoContainer}>
-          <Button variant="contained" onClick={onDemoSubmit}>
-            <Typography>Demo</Typography>
+          <Button
+            variant="contained"
+            onClick={onDemoSubmit}
+            className={classes.demoButton}
+          >
+            <Typography className={classes.demoDescription}>
+              Try Demo!
+            </Typography>
           </Button>
         </Box>
       </Grid>

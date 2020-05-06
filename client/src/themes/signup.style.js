@@ -54,11 +54,18 @@ exports.authStyle = {
   },
   demoContainer: {
     display: "flex",
-    //flexDirection: "column",
     flexGrow: 2,
     justifyContent: "center",
   },
   demoDescription: {
-    //flexGrow: 2
+    fontWeight: "bold",
+  },
+  demoButton: {
+    backgroundColor: "#81c784",
+    width: "145px",
+    height: "50px",
+    padding: "16px",
+    color: "white",
+    "&:hover": { background: "#81c784", color: "#ffffff" },
   },
 };
