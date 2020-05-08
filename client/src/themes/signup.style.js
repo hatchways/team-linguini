@@ -66,6 +66,6 @@ exports.authStyle = {
     height: "50px",
     padding: "16px",
     color: "white",
-    "&:hover": { background: "#81c784", color: "#ffffff" },
+    "&:hover": { background: "#f06292", color: "#ffffff" },
   },
 };
