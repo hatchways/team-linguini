@@ -5,6 +5,8 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import CloseIcon from '@material-ui/icons/Close'
+import IconButton from '@material-ui/core/IconButton'
 import {
   Box,
   Card,
@@ -146,6 +148,9 @@ const useStyles = makeStyles((theme) => {
       top: theme.spacing(1),
       color: theme.palette.grey[500],
     },
+    cardContent: {
+      position: 'relative'
+    }
   };
 });
 
@@ -180,17 +185,32 @@ const NewCardBox = (props) => {
     }
   };
 
+  const handleOnKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      props.onAddingCard();
+    }
+  };
+
   return (
     <Box display={props.displayNewCard}>
       <Card className={classes.card}>
-        <CardContent>
+        <CardContent className={classes.cardContent}>
           <Input
             className={classes.cardTitle}
             placeholder={"Add title ..."}
             type={"text"}
             value={props.cardTitle}
-            onChange={(event) => props.setCardTitle(event.target.value)}
+            onChange={event => props.setCardTitle(event.target.value)}
+            onKeyDown={handleOnKeyDown}
           />
+          <IconButton
+            aria-label="close"
+            value={'abc'}
+            className={classes.closeButton}
+            onClick={props.onClose}
+          >
+            <CloseIcon/>
+          </IconButton>
           <Box
             display="flex"
             flexDirection="row"
@@ -231,6 +251,13 @@ const Column = ({ column, cards, index }) => {
     setDisplayAddButton("none");
   };
 
+  const handleCloseAddingCard = () => {
+    setDisplayNewCard("none");
+    setDisplayAddButton("block");
+    setCardTitle("");
+    setCardColorCode("white");
+  }
+
   const handleSubmitAddingClick = () => {
     if (cardTitle) {
       const url = "/api/v1/cards";
@@ -253,10 +280,7 @@ const Column = ({ column, cards, index }) => {
           newColumns[res.columnId].cards.push(res._id);
           dashboard.setColumns(newColumns);
 
-          setDisplayNewCard("none");
-          setDisplayAddButton("block");
-          setCardTitle("");
-          setCardColorCode("white");
+          handleCloseAddingCard()
         });
     }
   };
@@ -383,6 +407,8 @@ const Column = ({ column, cards, index }) => {
                     cardColorCode={cardColorCode}
                     setCardColorCode={setCardColorCode}
                     cardTitle={cardTitle}
+                    onClose={handleCloseAddingCard}
+                    onAddingCard={handleSubmitAddingClick}
                   />
                   {provided.placeholder}
                 </div>
