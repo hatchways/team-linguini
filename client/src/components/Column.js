@@ -24,7 +24,7 @@ import { useDashboard } from "../context/dashboard/dashboard.provider";
 const useStyles = makeStyles((theme) => {
   return {
     paper: {
-      height: 550,
+      height: '100%',//550,
       width: 320,
       background: "#F4F6FF",
       boxShadow: "none",

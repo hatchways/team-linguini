@@ -10,8 +10,12 @@ import { authFetch, authJSONFetch } from "../helpers/authFetch";
 import CreateModelByName from "../components/CreateModelByName";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    height: 'calc(100vh - 105px)',
+  },
   horizontalCollection: {
-    marginTop: "40px",
+    paddingTop: "40px",
+    height: '100%',
     display: "flex",
     justifycontent: "flex-start",
     flexwrap: "nowrap",
@@ -21,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 40,
   },
   addColumn: {
-    height: 550,
+    height: '100%',//550,
     "&:hover": {
       background: "#759CFC",
       color: "#ffffff",
@@ -30,9 +34,11 @@ const useStyles = makeStyles((theme) => ({
   grid: {
     marginLeft: "60px",
     display: "flex",
+    height: "100%",
   },
   container: {
     width: "100%",
+    height: "100%",
     maxWidth: "1370px",
     overflowX: "scroll",
     overflow: "hidden",
@@ -244,7 +250,7 @@ const Board = () => {
       });
   };
   return (
-    <div>
+    <div className={classes.root}>
       <div className={classes.horizontalCollection}>
         <Box>
           <Button
