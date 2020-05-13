@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     height: 'calc(100vh - 105px)',
   },
   horizontalCollection: {
-    paddingTop: "40px",
+    paddingTop: "30px",
     height: '100%',
     display: "flex",
     justifycontent: "flex-start",
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     overflowX: "scroll",
     overflow: "hidden",
     margin: "0 auto",
-    paddingBottom: "17px",
+    // paddingBottom: "17px",
     "&::-webkit-scrollbar": {
       display: "none",
     },

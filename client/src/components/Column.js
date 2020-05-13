@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => {
     },
     column: {
       marginLeft: "25px",
-      paddingTop: "20px",
+      //padding: "auto 0",
       width: "90%",
     },
     editColumnTitle: {
@@ -46,20 +46,32 @@ const useStyles = makeStyles((theme) => {
     columnTitle: {
       display: "flex",
       alignItems: "center",
+      height: 40,
+      marginBottom: 12
+      // paddingTop: 8
+      // paddingTop: 8,
+      // paddingBottom: 16
     },
     icon: {
-      marginTop: "20px",
-      padding: "20px",
+      marginRight: "25px",
+      // padding: 16,//"auto 0",
+      // marginTop: "20px",
+      // padding: "20px",
       cursor: "pointer",
     },
+    columnBottom: {
+      height: 40,
+      paddingTop: 8,
+      marginLeft: 25
+    },
     cardSection: {
-      height: 410,
+      height: 'calc(100% - 100px)',//410,
       zIndex: 0,
       "&:before": {
         zIndex: 1,
         background:
           "linear-gradient(180deg, rgb(245, 246, 254) 0%, rgba(9,9,121,0) 31%)",
-        top: "13%",
+        top: "0%",
         content: '""',
         display: "block",
         height: "60px",
@@ -72,7 +84,7 @@ const useStyles = makeStyles((theme) => {
         zIndex: 1,
         background:
           "linear-gradient(0deg, rgb(245, 246, 254) 0%, rgba(9,9,121,0) 31%)",
-        bottom: "10%",
+        bottom: "0%",
         content: '""',
         display: "block",
         height: "60px",
@@ -91,9 +103,10 @@ const useStyles = makeStyles((theme) => {
       // background: "#759CFC",
       color: "#759CFC",
       boxShadow: "none",
-      position: "absolute",
-      bottom: 10,
-      left: 20,
+      // height: 40,
+      // position: "absolute",
+      // bottom: 10,
+      // left: 20,
       "&:hover": {
         background: "#759CFC",
         color: "#ffffff",
@@ -102,10 +115,11 @@ const useStyles = makeStyles((theme) => {
     addBoldCard: {
       background: "#759CFC",
       color: "#ffffff",
+      // height: 40,
       boxShadow: "none",
-      position: "absolute",
-      bottom: 10,
-      left: 20,
+      // position: "absolute",
+      // bottom: 10,
+      // left: 20,
       "&:hover": {
         background: "#759CFC",
         color: "#ffffff",
@@ -349,7 +363,7 @@ const Column = ({ column, cards, index }) => {
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
-          <Paper className={classes.paper}>
+          <Box className={classes.paper}>
             <div className={classes.columnTitle} {...provided.dragHandleProps}>
               <Typography variant="h6" className={classes.column}>
                 {column.title}
@@ -414,20 +428,23 @@ const Column = ({ column, cards, index }) => {
                 </div>
               )}
             </Droppable>
-            <Box display={displayNewCard}>
-              <Button
-                className={classes.addBoldCard}
-                onClick={handleSubmitAddingClick}
-              >
-                Add a card
-              </Button>
+            <Box component={'div'} className={classes.columnBottom}>
+              <Box display={displayNewCard}>
+                <Button
+                  size={'small'}
+                  className={classes.addBoldCard}
+                  onClick={handleSubmitAddingClick}
+                >
+                  Add a card
+                </Button>
+              </Box>
+              <Box display={displayAddButton}>
+                <Button size={'small'} className={classes.addCard} onClick={handleAddCardClick}>
+                  Add a card ...
+                </Button>
+              </Box>
             </Box>
-            <Box display={displayAddButton}>
-              <Button className={classes.addCard} onClick={handleAddCardClick}>
-                Add a card ...
-              </Button>
-            </Box>
-          </Paper>
+          </Box>
         </Grid>
       )}
     </Draggable>
