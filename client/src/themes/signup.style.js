@@ -52,4 +52,20 @@ exports.authStyle = {
     backgroundPosition: "center",
     backgroundSize: "cover",
   },
+  demoContainer: {
+    display: "flex",
+    flexGrow: 2,
+    justifyContent: "center",
+  },
+  demoDescription: {
+    fontWeight: "bold",
+  },
+  demoButton: {
+    backgroundColor: "#81c784",
+    width: "145px",
+    height: "50px",
+    padding: "16px",
+    color: "white",
+    "&:hover": { background: "#f06292", color: "#ffffff" },
+  },
 };
