@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./server/bin/www",
-    "build": "cd ./client && npm install && npm start",
+    "build": "cd ./client && npm install && npm build",
     "dev": "nodemon ./server/bin/www",
     "debug": "nodemon  --inspect ./bin/www",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha --exit --timeout 30000",
