@@ -26,7 +26,7 @@ const Login = () => {
     setServerResponse("");
 
     //Make request to check whether the email and password are valid
-    const url = "/api/v1/auth/login"; //It is mock data, it will change when sever can provide auth api
+    const url = process.env.URLSTART + "/api/v1/auth/login"; //It is mock data, it will change when sever can provide auth api
 
     dispatchUser(fetchUserRequest());
 
@@ -72,7 +72,7 @@ const Login = () => {
     setServerResponse("");
 
     //Make request to check whether the email and password are valid
-    const url = "/api/v1/auth/login"; //It is mock data, it will change when sever can provide auth api
+    const url = process.env.URLSTART + "/api/v1/auth/login"; //It is mock data, it will change when sever can provide auth api
 
     dispatchUser(fetchUserRequest());
 

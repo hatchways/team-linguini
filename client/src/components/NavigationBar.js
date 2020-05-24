@@ -144,7 +144,7 @@ const NavigationBar = () => {
     const formData = new FormData();
     formData.append("avatar", files[0]);
 
-    const url = "/api/v1/user/uploadAvatar";
+    const url = process.env.URLSTART + "/api/v1/user/uploadAvatar";
     authFetch(url, {
       method: "POST",
       body: formData,
@@ -164,7 +164,7 @@ const NavigationBar = () => {
     }
     const formData = new FormData();
     formData.append("title", data.board);
-    const url = "/api/v1/boards/";
+    const url = process.env.URLSTART + "/api/v1/boards/";
     //const newBoardData
     authFetch(url, {
       method: "POST",

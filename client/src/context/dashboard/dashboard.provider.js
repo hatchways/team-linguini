@@ -15,7 +15,7 @@ const DashboardProvider = (props) => {
   const [avatarUrl, setAvatarUrl] = useState(null);
 
   //Initialize data from server
-  const url = "/api/v1/boards/init";
+  const url = process.env.URLSTART + "/api/v1/boards/init";
   useEffect(() => {
     setIsFetching(true);
     authFetch(url)

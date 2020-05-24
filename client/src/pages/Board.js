@@ -89,7 +89,7 @@ const Board = () => {
         columns: newColumnOrder,
       });
 
-      const url = "/api/v1/boards/" + selectedBoard._id;
+      const url = process.env.URLSTART + "/api/v1/boards/" + selectedBoard._id;
       authJSONFetch(url, {
         method: "PUT",
         body: JSON.stringify({ columns: newColumnOrder }),
@@ -124,7 +124,7 @@ const Board = () => {
         [newColumn._id]: newColumn,
       });
 
-      const url = "/api/v1/columns/" + newColumn._id;
+      const url = process.env.URLSTART + "/api/v1/columns/" + newColumn._id;
       authJSONFetch(url, {
         method: "PUT",
         body: JSON.stringify({ cards: newCardIds }),
@@ -218,13 +218,13 @@ const Board = () => {
   };
 
   const saveCreateColumn = (data) => {
-    if (!data.column || data.column === ''){
+    if (!data.column || data.column === "") {
       return;
     }
     const formData = new FormData();
     formData.append("title", data.column);
     formData.append("boardId", selectedBoard._id);
-    const url = "/api/v1/columns";
+    const url = process.env.URLSTART + "/api/v1/columns";
     const updatedColumns = { ...columns };
     authFetch(url, {
       method: "POST",

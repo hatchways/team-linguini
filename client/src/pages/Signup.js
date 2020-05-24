@@ -25,7 +25,7 @@ const Signup = () => {
     const { email, password } = values;
 
     //Make a request to backend
-    const url = "/api/v1/auth/register";
+    const url = process.env.URLSTART + "/api/v1/auth/register";
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -67,7 +67,7 @@ const Signup = () => {
     setServerResponse("");
 
     //Make request to check whether the email and password are valid
-    const url = "/api/v1/auth/login"; //It is mock data, it will change when sever can provide auth api
+    const url = process.env.URLSTART + "/api/v1/auth/login"; //It is mock data, it will change when sever can provide auth api
 
     dispatchUser(fetchUserRequest());
 

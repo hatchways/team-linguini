@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 2,
-    fontSize: "1.1rem"
+    fontSize: "1.1rem",
   },
   root: {
     display: "flex",
@@ -110,7 +110,7 @@ const BoardBar = () => {
       });
   };
   const handleDrawerOpen = () => {
-    const url = "/api/v1/boards/";
+    const url = process.env.URLSTART + "/api/v1/boards/";
 
     authFetch(url, {
       method: "GET",

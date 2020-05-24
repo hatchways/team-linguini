@@ -5,8 +5,8 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import CloseIcon from '@material-ui/icons/Close'
-import IconButton from '@material-ui/core/IconButton'
+import CloseIcon from "@material-ui/icons/Close";
+import IconButton from "@material-ui/core/IconButton";
 import {
   Box,
   Card,
@@ -149,8 +149,8 @@ const useStyles = makeStyles((theme) => {
       color: theme.palette.grey[500],
     },
     cardContent: {
-      position: 'relative'
-    }
+      position: "relative",
+    },
   };
 });
 
@@ -186,7 +186,7 @@ const NewCardBox = (props) => {
   };
 
   const handleOnKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       props.onAddingCard();
     }
   };
@@ -200,16 +200,16 @@ const NewCardBox = (props) => {
             placeholder={"Add title ..."}
             type={"text"}
             value={props.cardTitle}
-            onChange={event => props.setCardTitle(event.target.value)}
+            onChange={(event) => props.setCardTitle(event.target.value)}
             onKeyDown={handleOnKeyDown}
           />
           <IconButton
             aria-label="close"
-            value={'abc'}
+            value={"abc"}
             className={classes.closeButton}
             onClick={props.onClose}
           >
-            <CloseIcon/>
+            <CloseIcon />
           </IconButton>
           <Box
             display="flex"
@@ -256,11 +256,11 @@ const Column = ({ column, cards, index }) => {
     setDisplayAddButton("block");
     setCardTitle("");
     setCardColorCode("white");
-  }
+  };
 
   const handleSubmitAddingClick = () => {
     if (cardTitle) {
-      const url = "/api/v1/cards";
+      const url = process.env.URLSTART + "/api/v1/cards";
       const bodyData = {
         title: cardTitle,
         colorCode: cardColorCode,
@@ -280,13 +280,13 @@ const Column = ({ column, cards, index }) => {
           newColumns[res.columnId].cards.push(res._id);
           dashboard.setColumns(newColumns);
 
-          handleCloseAddingCard()
+          handleCloseAddingCard();
         });
     }
   };
 
   const handleDeleteColumn = (event) => {
-    const url = `/api/v1/columns/${column._id}`;
+    const url = process.env.URLSTART + `/api/v1/columns/${column._id}`;
     authJSONFetch(url, { method: "DELETE" })
       .then((res) => res.json())
       .then((res) => {
@@ -319,7 +319,7 @@ const Column = ({ column, cards, index }) => {
     if (!updatedTitle.editColumnTitle || updatedTitle.editColumnTitle === "") {
       return;
     }
-    const url = `/api/v1/columns/${column._id}`;
+    const url = process.env.URLSTART + `/api/v1/columns/${column._id}`;
     authJSONFetch(url, {
       method: "PUT",
       body: JSON.stringify({ title: updatedTitle.editColumnTitle }),

@@ -10,7 +10,7 @@ import {
   MenuItem,
   Menu,
   Checkbox,
-  FormHelperText
+  FormHelperText,
 } from "@material-ui/core";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -21,8 +21,8 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import DateFnsUtils from "@date-io/date-fns";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { authJSONFetch } from '../helpers/authFetch'
-import {useDashboard} from '../context/dashboard/dashboard.provider'
+import { authJSONFetch } from "../helpers/authFetch";
+import { useDashboard } from "../context/dashboard/dashboard.provider";
 
 const DialogTitle = (props) => {
   const classes = makeStyles((theme) => ({
@@ -49,7 +49,7 @@ const DialogTitle = (props) => {
       borderRadius: "5px",
       padding: "auto",
       marginLeft: 10,
-      cursor: 'pointer'
+      cursor: "pointer",
     },
   }))();
 
@@ -82,22 +82,22 @@ const DialogTitle = (props) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose('blue')}>
+        <MenuItem onClick={handleClose("blue")}>
           <Box className={classes.colorLine} bgcolor={"cardColor.blue"} />
         </MenuItem>
-        <MenuItem onClick={handleClose('white')}>
+        <MenuItem onClick={handleClose("white")}>
           <Box className={classes.colorLine} bgcolor={"cardColor.purple"} />
         </MenuItem>
-        <MenuItem onClick={handleClose('red')}>
+        <MenuItem onClick={handleClose("red")}>
           <Box className={classes.colorLine} bgcolor={"cardColor.red"} />
         </MenuItem>
-        <MenuItem onClick={handleClose('green')}>
+        <MenuItem onClick={handleClose("green")}>
           <Box className={classes.colorLine} bgcolor={"cardColor.green"} />
         </MenuItem>
-        <MenuItem onClick={handleClose('yellow')}>
+        <MenuItem onClick={handleClose("yellow")}>
           <Box className={classes.colorLine} bgcolor={"cardColor.yellow"} />
         </MenuItem>
-        <MenuItem onClick={handleClose('white')}>
+        <MenuItem onClick={handleClose("white")}>
           <Box className={classes.colorLine} bgcolor={"cardColor.white"} />
         </MenuItem>
       </Menu>
@@ -153,7 +153,6 @@ const Buttons = (props) => {
     props.setShowAttachment
   );
 
-
   return (
     <Fragment>
       <Box mb={2}>ADD TO CARD</Box>
@@ -197,7 +196,11 @@ const Buttons = (props) => {
       {/*<Button variant="contained" className={classes.root}>*/}
       {/*  Share*/}
       {/*</Button>*/}
-      <Button variant="contained" className={classes.root} onClick={props.handleDeleteClick}>
+      <Button
+        variant="contained"
+        className={classes.root}
+        onClick={props.handleDeleteClick}
+      >
         Delete
       </Button>
     </Fragment>
@@ -218,13 +221,13 @@ const ChecklistItems = (props) => {
 
   const handleKeyPress = (event) => {
     // return;
-    if (event.key === 'Enter'){
+    if (event.key === "Enter") {
       event.preventDefault();
       const newList = [...checklistItems];
-      newList.push({content: event.target.value, active: false});
+      newList.push({ content: event.target.value, active: false });
       setChecklistItems(newList);
     }
-  }
+  };
 
   return (
     <FormGroup>
@@ -236,7 +239,7 @@ const ChecklistItems = (props) => {
               checked={item.active}
               onChange={handleChecklist}
               name={index}
-              inputProps={{ 'aria-label': item.content }}
+              inputProps={{ "aria-label": item.content }}
             />
           }
           label={item.content}
@@ -261,20 +264,20 @@ const CardStyle = (theme) => ({
     width: 840,
   },
   leftGrid: {
-    [theme.breakpoints.up('sm')] :{
-      width: '79%',
+    [theme.breakpoints.up("sm")]: {
+      width: "79%",
     },
-    [theme.breakpoints.down('sm')] :{
-      width: '100%',
-    }
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
   },
   rightGrid: {
-    [theme.breakpoints.up('sm')] :{
-      width: '21%',
+    [theme.breakpoints.up("sm")]: {
+      width: "21%",
     },
-    [theme.breakpoints.down('sm')] :{
-      width: '100%',
-    }
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
   },
   label: {
     fontSize: 18,
@@ -286,7 +289,7 @@ const CardStyle = (theme) => ({
     width: 100,
     marginRight: theme.spacing(4),
     marginTop: 20,
-    color: '#ffffff'
+    color: "#ffffff",
   },
   datePicker: {
     textColor: "#759CFC",
@@ -297,7 +300,7 @@ const CardStyle = (theme) => ({
 const CardDetail = (props) => {
   const { handleClose, open } = props;
   const card = props.card;
-  const {cards, setCards, columns, setColumns} = useDashboard();
+  const { cards, setCards, columns, setColumns } = useDashboard();
 
   //States for showing the elements
   const [showDeadline, setShowDeadline] = useState(undefined);
@@ -308,7 +311,7 @@ const CardDetail = (props) => {
   const [deadline, setDeadline] = useState(card.deadline);
   const [description, setDescription] = useState(card.description);
   const [colorCode, setColorCode] = useState(card.colorCode);
-  const [tags, setTags] = useState(card.tags.join(', '));
+  const [tags, setTags] = useState(card.tags.join(", "));
 
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState(undefined);
@@ -320,19 +323,23 @@ const CardDetail = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const url = '/api/v1/cards/'+card._id;
+    const url = process.env.URLSTART + "/api/v1/cards/" + card._id;
     const content = {
-      deadline, description, colorCode, tags: tags.split(', '),
+      deadline,
+      description,
+      colorCode,
+      tags: tags.split(", "),
       checklist: checklistItems,
-    }
+    };
 
     setIsFetching(true);
 
     authJSONFetch(url, {
-      method: 'PUT',
-      body: JSON.stringify(content)
-    }).then(res => res.json())
-      .then(data => {
+      method: "PUT",
+      body: JSON.stringify(content),
+    })
+      .then((res) => res.json())
+      .then((data) => {
         setIsFetching(false);
 
         if (data.error) {
@@ -341,49 +348,50 @@ const CardDetail = (props) => {
         setError(undefined);
 
         //Update the card to Dashboard Provider
-        const newCards = {...cards};
+        const newCards = { ...cards };
         newCards[card._id] = data;
         setCards(newCards);
 
         //Close the dialog
         handleClose();
       })
-      .catch(error => {
+      .catch((error) => {
         setError(error.message);
-      })
+      });
   };
 
   const handleDeleteClick = (event) => {
-    const url = '/api/v1/cards/' + card._id;
+    const url = process.env.URLSTART + "/api/v1/cards/" + card._id;
 
-    authJSONFetch(url, {method: 'DELETE'})
-      .then(res => res.json())
-      .then(res => {
+    authJSONFetch(url, { method: "DELETE" })
+      .then((res) => res.json())
+      .then((res) => {
         if (res.error) {
           setError(res.error);
           return;
         }
 
-        const newColumns = {...columns};
-        const cardItems = columns[card.columnId].cards.filter(cardId => cardId.toString() !== card._id.toString());
+        const newColumns = { ...columns };
+        const cardItems = columns[card.columnId].cards.filter(
+          (cardId) => cardId.toString() !== card._id.toString()
+        );
         newColumns[card.columnId].cards = cardItems;
         setColumns(newColumns);
 
-        const newCards = {...cards};
+        const newCards = { ...cards };
         console.log(newCards);
         delete newCards[card._id];
         console.log(newCards);
         setCards(newCards);
 
-        console.log('delete card successfully')
+        console.log("delete card successfully");
         handleClose();
-      })
-
-  }
+      });
+  };
 
   const handleFileUpload = (event) => {
     event.preventDefault();
-  }
+  };
 
   return (
     <Box component={"div"}>
@@ -407,19 +415,19 @@ const CardDetail = (props) => {
           <Box component={"form"}>
             <Grid container spacing={8}>
               <Grid item className={classes.leftGrid}>
-                <Box component={'div'} mb={2}>
+                <Box component={"div"} mb={2}>
                   <Typography className={classes.label}>Description</Typography>
                   <TextField
                     multiline
                     rows={5}
-                    onChange={event => setDescription(event.target.value)}
+                    onChange={(event) => setDescription(event.target.value)}
                     fullWidth
                     variant={"outlined"}
                     defaultValue={card.description}
                     // onChange={(e) => e.target.description}
                   />
                 </Box>
-                <Box component={'div'} display={showTag || "none"}  mb={2} >
+                <Box component={"div"} display={showTag || "none"} mb={2}>
                   <Typography className={classes.label}>Tags</Typography>
                   <TextField
                     name={"tags"}
@@ -427,17 +435,20 @@ const CardDetail = (props) => {
                     size={"small"}
                     defaultValue={tags}
                     variant={"outlined"}
-                    onChange={event => { event.preventDefault(); setTags(event.target.value)}}
+                    onChange={(event) => {
+                      event.preventDefault();
+                      setTags(event.target.value);
+                    }}
                   />
                 </Box>
-                <Box component={'div'} mb={3} display={showChecklist || "none"}>
+                <Box component={"div"} mb={3} display={showChecklist || "none"}>
                   <Typography className={classes.label}>Check-list</Typography>
                   <ChecklistItems
                     checklistItems={checklistItems}
                     setChecklistItems={setChecklistItems}
                   />
                 </Box>
-                <Box component={'div'} pb={3} display={showDeadline || "none"}>
+                <Box component={"div"} pb={3} display={showDeadline || "none"}>
                   <Typography className={classes.label}>Deadline</Typography>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <DateTimePicker
@@ -449,11 +460,23 @@ const CardDetail = (props) => {
                     />
                   </MuiPickersUtilsProvider>
                 </Box>
-                <Box component={'div'} mb={3} display={showAttachment || "none"} onSubmit={handleFileUpload}>
+                <Box
+                  component={"div"}
+                  mb={3}
+                  display={showAttachment || "none"}
+                  onSubmit={handleFileUpload}
+                >
                   <Typography className={classes.label}>Attachment</Typography>
-                  <Box component={'div'} variant={"outlined"}>
-                    <InputBase type={'file'} name={'file'}/>
-                    <Button type={'submit'} variant={'contained'} size={'small'} color={"secondary"}>Upload</Button>
+                  <Box component={"div"} variant={"outlined"}>
+                    <InputBase type={"file"} name={"file"} />
+                    <Button
+                      type={"submit"}
+                      variant={"contained"}
+                      size={"small"}
+                      color={"secondary"}
+                    >
+                      Upload
+                    </Button>
                   </Box>
                   {/*<TextField*/}
                   {/*  type={"file"}*/}
@@ -474,7 +497,7 @@ const CardDetail = (props) => {
                     showChecklist,
                     showTag,
                     showAttachment,
-                    handleDeleteClick
+                    handleDeleteClick,
                   }}
                 />
               </Grid>
@@ -487,7 +510,9 @@ const CardDetail = (props) => {
             >
               Save
             </Button>
-            <Box mt={2} mb={2}><FormHelperText error={true}>{error}</FormHelperText></Box>
+            <Box mt={2} mb={2}>
+              <FormHelperText error={true}>{error}</FormHelperText>
+            </Box>
           </Box>
         </DialogContent>
       </Dialog>
