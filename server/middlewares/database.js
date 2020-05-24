@@ -5,7 +5,9 @@ const DB_PORT = "27017";
 const DB_NAME = "dev-kanban";
 const DB_USER_NAME = "";
 const DB_PASSWORD = "";
-const MONGODB_URI = "mongodb://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME;
+const MONGODB_URI =
+  process.env.MONGODB_URI ||
+  "mongodb://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME;
 
 const connectToDatabase = async () => {
   try {
